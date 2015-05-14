@@ -1,3 +1,4 @@
-*.vshost.*
-*.pdb
+/*.vshost.*
+/*.pdb
 /Sources/obj
+/Sources/*.suo
