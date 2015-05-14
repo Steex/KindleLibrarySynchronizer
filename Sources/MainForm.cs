@@ -13,56 +13,26 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class MainForm : Form
 	{
+		private List<string> skippedFiles = new List<string>();
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			skippedFiles.Add("Разное\\Эти странные…\\");
+			skippedFiles.Add("Художественная\\_Не оформленное\\");
+			skippedFiles.Add("Художественная\\_Периодика\\");
 		}
 
 		private void buttonCompare_Click(object sender, EventArgs e)
 		{
-			//MusicComparer comparer = new MusicComparer(textMusicSourceRoot.Text, textMusicTargetRoot.Text, textPlaylists.Lines);
-
+			// Collect book files.
 			SortedSet<string> sourceFiles = new SortedSet<string>();
-			SortedSet<string> targetFiles = new SortedSet<string>();
 
-			List<string> skippedFiles = new List<string>();
-			skippedFiles.Add("Разное\\Эти странные…\\");
-			skippedFiles.Add("Художественная\\_Не оформленное\\");
-			skippedFiles.Add("Художественная\\_Периодика\\");
+			sourceFiles.UnionWith(FindBookFiles(textSourceRoot.Text, "*.fb2"));
+			sourceFiles.UnionWith(FindBookFiles(textTargetRoot.Text, "*.fb2"));
 
-
-			/*foreach (string playlistPath in textPlaylists.Lines)
-			{
-				IPlaylistReader playlist = PlaylistReaderFactory.CreateReader(playlistPath);
-				if (playlist != null)
-				{
-					foreach (string song in playlist.Songs)
-					{
-						sourceSongs.Add(song);
-					}
-				}
-			}/**/
-
-			foreach (string sourceFile in Directory.GetFiles(textSourceRoot.Text, "*.fb2", SearchOption.AllDirectories))
-			{
-				string basePath = Utils.RemoveExtension(Utils.GetRelativePath(sourceFile, textSourceRoot.Text));
-
-				if (!skippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
-				{
-					sourceFiles.Add(basePath);
-				}
-			}
-
-			foreach (string targetFile in Directory.GetFiles(textTargetRoot.Text, "*.fb2", SearchOption.AllDirectories))
-			{
-				string basePath = Utils.RemoveExtension(Utils.GetRelativePath(targetFile, textTargetRoot.Text));
-
-				if (!skippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
-				{
-					sourceFiles.Add(basePath);
-				}
-			}
-
+			// Compare books.
 			List<BookInfo> books = new List<BookInfo>();
 
 			foreach (string sourceFile in sourceFiles)
@@ -102,6 +72,20 @@ namespace KindleLibrarySynchronizer
 			textLog.AppendText("---");
 		}
 
+		private IEnumerable<string> FindBookFiles(string root, string mask)
+		{
+			List<string> files = new List<string>();
+
+			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
+			{
+				string basePath = Utils.RemoveExtension(Utils.GetRelativePath(targetFile, root));
+
+				if (!skippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
+				{
+					yield return basePath;
+				}
+			}
+		}
 	}
 
 }
