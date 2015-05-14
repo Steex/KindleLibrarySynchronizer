@@ -1,0 +1,3 @@
+*.vshost.*
+*.pdb
+/Sources/obj
