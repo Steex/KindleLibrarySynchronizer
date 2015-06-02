@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Text;
 using System.Drawing.Imaging;
 
-namespace Aliasworlds
+namespace KindleLibrarySynchronizer
 {
 	public static class Utils
 	{
@@ -128,5 +128,72 @@ namespace Aliasworlds
 			return path;
 		}
 
+
+		public static string AbbreviateString(string value)
+		{
+			if (value == null)
+			{
+				return null;
+			}
+
+			// Normalize the string: remove leading whitespace, replace all whitespace symbols with a single space.
+			string normalizedValue = "";
+
+			bool separatorIsAllowed = false;
+			foreach (char chr in value)
+			{
+				bool isSeparator = Char.IsSeparator(chr);
+
+				if (!isSeparator)
+				{
+					normalizedValue += chr;
+					separatorIsAllowed = true;	
+				}
+				else if (separatorIsAllowed)
+				{
+					normalizedValue += ' ';
+					separatorIsAllowed = false;
+				}
+			}
+
+			// Some custom logic: remove English articles from the start of the string.
+			if (normalizedValue.StartsWith("a ", StringComparison.OrdinalIgnoreCase))
+			{
+				normalizedValue = normalizedValue.Substring(2);
+			}
+			else if (normalizedValue.StartsWith("an ", StringComparison.OrdinalIgnoreCase))
+			{
+				normalizedValue = normalizedValue.Substring(3);
+			}
+			else if (normalizedValue.StartsWith("the ", StringComparison.OrdinalIgnoreCase))
+			{
+				normalizedValue = normalizedValue.Substring(4);
+			}
+
+			// Make an abbreviation of the cleared string by including only essential symbols.
+			// A symbol is consider essential if
+			// - it is a digit
+			// - it is an uppercase letter
+			// - it is a lowercase letter in the beginning of word
+			string abbreviation = "";
+
+			bool waitForNewWord = true;
+			foreach (char chr in normalizedValue)
+			{
+				bool acceptAllways = Char.IsUpper(chr) || Char.IsDigit(chr);
+				bool acceptAtWordStart = Char.IsLetter(chr);
+
+				if (acceptAllways ||
+					acceptAtWordStart && waitForNewWord)
+				{
+					abbreviation += Char.ToUpper(chr);
+					waitForNewWord = false;
+				}
+
+				waitForNewWord = !acceptAllways && !acceptAtWordStart;
+			}
+
+			return abbreviation;
+		}
 	}
 }

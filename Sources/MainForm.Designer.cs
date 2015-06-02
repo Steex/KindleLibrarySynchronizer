@@ -65,7 +65,7 @@
 			this.textTargetRoot.Name = "textTargetRoot";
 			this.textTargetRoot.Size = new System.Drawing.Size(779, 20);
 			this.textTargetRoot.TabIndex = 0;
-			this.textTargetRoot.Text = "E:\\L2";
+			this.textTargetRoot.Text = "E:\\Library-Kindle";
 			// 
 			// label2
 			// 

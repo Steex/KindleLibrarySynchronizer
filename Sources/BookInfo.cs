@@ -24,7 +24,24 @@ namespace KindleLibrarySynchronizer
 		public DateTime TargetDate { get; private set; }
 		public BookState State { get; private set; }
 
-		public BookInfo(string sourcePath, string targetPath)
+
+		public static BookInfo CreateFromSource(string sourcePath, string targetDir)
+		{
+			FB2 fb2 = new FB2(sourcePath);
+			string pdfTitle = fb2.PdfTitle;
+			string targetPath = Path.Combine(targetDir, pdfTitle + ".pdf");
+
+			return new BookInfo(sourcePath, targetPath, pdfTitle);
+		}
+
+		public static BookInfo CreateFromTarget(string targetPath)
+		{
+			string pdfTitle = Path.GetFileNameWithoutExtension(targetPath);
+
+			return new BookInfo("", targetPath, pdfTitle);
+		}
+
+		private BookInfo(string sourcePath, string targetPath, string pdfTitle)
 		{
 			// Check if source and target file are exists.
 			bool sourceExists = File.Exists(sourcePath);

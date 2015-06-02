@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using Aliasworlds;
 
 namespace KindleLibrarySynchronizer
 {
@@ -19,6 +18,9 @@ namespace KindleLibrarySynchronizer
 		{
 			InitializeComponent();
 
+			Logger.OnWrite += (msg) => textLog.AppendText(msg);
+			Logger.OnClear += () => textLog.Clear();
+
 			skippedFiles.Add("Разное\\Эти странные…\\");
 			skippedFiles.Add("Художественная\\_Не оформленное\\");
 			skippedFiles.Add("Художественная\\_Периодика\\");
@@ -26,30 +28,54 @@ namespace KindleLibrarySynchronizer
 
 		private void buttonCompare_Click(object sender, EventArgs e)
 		{
-			// Collect book files.
-			SortedSet<string> sourceFiles = new SortedSet<string>();
+			Logger.Clear();
 
-			sourceFiles.UnionWith(FindBookFiles(textSourceRoot.Text, "*.fb2"));
-			sourceFiles.UnionWith(FindBookFiles(textTargetRoot.Text, "*.fb2"));
 
-			// Compare books.
+			string sourceRoot = textSourceRoot.Text;
+			string targetRoot = textTargetRoot.Text;
+
 			List<BookInfo> books = new List<BookInfo>();
+			SortedSet<string> targetPaths = new SortedSet<string>();
 
-			foreach (string sourceFile in sourceFiles)
+			// Collect source books.
+			foreach (string sourceFile in FindBookFiles(sourceRoot, "*.fb2"))
 			{
-				string sourceBookPath = Path.Combine(textSourceRoot.Text, sourceFile) + ".fb2";
-				string targetBookPath = Path.Combine(textTargetRoot.Text, sourceFile) + ".fb2";
-				books.Add(new BookInfo(sourceBookPath, targetBookPath));
+				try
+				{
+					string sourcePath = Path.Combine(sourceRoot, sourceFile);
+					string targetDir = Path.Combine(targetRoot, Path.GetDirectoryName(sourceFile));
+
+					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
+					books.Add(bookInfo);
+					targetPaths.Add(bookInfo.TargetPath);
+				}
+				catch (Exception ex)
+				{
+					Logger.WriteLine("FB2 error in file {0}: {1}", sourceFile, ex.Message);
+					continue;
+				}
+			}
+
+			// Collect unknown target books.
+			foreach (string targetFile in FindBookFiles(targetRoot, "*.pdf"))
+			{
+				string targetPath = Path.Combine(targetRoot, targetFile);
+
+				if (!targetPaths.Contains(targetPath))
+				{
+					BookInfo bookInfo = BookInfo.CreateFromTarget(targetPath);
+
+					books.Add(bookInfo);
+					targetPaths.Add(bookInfo.TargetPath);
+				}
 			}
 
 			// Report.
-			textLog.Clear();
-
 			foreach (BookInfo book in books)
 			{
 				if (book.State == BookState.Changed)
 				{
-					textLog.AppendText(string.Format("Changed: {0}\r\n", book.SourcePath));
+					Logger.WriteLine("Changed: {0}", book.SourcePath);
 				}
 			}
 
@@ -57,7 +83,7 @@ namespace KindleLibrarySynchronizer
 			{
 				if (book.State == BookState.Deleted)
 				{
-					textLog.AppendText(string.Format("Deleted: {0}\r\n", book.SourcePath));
+					Logger.WriteLine("Deleted: {0}", book.TargetPath);
 				}
 			}
 
@@ -65,12 +91,13 @@ namespace KindleLibrarySynchronizer
 			{
 				if (book.State == BookState.New)
 				{
-					textLog.AppendText(string.Format("New: {0}\r\n", book.SourcePath));
+					Logger.WriteLine("New: {0}", book.SourcePath);
 				}
 			}
 
 			textLog.AppendText("---");
 		}
+
 
 		private IEnumerable<string> FindBookFiles(string root, string mask)
 		{
@@ -78,7 +105,7 @@ namespace KindleLibrarySynchronizer
 
 			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
 			{
-				string basePath = Utils.RemoveExtension(Utils.GetRelativePath(targetFile, root));
+				string basePath = Utils.GetRelativePath(targetFile, root);
 
 				if (!skippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
 				{

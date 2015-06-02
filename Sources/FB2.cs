@@ -31,6 +31,40 @@ namespace KindleLibrarySynchronizer
 
 		public List<Author> Authors { get; private set; }
 		public string Title { get; private set; }
+		public string SeriesName { get; private set; }
+		public int SeriesNumber { get; private set; }
+
+		public string PdfTitle
+		{
+			get
+			{
+				string pdfTitle = "";
+
+				// Append the series prefix.
+				if (!string.IsNullOrEmpty(SeriesName) &&
+					SeriesNumber > 0)
+				{
+					string seriesPrefix;
+					if (SeriesName.Length < Config.SeriesNameMaxLength &&
+						!SeriesName.Contains(' '))
+					{
+						seriesPrefix = SeriesName;
+					}
+					else
+					{
+						seriesPrefix = Utils.AbbreviateString(SeriesName);
+					}
+
+					pdfTitle += string.Format("{0}-{1}. ", seriesPrefix, SeriesNumber);
+				}
+
+				// Append the title.
+				pdfTitle += Title;
+
+				// Return the result.
+				return pdfTitle;
+			}
+		}
 
 
 		public FB2(string path)
@@ -42,15 +76,44 @@ namespace KindleLibrarySynchronizer
 			XmlNamespaceManager ns = new XmlNamespaceManager(xml.NameTable);
 			ns.AddNamespace("fb", xml.DocumentElement.NamespaceURI);
 
+			// Read authors.
 			Authors = new List<Author>();
 			foreach (XmlElement authorXml in xml.SelectNodes("/fb:FictionBook/fb:description/fb:title-info/fb:author", ns))
 			{
 				Authors.Add(new Author(authorXml));
 			}
 
+			// Read the book title.
 			XmlNode titleNode = xml.SelectSingleNode("/fb:FictionBook/fb:description/fb:title-info/fb:book-title", ns);
-			Title = titleNode != null ? titleNode.InnerText.Trim() : "";
+			if (titleNode != null)
+			{
+				Title = titleNode.InnerText.Trim();
+			}
+			else
+			{
+				throw new Exception("The title info is not found");
+			}
+
+			// Read the sequence info.
+			SeriesName = "";
+			SeriesNumber = 0;
+
+			XmlElement seriesNode = xml.SelectSingleNode("/fb:FictionBook/fb:description/fb:title-info/fb:sequence", ns) as XmlElement;
+			if (seriesNode != null)
+			{
+				if (!string.IsNullOrEmpty(seriesNode.GetAttribute("name")) &&
+					!string.IsNullOrEmpty(seriesNode.GetAttribute("number")))
+				{
+					SeriesName = seriesNode.GetAttribute("name");
+					SeriesNumber = int.Parse(seriesNode.GetAttribute("number"));
+				}
+				else
+				{
+					Logger.WriteLine("FB2 warning in file {0}: Sequence info doesn't contain a name or a number", path);
+				}
+			}
 		}
+
 	}
 
 }
