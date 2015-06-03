@@ -27,62 +27,42 @@ namespace KindleLibrarySynchronizer
 		}
 
 
-		private XmlDocument xml;
-
 		public List<Author> Authors { get; private set; }
 		public string Title { get; private set; }
 		public string SeriesName { get; private set; }
 		public int SeriesNumber { get; private set; }
-
-		public string PdfTitle
-		{
-			get
-			{
-				string pdfTitle = "";
-
-				// Append the series prefix.
-				if (!string.IsNullOrEmpty(SeriesName) &&
-					SeriesNumber > 0)
-				{
-					string seriesPrefix;
-					if (SeriesName.Length < Config.SeriesNameMaxLength &&
-						!SeriesName.Contains(' '))
-					{
-						seriesPrefix = SeriesName;
-					}
-					else
-					{
-						seriesPrefix = Utils.AbbreviateString(SeriesName);
-					}
-
-					pdfTitle += string.Format("{0}-{1}. ", seriesPrefix, SeriesNumber);
-				}
-
-				// Append the title.
-				pdfTitle += Title;
-
-				// Return the result.
-				return pdfTitle;
-			}
-		}
+		public string PdfTitle { get; private set; }
 
 
 		public FB2(string path)
 		{
-			xml = new XmlDocument();
+			// Load the book file.
+			XmlDocument xml = new XmlDocument();
 			xml.Load(path);
 
 			// Add the namespace.
 			XmlNamespaceManager ns = new XmlNamespaceManager(xml.NameTable);
 			ns.AddNamespace("fb", xml.DocumentElement.NamespaceURI);
 
-			// Read authors.
+			// Read the book info.
+			ReadAuthors(xml, ns);
+			ReadTitle(xml, ns);
+			ReadSeriesInfo(xml, ns, path);
+			BuildPdfTitle();
+		}
+
+
+		private void ReadAuthors(XmlDocument xml, XmlNamespaceManager ns)
+		{
 			Authors = new List<Author>();
 			foreach (XmlElement authorXml in xml.SelectNodes("/fb:FictionBook/fb:description/fb:title-info/fb:author", ns))
 			{
 				Authors.Add(new Author(authorXml));
 			}
+		}
 
+		private void ReadTitle(XmlDocument xml, XmlNamespaceManager ns)
+		{
 			// Read the book title.
 			XmlNode titleNode = xml.SelectSingleNode("/fb:FictionBook/fb:description/fb:title-info/fb:book-title", ns);
 			if (titleNode != null)
@@ -93,7 +73,10 @@ namespace KindleLibrarySynchronizer
 			{
 				throw new Exception("The title info is not found");
 			}
+		}
 
+		private void ReadSeriesInfo(XmlDocument xml, XmlNamespaceManager ns, string path)
+		{
 			// Read the sequence info.
 			SeriesName = "";
 			SeriesNumber = 0;
@@ -114,6 +97,40 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		private void BuildPdfTitle()
+		{
+			// Build the PDF title.
+			PdfTitle = "";
+
+			// Append the series prefix.
+			if (!string.IsNullOrEmpty(SeriesName) &&
+				SeriesNumber > 0)
+			{
+				string seriesPrefix;
+				if (SeriesName.Length < Config.SeriesNameMaxLength &&
+					!SeriesName.Contains(' '))
+				{
+					seriesPrefix = SeriesName;
+				}
+				else
+				{
+					seriesPrefix = Utils.AbbreviateString(SeriesName);
+				}
+
+				PdfTitle += string.Format("{0}-{1}. ", seriesPrefix, SeriesNumber);
+			}
+
+			// Append the title.
+			PdfTitle += Title;
+
+			// Replace slashes.
+			PdfTitle = PdfTitle.Replace('/', '-');
+			PdfTitle = PdfTitle.Replace('\\', '-');
+
+			// Remove all other invalid characters.
+			string invalidCharsRegex = "[" + new string(Path.GetInvalidFileNameChars()) + "]";
+			PdfTitle = Regex.Replace(PdfTitle, invalidCharsRegex, "");
+		}
 	}
 
 }

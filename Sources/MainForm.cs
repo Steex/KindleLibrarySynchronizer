@@ -75,7 +75,7 @@ namespace KindleLibrarySynchronizer
 			{
 				if (book.State == BookState.Changed)
 				{
-					Logger.WriteLine("Changed: {0}", book.SourcePath);
+					Logger.WriteLine("Changed: {0}", book.TargetPath);
 				}
 			}
 
@@ -91,7 +91,7 @@ namespace KindleLibrarySynchronizer
 			{
 				if (book.State == BookState.New)
 				{
-					Logger.WriteLine("New: {0}", book.SourcePath);
+					Logger.WriteLine("New: {0}", book.TargetPath);
 				}
 			}
 
