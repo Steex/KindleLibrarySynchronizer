@@ -47,7 +47,7 @@ namespace KindleLibrarySynchronizer
 
 					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
 					books.Add(bookInfo);
-					targetPaths.Add(bookInfo.TargetPath);
+					targetPaths.Add(bookInfo.TargetPath.ToLower());
 				}
 				catch (Exception ex)
 				{
@@ -61,12 +61,12 @@ namespace KindleLibrarySynchronizer
 			{
 				string targetPath = Path.Combine(targetRoot, targetFile);
 
-				if (!targetPaths.Contains(targetPath))
+				if (!targetPaths.Contains(targetPath.ToLower()))
 				{
 					BookInfo bookInfo = BookInfo.CreateFromTarget(targetPath);
 
 					books.Add(bookInfo);
-					targetPaths.Add(bookInfo.TargetPath);
+					targetPaths.Add(bookInfo.TargetPath.ToLower());
 				}
 			}
 
