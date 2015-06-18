@@ -34,7 +34,7 @@ namespace KindleLibrarySynchronizer
 			string sourceRoot = textSourceRoot.Text;
 			string targetRoot = textTargetRoot.Text;
 
-			List<BookInfo> books = new List<BookInfo>();
+			BookFolder books = new BookFolder(null, "");
 			SortedSet<string> targetPaths = new SortedSet<string>();
 
 			// Collect source books.
@@ -46,7 +46,7 @@ namespace KindleLibrarySynchronizer
 					string targetDir = Path.Combine(targetRoot, Path.GetDirectoryName(sourceFile));
 
 					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
-					books.Add(bookInfo);
+					books.AddBook(bookInfo, Path.Combine(Path.GetDirectoryName(sourceFile), bookInfo.PdfTitle));
 					targetPaths.Add(bookInfo.TargetPath.ToLower());
 				}
 				catch (Exception ex)
@@ -65,44 +65,59 @@ namespace KindleLibrarySynchronizer
 				{
 					BookInfo bookInfo = BookInfo.CreateFromTarget(targetPath);
 
-					books.Add(bookInfo);
+					books.AddBook(bookInfo, targetFile);
 					targetPaths.Add(bookInfo.TargetPath.ToLower());
 				}
 			}
 
 			// Report.
-			foreach (BookInfo book in books)
+			foreach (BookInfo book in books.AllBooks)
 			{
-				if (book.State == BookState.Changed)
-				{
-					Logger.WriteLine("Changed: {0}", book.TargetPath);
-				}
-			}
-
-			foreach (BookInfo book in books)
-			{
-				if (book.State == BookState.Deleted)
-				{
-					Logger.WriteLine("Deleted: {0}", book.TargetPath);
-				}
-			}
-
-			foreach (BookInfo book in books)
-			{
-				if (book.State == BookState.New)
-				{
-					Logger.WriteLine("New: {0}", book.TargetPath);
-				}
+				Logger.WriteLine("{0}:\t{1}", book.State.ToString()[0], Utils.GetRelativePath(book.TargetPath, targetRoot));
 			}
 
 			textLog.AppendText("---");
+
+			// Fill trees
+			treeSource.BeginUpdate();
+			treeTarget.BeginUpdate();
+
+			treeSource.Nodes.Clear();
+			treeTarget.Nodes.Clear();
+
+			foreach (BookInfo book in books.AllBooks)
+			{
+				switch (book.State)
+				{
+					case BookState.Actual:
+						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Black;
+						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Black;
+						break;
+
+					case BookState.New:
+						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Blue;
+						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Blue;
+						break;
+
+					case BookState.Changed:
+						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.DarkGreen;
+						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.DarkGreen;
+						break;
+
+					case BookState.Deleted:
+						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Silver;
+						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Red;
+						break;
+				}
+			}
+
+			treeSource.EndUpdate();
+			treeTarget.EndUpdate();
 		}
 
 
 		private IEnumerable<string> FindBookFiles(string root, string mask)
 		{
-			List<string> files = new List<string>();
-
 			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
 			{
 				string basePath = Utils.GetRelativePath(targetFile, root);
@@ -113,6 +128,7 @@ namespace KindleLibrarySynchronizer
 				}
 			}
 		}
+
 	}
 
 }

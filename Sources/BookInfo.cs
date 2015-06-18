@@ -18,6 +18,9 @@ namespace KindleLibrarySynchronizer
 
 	public class BookInfo
 	{
+		public string PdfTitle { get; private set; }
+		public string SourceName { get; private set; }
+		public string TargetName { get; private set; }
 		public string SourcePath { get; private set; }
 		public string TargetPath { get; private set; }
 		public DateTime SourceDate { get; private set; }
@@ -56,6 +59,11 @@ namespace KindleLibrarySynchronizer
 			}
 
 			// Set the paths and change times.
+			PdfTitle = pdfTitle;
+
+			SourcePath = Path.GetFileName(sourcePath);
+			TargetPath = Path.GetFileName(sourcePath);
+
 			SourcePath = sourcePath;
 			TargetPath = targetPath;
 

@@ -11,6 +11,7 @@ namespace KindleLibrarySynchronizer
 {
 	public static class Utils
 	{
+		public static readonly char[] DirectorySeparators = { '/', '\\' };
 		public static readonly char[] ListSeparators = { ',', ' ', ';' };
 
 
