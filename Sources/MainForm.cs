@@ -85,29 +85,63 @@ namespace KindleLibrarySynchronizer
 			treeSource.Nodes.Clear();
 			treeTarget.Nodes.Clear();
 
-			foreach (BookInfo book in books.AllBooks)
+
+			var folderStack = new Stack<BookFolder>();
+			var enumeratorStack = new Stack<IEnumerator<BookFolder>>();
+			var sourceNodesStack = new Stack<TreeNodeCollection>();
+			var targetNodesStack = new Stack<TreeNodeCollection>();
+
+			folderStack.Push(books);
+			enumeratorStack.Push(books.Folders.GetEnumerator());
+			sourceNodesStack.Push(treeSource.Nodes);
+			targetNodesStack.Push(treeTarget.Nodes);
+
+			while (folderStack.Count > 0)
 			{
-				switch (book.State)
+				BookFolder folder = folderStack.Peek();
+				IEnumerator<BookFolder> enumerator = enumeratorStack.Peek();
+				TreeNodeCollection sourceNodes = sourceNodesStack.Peek();
+				TreeNodeCollection targetNodes = targetNodesStack.Peek();
+
+				if (enumerator.MoveNext())
 				{
-					case BookState.Actual:
-						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Black;
-						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Black;
-						break;
+					folderStack.Push(enumerator.Current);
+					enumeratorStack.Push(enumerator.Current.Folders.GetEnumerator());
+					sourceNodesStack.Push(sourceNodes.Add(enumerator.Current.Name).Nodes);
+					targetNodesStack.Push(targetNodes.Add(enumerator.Current.Name).Nodes);
+				}
+				else
+				{
+					folderStack.Pop();
+					enumeratorStack.Pop();
+					sourceNodesStack.Pop();
+					targetNodesStack.Pop();
 
-					case BookState.New:
-						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Blue;
-						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Blue;
-						break;
+					foreach (BookInfo book in folder.Books)
+					{
+						switch (book.State)
+						{
+							case BookState.Actual:
+								sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Black;
+								targetNodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Black;
+								break;
 
-					case BookState.Changed:
-						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.DarkGreen;
-						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.DarkGreen;
-						break;
+							case BookState.New:
+								sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Blue;
+								targetNodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Blue;
+								break;
 
-					case BookState.Deleted:
-						treeSource.Nodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Silver;
-						treeTarget.Nodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Red;
-						break;
+							case BookState.Changed:
+								sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.DarkGreen;
+								targetNodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.DarkGreen;
+								break;
+
+							case BookState.Deleted:
+								sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, sourceRoot)).ForeColor = Color.Silver;
+								targetNodes.Add(Utils.GetRelativePath(book.TargetPath, targetRoot)).ForeColor = Color.Red;
+								break;
+						}
+					}
 				}
 			}
 
