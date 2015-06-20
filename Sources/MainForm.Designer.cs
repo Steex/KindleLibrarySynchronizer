@@ -34,10 +34,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.buttonCompare = new System.Windows.Forms.Button();
 			this.textLog = new System.Windows.Forms.TextBox();
-			this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this.treeSource = new System.Windows.Forms.TreeView();
-			this.treeTarget = new System.Windows.Forms.TreeView();
-			this.tableLayout.SuspendLayout();
+			this.synchroView = new KindleLibrarySynchronizer.SynchroView();
 			this.SuspendLayout();
 			// 
 			// textSourceRoot
@@ -96,56 +93,33 @@
 			this.textLog.AllowDrop = true;
 			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location = new System.Drawing.Point(12, 510);
+			this.textLog.Location = new System.Drawing.Point(12, 507);
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size = new System.Drawing.Size(782, 101);
+			this.textLog.Size = new System.Drawing.Size(782, 104);
 			this.textLog.TabIndex = 0;
 			// 
-			// tableLayout
+			// synchroView
 			// 
-			this.tableLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.synchroView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayout.AutoSize = true;
-			this.tableLayout.ColumnCount = 2;
-			this.tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayout.Controls.Add(this.treeSource, 0, 0);
-			this.tableLayout.Controls.Add(this.treeTarget, 1, 0);
-			this.tableLayout.Location = new System.Drawing.Point(12, 125);
-			this.tableLayout.Name = "tableLayout";
-			this.tableLayout.RowCount = 1;
-			this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayout.Size = new System.Drawing.Size(782, 379);
-			this.tableLayout.TabIndex = 3;
-			// 
-			// treeSource
-			// 
-			this.treeSource.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeSource.Location = new System.Drawing.Point(3, 3);
-			this.treeSource.Name = "treeSource";
-			this.treeSource.Size = new System.Drawing.Size(385, 373);
-			this.treeSource.TabIndex = 0;
-			// 
-			// treeTarget
-			// 
-			this.treeTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeTarget.Location = new System.Drawing.Point(394, 3);
-			this.treeTarget.Name = "treeTarget";
-			this.treeTarget.Size = new System.Drawing.Size(385, 373);
-			this.treeTarget.TabIndex = 1;
+			this.synchroView.BookComparer = null;
+			this.synchroView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.synchroView.Location = new System.Drawing.Point(12, 122);
+			this.synchroView.Margin = new System.Windows.Forms.Padding(0);
+			this.synchroView.Name = "synchroView";
+			this.synchroView.Size = new System.Drawing.Size(782, 382);
+			this.synchroView.TabIndex = 4;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
+			this.Controls.Add(this.synchroView);
 			this.Controls.Add(this.textLog);
-			this.Controls.Add(this.tableLayout);
 			this.Controls.Add(this.buttonCompare);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
@@ -153,7 +127,6 @@
 			this.Controls.Add(this.textSourceRoot);
 			this.Name = "MainForm";
 			this.Text = "Kindle Library Synchronizer";
-			this.tableLayout.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -167,9 +140,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button buttonCompare;
 		private System.Windows.Forms.TextBox textLog;
-		private System.Windows.Forms.TableLayoutPanel tableLayout;
-		private System.Windows.Forms.TreeView treeSource;
-		private System.Windows.Forms.TreeView treeTarget;
+		private SynchroView synchroView;
 	}
 }
 
