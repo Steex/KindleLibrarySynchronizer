@@ -16,7 +16,7 @@ namespace KindleLibrarySynchronizer
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				cp.Style |= TVS_NOSCROLL;
+				cp.Style |= TVS_NOHSCROLL;
 				return cp;
 			}
 		}

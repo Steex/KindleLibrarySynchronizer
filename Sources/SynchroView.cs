@@ -27,6 +27,8 @@ namespace KindleLibrarySynchronizer
 
 
 		private BookComparer bookComparer;
+		private bool synchronizingTrees = false;
+		private float treeSplitCoeff = 0.5f;
 
 		public BookComparer BookComparer
 		{
@@ -39,7 +41,7 @@ namespace KindleLibrarySynchronizer
 				if (bookComparer != value)
 				{
 					bookComparer = value;
-					OnBookComparerChanged(this, EventArgs.Empty);
+					OnBookComparerChanged(EventArgs.Empty);
 				}
 			}
 		}
@@ -136,44 +138,112 @@ namespace KindleLibrarySynchronizer
 			treeTarget.EndUpdate();
 		}
 
-		private void UpdateScrollBar()
+		private void SynchronizeScroll(TreeView fromTree, TreeView toTree)
 		{
-			Point pt = treeSource.GetScrollPosition();
+			if (synchronizingTrees)
+			{
+				return;
+			}
+
+			synchronizingTrees = true;
+
+			toTree.TopNode = (fromTree.TopNode.Tag as NodeInfo).PairNode;
+
+			synchronizingTrees = false;
+		}
+
+		private void SynchonizeNodeExpanded(TreeNode node)
+		{
+			if (synchronizingTrees)
+			{
+				return;
+			}
+
+			synchronizingTrees = true;
+
+			if (node.IsExpanded)
+			{
+				(node.Tag as NodeInfo).PairNode.Expand();
+			}
+			else
+			{
+				(node.Tag as NodeInfo).PairNode.Collapse();
+			}
+
+			synchronizingTrees = false;
+		}
+
+		private void SynchonizeNodeSelected(TreeNode node, TreeView toTree)
+		{
+			/*if (synchronizingTrees)
+			{
+				return;
+			}
+
+			synchronizingTrees = true;
+
+			if (node.IsSelected)
+			{
+				toTree.SelectedNode = null;
+				(node.Tag as NodeInfo).PairNode.sele();
+			}
+			else
+			{
+				(node.Tag as NodeInfo).PairNode.Collapse();
+			}
+
+			synchronizingTrees = false;/**/
 		}
 
 
-		protected virtual void OnBookComparerChanged(object sender, EventArgs args)
+		protected virtual void OnBookComparerChanged(EventArgs args)
 		{
 			FillTrees();
 		}
 
+		protected override void OnSizeChanged(EventArgs args)
+		{
+			base.OnSizeChanged(args);
+
+			treeTarget.Left = (int)(ClientSize.Width * treeSplitCoeff);
+			treeTarget.Width = ClientSize.Width - treeTarget.Left;
+		}
+
 		private void treeSource_AfterCollapse(object sender, TreeViewEventArgs e)
 		{
-			UpdateScrollBar();
+			SynchonizeNodeExpanded(e.Node);
+			SynchronizeScroll(treeSource, treeTarget);
 		}
 
 		private void treeSource_AfterExpand(object sender, TreeViewEventArgs e)
 		{
-			UpdateScrollBar();
+			SynchonizeNodeExpanded(e.Node);
+			SynchronizeScroll(treeSource, treeTarget);
 		}
 
 		private void treeSource_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			UpdateScrollBar();
+			e.Node.EnsureVisible();
+			SynchronizeScroll(treeSource, treeTarget);
 		}
 
-		private void treeTarget_MouseMove(object sender, MouseEventArgs e)
+		private void treeTarget_AfterCollapse(object sender, TreeViewEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-			}
+			SynchonizeNodeExpanded(e.Node);
+			SynchronizeScroll(treeTarget, treeSource);
 		}
 
-		private void treeTarget_MouseDown(object sender, MouseEventArgs e)
+		private void treeTarget_AfterExpand(object sender, TreeViewEventArgs e)
 		{
-			treeSource.TopNode = (treeTarget.TopNode.Tag as NodeInfo).PairNode;
-			//treeSource.ScrollTo(treeTarget.GetScrollPosition());
-			//treeSource.Refresh();
+			SynchonizeNodeExpanded(e.Node);
+			SynchronizeScroll(treeTarget, treeSource);
 		}
+
+		private void treeTarget_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			e.Node.EnsureVisible();
+			SynchronizeScroll(treeTarget, treeSource);
+		}
+
 	}
 }
