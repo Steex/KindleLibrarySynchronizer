@@ -118,7 +118,10 @@
 			// 
 			// treeView1
 			// 
-			this.treeView1.Location = new System.Drawing.Point(12, 291);
+			this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.treeView1.HideSelection = false;
+			this.treeView1.Location = new System.Drawing.Point(9, 396);
 			this.treeView1.Name = "treeView1";
 			treeNode1.ForeColor = System.Drawing.Color.Red;
 			treeNode1.Name = "Node0";
@@ -147,7 +150,7 @@
             treeNode3,
             treeNode8,
             treeNode10});
-			this.treeView1.Size = new System.Drawing.Size(681, 189);
+			this.treeView1.Size = new System.Drawing.Size(788, 105);
 			this.treeView1.TabIndex = 4;
 			// 
 			// synchroView
@@ -160,7 +163,7 @@
 			this.synchroView.Location = new System.Drawing.Point(9, 122);
 			this.synchroView.Margin = new System.Windows.Forms.Padding(0);
 			this.synchroView.Name = "synchroView";
-			this.synchroView.Size = new System.Drawing.Size(788, 152);
+			this.synchroView.Size = new System.Drawing.Size(788, 271);
 			this.synchroView.TabIndex = 3;
 			// 
 			// MainForm

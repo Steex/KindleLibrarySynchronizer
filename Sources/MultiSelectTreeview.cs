@@ -16,6 +16,8 @@ namespace KindleLibrarySynchronizer
 		private TreeNode selectedNode;
 		private List<TreeNode> selectedNodes;
 
+		private Random rnd = new Random();
+
 
 		// Note we use the new keyword to hide the native TreeView.SelectedNode property.
 		public new TreeNode SelectedNode
@@ -56,6 +58,16 @@ namespace KindleLibrarySynchronizer
 
 		public MultiSelectTreeView()
 		{
+			if (!DesignMode)
+			{
+				//SetStyle(ControlStyles.UserPaint, true);
+				//SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+				SetStyle(ControlStyles.DoubleBuffer, true);
+				SetStyle(ControlStyles.ResizeRedraw, true);
+				//SetStyle(ControlStyles.Opaque, true);
+				UpdateStyles();
+			}
+
 			selectedNode = null;
 			selectedNodes = new List<TreeNode>();
 			base.SelectedNode = null;
@@ -462,6 +474,25 @@ namespace KindleLibrarySynchronizer
 		{
 			base.OnDrawNode(e);
 
+			/*if (e.Node.Text.EndsWith(".pdf"))
+			{
+				e.DrawDefault = true;
+				return;
+			}*/
+
+			if (e.Node.IsVisible)
+			{
+				Rectangle backRectangle = Rectangle.FromLTRB(0, e.Bounds.Top, ClientSize.Width, e.Bounds.Bottom);
+				e.Graphics.FillRectangle(new SolidBrush(GetNodeBackground(e.Node)), backRectangle);
+				if (SelectedNodes.Contains(e.Node))
+					e.Graphics.FillRectangle(new SolidBrush(e.Node.BackColor), e.Bounds);
+				e.Graphics.DrawString(e.Node.Text, Font, new SolidBrush(e.Node.ForeColor), new PointF(e.Bounds.Left, e.Bounds.Top));
+				e.Graphics.DrawLine(Pens.Yellow,
+					rnd.Next(e.Bounds.Left, e.Bounds.Right), rnd.Next(e.Bounds.Top, e.Bounds.Bottom),
+					rnd.Next(e.Bounds.Left, e.Bounds.Right), rnd.Next(e.Bounds.Top, e.Bounds.Bottom));
+
+			}
+
 			/*if (SelectedNodes.Contains(e.Node))
 			{
 				Pen pen = new Pen(e.Node.BackColor);
@@ -698,26 +729,50 @@ namespace KindleLibrarySynchronizer
 
 		private static void UpdateNodeColor(TreeNode node, bool nodeSelected, bool treeFocused, bool hideSelection)
 		{
-			/*if (!nodeSelected)
+			if (!nodeSelected)
 			{
 				node.BackColor = SystemColors.Window;
-				node.ForeColor = node.Tag == null ? SystemColors.WindowText;
+				node.ForeColor = SystemColors.WindowText;
 			}
-			else if (treeFocused)
+			else// if (treeFocused)
 			{
 				node.BackColor = SystemColors.Highlight;
 				node.ForeColor = SystemColors.HighlightText;
 			}
-			else if (hideSelection)
+			/*else if (hideSelection)
 			{
-				node.BackColor = SystemColors.Window;
-				node.ForeColor = node.Tag == null ? SystemColors.WindowText;
+				node.BackColor = SystemColors.Control;
+				node.ForeColor = SystemColors.WindowText;
 			}
 			else
 			{
-				node.BackColor = SystemColors.Control;
-				node.ForeColor = node.Tag == null ? SystemColors.WindowText;
+				node.BackColor = SystemColors.Window;
+				node.ForeColor = SystemColors.WindowText;
 			}/**/
+		}
+
+		private static Color GetNodeBackground(TreeNode node)
+		{
+			if (!(node.Tag is NodeInfo))
+			{
+				return Color.Transparent;
+			}
+
+			NodeInfo nodeInfo = node.Tag as NodeInfo;
+
+			if (nodeInfo.Book == null)
+			{
+				return Color.Transparent;
+			}
+
+			switch ((node.Tag as NodeInfo).Book.State)
+			{
+				case BookState.Actual: return Color.Transparent;
+				case BookState.New: return Color.FromArgb(64, 0, 255, 0);
+				case BookState.Changed: return Color.FromArgb(64, 0, 0, 255);
+				case BookState.Deleted: return Color.FromArgb(64, 255, 0, 0);
+				default: return Color.Transparent;
+			}
 		}
 	}
 }

@@ -11,20 +11,6 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class SynchroView : UserControl
 	{
-		private class NodeInfo
-		{
-			public TreeNode PairNode { get; private set; }
-			public BookFolder Folder { get; private set; }
-			public BookInfo Book { get; private set; }
-
-			public NodeInfo(TreeNode pairNode, BookFolder folder, BookInfo book)
-			{
-				PairNode = pairNode;
-				Folder = folder;
-				Book = book;
-			}
-		}
-
 
 		private BookComparer bookComparer;
 		private bool synchronizingTrees = false;
@@ -246,4 +232,20 @@ namespace KindleLibrarySynchronizer
 		}
 
 	}
+
+	public class NodeInfo
+	{
+		public TreeNode PairNode { get; private set; }
+		public BookFolder Folder { get; private set; }
+		public BookInfo Book { get; private set; }
+
+		public NodeInfo(TreeNode pairNode, BookFolder folder, BookInfo book)
+		{
+			PairNode = pairNode;
+			Folder = folder;
+			Book = book;
+		}
+	}
+
+
 }

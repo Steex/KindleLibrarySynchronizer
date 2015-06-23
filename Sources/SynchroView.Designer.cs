@@ -39,6 +39,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
 			this.treeTarget.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.treeTarget.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
 			this.treeTarget.Location = new System.Drawing.Point(250, 0);
 			this.treeTarget.Margin = new System.Windows.Forms.Padding(0);
 			this.treeTarget.Name = "treeTarget";
@@ -55,6 +56,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeSource.BackColor = System.Drawing.SystemColors.Window;
 			this.treeSource.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.treeSource.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
 			this.treeSource.Location = new System.Drawing.Point(0, 0);
 			this.treeSource.Margin = new System.Windows.Forms.Padding(0);
 			this.treeSource.Name = "treeSource";
