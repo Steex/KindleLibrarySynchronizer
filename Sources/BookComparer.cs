@@ -60,6 +60,9 @@ namespace KindleLibrarySynchronizer
 					targetPaths.Add(bookInfo.TargetPath.ToLower());
 				}
 			}
+
+			// Count book states in each folder.
+			Books.CountStates();
 		}
 
 		private IEnumerable<string> FindBookFiles(string root, string mask)

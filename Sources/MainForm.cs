@@ -31,7 +31,7 @@ namespace KindleLibrarySynchronizer
 			Logger.Clear();
 
 			BookComparer bookComparer = new BookComparer(textSourceRoot.Text, textTargetRoot.Text, skippedFiles);
-			synchroView.BookComparer = bookComparer;
+			synchroList.BookComparer = bookComparer;
 
 			// Report.
 			foreach (BookInfo book in bookComparer.Books.AllBooks)
@@ -41,7 +41,33 @@ namespace KindleLibrarySynchronizer
 					Utils.GetRelativePath(book.TargetPath, bookComparer.TargetRoot));
 			}
 
-			textLog.AppendText("---");
+			Logger.WriteLine();
+			Logger.WriteLine("{0} actual, {1} new, {2} changed, {3} deleted",
+				bookComparer.Books.GetBookStateCount(BookState.Actual),
+				bookComparer.Books.GetBookStateCount(BookState.New),
+				bookComparer.Books.GetBookStateCount(BookState.Changed),
+				bookComparer.Books.GetBookStateCount(BookState.Deleted));
+			Logger.WriteLine("---");
+		}
+
+		private void checkShowActual_CheckedChanged(object sender, EventArgs e)
+		{
+			synchroList.ShowActualBooks = checkShowActual.Checked;
+		}
+
+		private void checkShowNew_CheckedChanged(object sender, EventArgs e)
+		{
+			synchroList.ShowNewBooks = checkShowNew.Checked;
+		}
+
+		private void checkShowDeleted_CheckedChanged(object sender, EventArgs e)
+		{
+			synchroList.ShowDeletedBooks = checkShowDeleted.Checked;
+		}
+
+		private void checkShowChanged_CheckedChanged(object sender, EventArgs e)
+		{
+			synchroList.ShowChangedBooks = checkShowChanged.Checked;
 		}
 
 	}

@@ -11,6 +11,7 @@ namespace KindleLibrarySynchronizer
 	{
 		private SortedDictionary<string, BookFolder> folders;
 		private SortedDictionary<string, BookInfo> books;
+		private int[] stateCounts;
 
 		public string Name { get; private set; }
 		public string Path { get; private set; }
@@ -44,6 +45,7 @@ namespace KindleLibrarySynchronizer
 			Parent = parent;
 			folders = new SortedDictionary<string, BookFolder>();
 			books = new SortedDictionary<string, BookInfo>();
+			stateCounts = new int[Enum.GetValues(typeof(BookState)).Length];
 		}
 
 
@@ -75,6 +77,35 @@ namespace KindleLibrarySynchronizer
 
 				folders[folderName].AddBook(book, innerPath);
 			}
+		}
+
+		public void CountStates()
+		{
+			foreach (BookState state in Enum.GetValues(typeof(BookState)))
+			{
+				stateCounts[(int)state] = 0;
+			}
+
+			foreach (BookFolder folder in Folders)
+			{
+				folder.CountStates();
+
+				foreach (BookState state in Enum.GetValues(typeof(BookState)))
+				{
+					stateCounts[(int)state] += folder.GetBookStateCount(state);
+				}
+			}
+
+
+			foreach (BookInfo book in Books)
+			{
+				++stateCounts[(int)book.State];
+			}
+		}
+
+		public int GetBookStateCount(BookState state)
+		{
+			return stateCounts[(int)state];
 		}
 
 	}

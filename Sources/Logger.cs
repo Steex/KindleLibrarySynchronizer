@@ -21,6 +21,11 @@ namespace KindleLibrarySynchronizer
 		private static object locker = new object();
 
 
+		public static void WriteLine()
+		{
+			PerformWrite("\r\n");
+		}
+
 		public static void WriteLine(string message)
 		{
 			PerformWrite(message + "\r\n");

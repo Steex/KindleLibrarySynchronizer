@@ -28,29 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node0");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node1");
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node2");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node4");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node8");
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node9");
-			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node5", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode7});
-			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node7");
-			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node6", new System.Windows.Forms.TreeNode[] {
-            treeNode9});
 			this.textSourceRoot = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textTargetRoot = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.buttonCompare = new System.Windows.Forms.Button();
 			this.textLog = new System.Windows.Forms.TextBox();
-			this.treeView1 = new System.Windows.Forms.TreeView();
-			this.synchroView = new KindleLibrarySynchronizer.SynchroView();
+			this.checkShowActual = new System.Windows.Forms.CheckBox();
+			this.checkShowChanged = new System.Windows.Forms.CheckBox();
+			this.checkShowNew = new System.Windows.Forms.CheckBox();
+			this.checkShowDeleted = new System.Windows.Forms.CheckBox();
+			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.SuspendLayout();
 			// 
 			// textSourceRoot
@@ -116,63 +104,84 @@
 			this.textLog.Size = new System.Drawing.Size(788, 104);
 			this.textLog.TabIndex = 0;
 			// 
-			// treeView1
+			// checkShowActual
 			// 
-			this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.treeView1.HideSelection = false;
-			this.treeView1.Location = new System.Drawing.Point(9, 396);
-			this.treeView1.Name = "treeView1";
-			treeNode1.ForeColor = System.Drawing.Color.Red;
-			treeNode1.Name = "Node0";
-			treeNode1.Text = "Node0";
-			treeNode2.Name = "Node1";
-			treeNode2.Text = "Node1";
-			treeNode3.Name = "Node2";
-			treeNode3.Text = "Node2";
-			treeNode4.Name = "Node4";
-			treeNode4.Text = "Node4";
-			treeNode5.Name = "Node8";
-			treeNode5.Text = "Node8";
-			treeNode6.Name = "Node9";
-			treeNode6.Text = "Node9";
-			treeNode7.Name = "Node5";
-			treeNode7.Text = "Node5";
-			treeNode8.Name = "Node3";
-			treeNode8.Text = "Node3";
-			treeNode9.Name = "Node7";
-			treeNode9.Text = "Node7";
-			treeNode10.Name = "Node6";
-			treeNode10.Text = "Node6";
-			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode8,
-            treeNode10});
-			this.treeView1.Size = new System.Drawing.Size(788, 105);
-			this.treeView1.TabIndex = 4;
+			this.checkShowActual.AutoSize = true;
+			this.checkShowActual.Checked = true;
+			this.checkShowActual.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkShowActual.Location = new System.Drawing.Point(9, 100);
+			this.checkShowActual.Name = "checkShowActual";
+			this.checkShowActual.Size = new System.Drawing.Size(56, 17);
+			this.checkShowActual.TabIndex = 4;
+			this.checkShowActual.Text = "Actual";
+			this.checkShowActual.UseVisualStyleBackColor = true;
+			this.checkShowActual.CheckedChanged += new System.EventHandler(this.checkShowActual_CheckedChanged);
 			// 
-			// synchroView
+			// checkShowChanged
 			// 
-			this.synchroView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.checkShowChanged.AutoSize = true;
+			this.checkShowChanged.Checked = true;
+			this.checkShowChanged.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkShowChanged.Location = new System.Drawing.Point(135, 100);
+			this.checkShowChanged.Name = "checkShowChanged";
+			this.checkShowChanged.Size = new System.Drawing.Size(69, 17);
+			this.checkShowChanged.TabIndex = 4;
+			this.checkShowChanged.Text = "Changed";
+			this.checkShowChanged.UseVisualStyleBackColor = true;
+			this.checkShowChanged.CheckedChanged += new System.EventHandler(this.checkShowChanged_CheckedChanged);
+			// 
+			// checkShowNew
+			// 
+			this.checkShowNew.AutoSize = true;
+			this.checkShowNew.Checked = true;
+			this.checkShowNew.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkShowNew.Location = new System.Drawing.Point(81, 100);
+			this.checkShowNew.Name = "checkShowNew";
+			this.checkShowNew.Size = new System.Drawing.Size(48, 17);
+			this.checkShowNew.TabIndex = 4;
+			this.checkShowNew.Text = "New";
+			this.checkShowNew.UseVisualStyleBackColor = true;
+			this.checkShowNew.CheckedChanged += new System.EventHandler(this.checkShowNew_CheckedChanged);
+			// 
+			// checkShowDeleted
+			// 
+			this.checkShowDeleted.AutoSize = true;
+			this.checkShowDeleted.Checked = true;
+			this.checkShowDeleted.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkShowDeleted.Location = new System.Drawing.Point(210, 100);
+			this.checkShowDeleted.Name = "checkShowDeleted";
+			this.checkShowDeleted.Size = new System.Drawing.Size(63, 17);
+			this.checkShowDeleted.TabIndex = 4;
+			this.checkShowDeleted.Text = "Deleted";
+			this.checkShowDeleted.UseVisualStyleBackColor = true;
+			this.checkShowDeleted.CheckedChanged += new System.EventHandler(this.checkShowDeleted_CheckedChanged);
+			// 
+			// synchroList
+			// 
+			this.synchroList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.synchroView.BookComparer = null;
-			this.synchroView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.synchroView.Location = new System.Drawing.Point(9, 122);
-			this.synchroView.Margin = new System.Windows.Forms.Padding(0);
-			this.synchroView.Name = "synchroView";
-			this.synchroView.Size = new System.Drawing.Size(788, 271);
-			this.synchroView.TabIndex = 3;
+			this.synchroList.BookComparer = null;
+			this.synchroList.Location = new System.Drawing.Point(9, 122);
+			this.synchroList.Margin = new System.Windows.Forms.Padding(0);
+			this.synchroList.Name = "synchroList";
+			this.synchroList.ShowActualBooks = true;
+			this.synchroList.ShowChangedBooks = true;
+			this.synchroList.ShowDeletedBooks = true;
+			this.synchroList.ShowNewBooks = true;
+			this.synchroList.Size = new System.Drawing.Size(787, 382);
+			this.synchroList.TabIndex = 3;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
-			this.Controls.Add(this.treeView1);
-			this.Controls.Add(this.synchroView);
+			this.Controls.Add(this.checkShowDeleted);
+			this.Controls.Add(this.checkShowNew);
+			this.Controls.Add(this.checkShowChanged);
+			this.Controls.Add(this.checkShowActual);
+			this.Controls.Add(this.synchroList);
 			this.Controls.Add(this.textLog);
 			this.Controls.Add(this.buttonCompare);
 			this.Controls.Add(this.label2);
@@ -194,8 +203,11 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button buttonCompare;
 		private System.Windows.Forms.TextBox textLog;
-		private SynchroView synchroView;
-		private System.Windows.Forms.TreeView treeView1;
+		private SynchroList synchroList;
+		private System.Windows.Forms.CheckBox checkShowActual;
+		private System.Windows.Forms.CheckBox checkShowChanged;
+		private System.Windows.Forms.CheckBox checkShowNew;
+		private System.Windows.Forms.CheckBox checkShowDeleted;
 	}
 }
 
