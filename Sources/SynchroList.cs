@@ -131,8 +131,8 @@ namespace KindleLibrarySynchronizer
 		{
 			base.OnSizeChanged(args);
 
-			columnHeader5.Width = (int)(listview.ClientSize.Width * treeSplitCoeff);
-			columnHeader6.Width = listview.ClientSize.Width - columnHeader5.Width;
+			headerSource.Width = (int)(listview.ClientSize.Width * treeSplitCoeff);
+			headerTarget.Width = listview.ClientSize.Width - headerSource.Width;
 		}
 
 
@@ -216,11 +216,12 @@ namespace KindleLibrarySynchronizer
 		private ListViewItem CreateFolderItem(BookFolder folder, int nestingLevel)
 		{
 			string textPrefix = new string(' ', nestingLevel * 4);
+			string textSource = textPrefix + folder.Name;
+			string textTarget = textPrefix + folder.Name;
 
 			// Create a new item.
-			ListViewItem item = new ListViewItem("folder");
-			item.SubItems.Add(textPrefix + folder.Name);
-			item.SubItems.Add(textPrefix + folder.Name);
+			ListViewItem item = new ListViewItem(textSource);
+			item.SubItems.Add(textTarget);
 			item.Tag = new ListItemInfo(folder, null);
 
 			// Return the created item.
@@ -230,16 +231,16 @@ namespace KindleLibrarySynchronizer
 		private ListViewItem CreateBookItem(BookInfo book, int nestingLevel)
 		{
 			string textPrefix = new string(' ', nestingLevel * 4);
+			string textSource = textPrefix + Path.GetFileName(book.SourcePath);
+			string textTarget = textPrefix + Path.GetFileName(book.TargetPath);
 
 			// Create a new item.
-			ListViewItem item = new ListViewItem("file");
+			ListViewItem item = new ListViewItem(textSource);
+			item.BackColor = stateBackColors[(int)book.State];
 			item.Tag = new ListItemInfo(null, book);
 			item.UseItemStyleForSubItems = false;
 
-			var subitemSource = item.SubItems.Add(textPrefix + Path.GetFileName(book.SourcePath));
-			subitemSource.BackColor = stateBackColors[(int)book.State];
-
-			var subitemTarget = item.SubItems.Add(textPrefix + Path.GetFileName(book.TargetPath));
+			var subitemTarget = item.SubItems.Add(textTarget);
 			subitemTarget.ForeColor = stateTextColors[(int)book.State];
 			subitemTarget.BackColor = stateBackColors[(int)book.State];
 

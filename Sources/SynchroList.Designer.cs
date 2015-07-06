@@ -29,17 +29,15 @@
 		private void InitializeComponent()
 		{
 			this.listview = new System.Windows.Forms.ListView();
-			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.headerSource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.headerTarget = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// listview
 			// 
 			this.listview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6});
+            this.headerSource,
+            this.headerTarget});
 			this.listview.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listview.FullRowSelect = true;
 			this.listview.GridLines = true;
@@ -54,19 +52,15 @@
 			this.listview.UseCompatibleStateImageBehavior = false;
 			this.listview.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeader4
+			// headerSource
 			// 
-			this.columnHeader4.Width = 0;
+			this.headerSource.Text = "Source";
+			this.headerSource.Width = 248;
 			// 
-			// columnHeader5
+			// headerTarget
 			// 
-			this.columnHeader5.Text = "Source";
-			this.columnHeader5.Width = 248;
-			// 
-			// columnHeader6
-			// 
-			this.columnHeader6.Text = "Target";
-			this.columnHeader6.Width = 248;
+			this.headerTarget.Text = "Target";
+			this.headerTarget.Width = 248;
 			// 
 			// SynchroList
 			// 
@@ -83,9 +77,8 @@
 		#endregion
 
 		private System.Windows.Forms.ListView listview;
-		private System.Windows.Forms.ColumnHeader columnHeader4;
-		private System.Windows.Forms.ColumnHeader columnHeader5;
-		private System.Windows.Forms.ColumnHeader columnHeader6;
+		private System.Windows.Forms.ColumnHeader headerSource;
+		private System.Windows.Forms.ColumnHeader headerTarget;
 
 
 	}
