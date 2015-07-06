@@ -13,6 +13,7 @@ namespace KindleLibrarySynchronizer
 	public partial class MainForm : Form
 	{
 		private List<string> skippedFiles = new List<string>();
+		private BookComparer bookComparer;
 
 		public MainForm()
 		{
@@ -25,14 +26,17 @@ namespace KindleLibrarySynchronizer
 			skippedFiles.Add("Разное\\Эти странные…\\");
 			skippedFiles.Add("Художественная\\_Не оформленное\\");
 			skippedFiles.Add("Художественная\\_Периодика\\");
+
+			bookComparer = new BookComparer(textSourceRoot.Text, textTargetRoot.Text, skippedFiles);
+			synchroList.BookComparer = bookComparer;
 		}
 
 		private void buttonCompare_Click(object sender, EventArgs e)
 		{
 			Logger.Clear();
 
-			BookComparer bookComparer = new BookComparer(textSourceRoot.Text, textTargetRoot.Text, skippedFiles);
-			synchroList.BookComparer = bookComparer;
+			bookComparer.Compare();
+			synchroList.UpdateItems();
 
 			// Report.
 			foreach (BookInfo book in bookComparer.Books.AllBooks)
@@ -51,37 +55,10 @@ namespace KindleLibrarySynchronizer
 			Logger.WriteLine("---");
 		}
 
-		private void checkShowActual_CheckedChanged(object sender, EventArgs e)
-		{
-			synchroList.ShowActualBooks = checkShowActual.Checked;
-		}
-
-		private void checkShowNew_CheckedChanged(object sender, EventArgs e)
-		{
-			synchroList.ShowNewBooks = checkShowNew.Checked;
-		}
-
-		private void checkShowDeleted_CheckedChanged(object sender, EventArgs e)
-		{
-			synchroList.ShowDeletedBooks = checkShowDeleted.Checked;
-		}
-
-		private void checkShowChanged_CheckedChanged(object sender, EventArgs e)
-		{
-			synchroList.ShowChangedBooks = checkShowChanged.Checked;
-		}
-
 		private void synchroList_SelectionChanged(object sender, EventArgs e)
 		{
-			buttonUpdate.Enabled =
-				synchroList.SelectedBooks.Any() &&
-				synchroList.SelectedBooks.All(book => book.State == BookState.New || book.State == BookState.Changed);
-
-			buttonDelete.Enabled =
-				synchroList.SelectedBooks.Any() &&
-				synchroList.SelectedBooks.All(book => book.State == BookState.Deleted);
-
 			labelSelection.Text = string.Format("{0} books is selected", synchroList.SelectedBooks.Count());
+			Action.UpdateActions(EventArgs.Empty);
 		}
 
 	}

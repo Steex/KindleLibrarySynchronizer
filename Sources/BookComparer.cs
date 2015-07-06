@@ -24,16 +24,21 @@ namespace KindleLibrarySynchronizer
 			TargetRoot = targetRoot;
 			SkippedFiles = new List<string>(skippedFiles);
 			Books = new BookFolder(null, "");
+		}
+
+		public void Compare()
+		{
+			Books = new BookFolder(null, "");
 
 			SortedSet<string> targetPaths = new SortedSet<string>();
 
 			// Collect source books.
-			foreach (string sourceFile in FindBookFiles(sourceRoot, sourceFileMask))
+			foreach (string sourceFile in FindBookFiles(SourceRoot, sourceFileMask))
 			{
 				try
 				{
-					string sourcePath = Path.Combine(sourceRoot, sourceFile);
-					string targetDir = Path.Combine(targetRoot, Path.GetDirectoryName(sourceFile));
+					string sourcePath = Path.Combine(SourceRoot, sourceFile);
+					string targetDir = Path.Combine(TargetRoot, Path.GetDirectoryName(sourceFile));
 
 					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
 
@@ -48,9 +53,9 @@ namespace KindleLibrarySynchronizer
 			}
 
 			// Collect unknown target books.
-			foreach (string targetFile in FindBookFiles(targetRoot, targetFileMask))
+			foreach (string targetFile in FindBookFiles(TargetRoot, targetFileMask))
 			{
-				string targetPath = Path.Combine(targetRoot, targetFile);
+				string targetPath = Path.Combine(TargetRoot, targetFile);
 
 				if (!targetPaths.Contains(targetPath.ToLower()))
 				{

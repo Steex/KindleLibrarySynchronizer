@@ -153,16 +153,16 @@ namespace KindleLibrarySynchronizer
 
 		protected virtual void OnBookComparerChanged(EventArgs args)
 		{
-			FillList();
+			UpdateItems();
 		}
 
 		protected virtual void OnShowStateChanged(EventArgs args)
 		{
-			FillList();
+			UpdateItems();
 		}
 
 
-		private void FillList()
+		public void UpdateItems()
 		{
 			listview.BeginUpdate();
 

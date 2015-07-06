@@ -34,13 +34,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.buttonCompare = new System.Windows.Forms.Button();
 			this.textLog = new System.Windows.Forms.TextBox();
-			this.checkShowActual = new System.Windows.Forms.CheckBox();
-			this.checkShowChanged = new System.Windows.Forms.CheckBox();
-			this.checkShowNew = new System.Windows.Forms.CheckBox();
-			this.checkShowDeleted = new System.Windows.Forms.CheckBox();
 			this.labelSelection = new System.Windows.Forms.Label();
-			this.buttonUpdate = new System.Windows.Forms.Button();
-			this.buttonDelete = new System.Windows.Forms.Button();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,58 +124,6 @@
 			this.textLog.Size = new System.Drawing.Size(788, 104);
 			this.textLog.TabIndex = 0;
 			// 
-			// checkShowActual
-			// 
-			this.checkShowActual.AutoSize = true;
-			this.checkShowActual.Checked = true;
-			this.checkShowActual.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowActual.Location = new System.Drawing.Point(10, 141);
-			this.checkShowActual.Name = "checkShowActual";
-			this.checkShowActual.Size = new System.Drawing.Size(56, 17);
-			this.checkShowActual.TabIndex = 4;
-			this.checkShowActual.Text = "Actual";
-			this.checkShowActual.UseVisualStyleBackColor = true;
-			this.checkShowActual.CheckedChanged += new System.EventHandler(this.checkShowActual_CheckedChanged);
-			// 
-			// checkShowChanged
-			// 
-			this.checkShowChanged.AutoSize = true;
-			this.checkShowChanged.Checked = true;
-			this.checkShowChanged.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowChanged.Location = new System.Drawing.Point(136, 141);
-			this.checkShowChanged.Name = "checkShowChanged";
-			this.checkShowChanged.Size = new System.Drawing.Size(69, 17);
-			this.checkShowChanged.TabIndex = 4;
-			this.checkShowChanged.Text = "Changed";
-			this.checkShowChanged.UseVisualStyleBackColor = true;
-			this.checkShowChanged.CheckedChanged += new System.EventHandler(this.checkShowChanged_CheckedChanged);
-			// 
-			// checkShowNew
-			// 
-			this.checkShowNew.AutoSize = true;
-			this.checkShowNew.Checked = true;
-			this.checkShowNew.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowNew.Location = new System.Drawing.Point(82, 141);
-			this.checkShowNew.Name = "checkShowNew";
-			this.checkShowNew.Size = new System.Drawing.Size(48, 17);
-			this.checkShowNew.TabIndex = 4;
-			this.checkShowNew.Text = "New";
-			this.checkShowNew.UseVisualStyleBackColor = true;
-			this.checkShowNew.CheckedChanged += new System.EventHandler(this.checkShowNew_CheckedChanged);
-			// 
-			// checkShowDeleted
-			// 
-			this.checkShowDeleted.AutoSize = true;
-			this.checkShowDeleted.Checked = true;
-			this.checkShowDeleted.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowDeleted.Location = new System.Drawing.Point(211, 141);
-			this.checkShowDeleted.Name = "checkShowDeleted";
-			this.checkShowDeleted.Size = new System.Drawing.Size(63, 17);
-			this.checkShowDeleted.TabIndex = 4;
-			this.checkShowDeleted.Text = "Deleted";
-			this.checkShowDeleted.UseVisualStyleBackColor = true;
-			this.checkShowDeleted.CheckedChanged += new System.EventHandler(this.checkShowDeleted_CheckedChanged);
-			// 
 			// labelSelection
 			// 
 			this.labelSelection.AutoSize = true;
@@ -190,28 +132,6 @@
 			this.labelSelection.Size = new System.Drawing.Size(83, 13);
 			this.labelSelection.TabIndex = 5;
 			this.labelSelection.Text = "0 book selected";
-			// 
-			// buttonUpdate
-			// 
-			this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonUpdate.Enabled = false;
-			this.buttonUpdate.Location = new System.Drawing.Point(482, 137);
-			this.buttonUpdate.Name = "buttonUpdate";
-			this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
-			this.buttonUpdate.TabIndex = 2;
-			this.buttonUpdate.Text = "Update";
-			this.buttonUpdate.UseVisualStyleBackColor = true;
-			// 
-			// buttonDelete
-			// 
-			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonDelete.Enabled = false;
-			this.buttonDelete.Location = new System.Drawing.Point(563, 137);
-			this.buttonDelete.Name = "buttonDelete";
-			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
-			this.buttonDelete.TabIndex = 2;
-			this.buttonDelete.Text = "Delete";
-			this.buttonDelete.UseVisualStyleBackColor = true;
 			// 
 			// mainMenu
 			// 
@@ -238,7 +158,7 @@
 			// menuExit
 			// 
 			this.menuExit.Name = "menuExit";
-			this.menuExit.Size = new System.Drawing.Size(152, 22);
+			this.menuExit.Size = new System.Drawing.Size(92, 22);
 			this.menuExit.Text = "Exit";
 			// 
 			// menuEdit
@@ -317,31 +237,31 @@
 			// menuShowActual
 			// 
 			this.menuShowActual.Name = "menuShowActual";
-			this.menuShowActual.Size = new System.Drawing.Size(152, 22);
+			this.menuShowActual.Size = new System.Drawing.Size(146, 22);
 			this.menuShowActual.Text = "Show Actual";
 			// 
 			// menuShowNew
 			// 
 			this.menuShowNew.Name = "menuShowNew";
-			this.menuShowNew.Size = new System.Drawing.Size(152, 22);
+			this.menuShowNew.Size = new System.Drawing.Size(146, 22);
 			this.menuShowNew.Text = "Show New";
 			// 
 			// menuShowChanged
 			// 
 			this.menuShowChanged.Name = "menuShowChanged";
-			this.menuShowChanged.Size = new System.Drawing.Size(152, 22);
+			this.menuShowChanged.Size = new System.Drawing.Size(146, 22);
 			this.menuShowChanged.Text = "Show Changed";
 			// 
 			// menuShowDeleted
 			// 
 			this.menuShowDeleted.Name = "menuShowDeleted";
-			this.menuShowDeleted.Size = new System.Drawing.Size(152, 22);
+			this.menuShowDeleted.Size = new System.Drawing.Size(146, 22);
 			this.menuShowDeleted.Text = "Show Deleted";
 			// 
 			// menuShowIgnored
 			// 
 			this.menuShowIgnored.Name = "menuShowIgnored";
-			this.menuShowIgnored.Size = new System.Drawing.Size(152, 22);
+			this.menuShowIgnored.Size = new System.Drawing.Size(146, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
 			// 
 			// menuTools
@@ -355,7 +275,7 @@
 			// menuOptions
 			// 
 			this.menuOptions.Name = "menuOptions";
-			this.menuOptions.Size = new System.Drawing.Size(152, 22);
+			this.menuOptions.Size = new System.Drawing.Size(123, 22);
 			this.menuOptions.Text = "Options...";
 			// 
 			// menuHelp
@@ -369,7 +289,7 @@
 			// menuAbout
 			// 
 			this.menuAbout.Name = "menuAbout";
-			this.menuAbout.Size = new System.Drawing.Size(152, 22);
+			this.menuAbout.Size = new System.Drawing.Size(115, 22);
 			this.menuAbout.Text = "About...";
 			// 
 			// synchroList
@@ -395,14 +315,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
 			this.Controls.Add(this.labelSelection);
-			this.Controls.Add(this.checkShowDeleted);
-			this.Controls.Add(this.checkShowNew);
-			this.Controls.Add(this.checkShowChanged);
-			this.Controls.Add(this.checkShowActual);
 			this.Controls.Add(this.synchroList);
 			this.Controls.Add(this.textLog);
-			this.Controls.Add(this.buttonDelete);
-			this.Controls.Add(this.buttonUpdate);
 			this.Controls.Add(this.buttonCompare);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
@@ -428,13 +342,7 @@
 		private System.Windows.Forms.Button buttonCompare;
 		private System.Windows.Forms.TextBox textLog;
 		private SynchroList synchroList;
-		private System.Windows.Forms.CheckBox checkShowActual;
-		private System.Windows.Forms.CheckBox checkShowChanged;
-		private System.Windows.Forms.CheckBox checkShowNew;
-		private System.Windows.Forms.CheckBox checkShowDeleted;
 		private System.Windows.Forms.Label labelSelection;
-		private System.Windows.Forms.Button buttonUpdate;
-		private System.Windows.Forms.Button buttonDelete;
 		private System.Windows.Forms.MenuStrip mainMenu;
 		private System.Windows.Forms.ToolStripMenuItem menuFile;
 		private System.Windows.Forms.ToolStripMenuItem menuExit;

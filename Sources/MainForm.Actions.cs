@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace KindleLibrarySynchronizer
 {
@@ -129,22 +130,27 @@ namespace KindleLibrarySynchronizer
 
 		private void actionShowActual_Execute(object sender, EventArgs e)
 		{
+			synchroList.ShowActualBooks = !synchroList.ShowActualBooks;
 		}
 
 		private void actionShowNew_Execute(object sender, EventArgs e)
 		{
+			synchroList.ShowNewBooks = !synchroList.ShowNewBooks;
 		}
 
 		private void actionShowChanged_Execute(object sender, EventArgs e)
 		{
+			synchroList.ShowChangedBooks = !synchroList.ShowChangedBooks;
 		}
 
 		private void actionShowDeleted_Execute(object sender, EventArgs e)
 		{
+			synchroList.ShowDeletedBooks = !synchroList.ShowDeletedBooks;
 		}
 
 		private void actionShowIgnored_Execute(object sender, EventArgs e)
 		{
+			//synchroList.ShowIgnoredBooks = !synchroList.ShowIgnoredBooks;
 		}
 
 		private void actionOptions_Execute(object sender, EventArgs e)
@@ -175,30 +181,40 @@ namespace KindleLibrarySynchronizer
 
 		private void actionUpdateSelected_Update(object sender, EventArgs e)
 		{
+			actionUpdateSelected.Enabled =
+				synchroList.SelectedBooks.Any() &&
+				synchroList.SelectedBooks.All(book => book.State == BookState.New || book.State == BookState.Changed);
 		}
 
 		private void actionDeleteSelected_Update(object sender, EventArgs e)
 		{
+			actionDeleteSelected.Enabled =
+				synchroList.SelectedBooks.Any();
 		}
 
 		private void actionShowActual_Update(object sender, EventArgs e)
 		{
+			actionShowActual.Checked = synchroList.ShowActualBooks;
 		}
 
 		private void actionShowNew_Update(object sender, EventArgs e)
 		{
+			actionShowNew.Checked = synchroList.ShowNewBooks;
 		}
 
 		private void actionShowChanged_Update(object sender, EventArgs e)
 		{
+			actionShowChanged.Checked = synchroList.ShowChangedBooks;
 		}
 
 		private void actionShowDeleted_Update(object sender, EventArgs e)
 		{
+			actionShowDeleted.Checked = synchroList.ShowDeletedBooks;
 		}
 
 		private void actionShowIgnored_Update(object sender, EventArgs e)
 		{
+			//actionShowIgnored.Checked = synchroList.ShowActualBooks;
 		}
 
 	}
