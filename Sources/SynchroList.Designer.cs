@@ -53,6 +53,7 @@
 			this.listview.View = System.Windows.Forms.View.Details;
 			this.listview.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listview_ColumnWidthChanged);
 			this.listview.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listview_ColumnWidthChanging);
+			this.listview.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listview_ItemSelectionChanged);
 			this.listview.ClientSizeChanged += new System.EventHandler(this.listview_ClientSizeChanged);
 			// 
 			// headerSource

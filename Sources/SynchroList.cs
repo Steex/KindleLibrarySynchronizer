@@ -12,6 +12,9 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class SynchroList : UserControl
 	{
+		public event EventHandler SelectionChanged;
+
+
 		private BookComparer bookComparer;
 		private bool[] showState;
 		private Color[] stateBackColors;
@@ -34,6 +37,25 @@ namespace KindleLibrarySynchronizer
 				{
 					bookComparer = value;
 					OnBookComparerChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		[Browsable(false)]
+		public IEnumerable<BookInfo> SelectedBooks
+		{
+			get
+			{
+				foreach (ListViewItem item in listview.SelectedItems)
+				{
+					if (item.Tag is ListItemInfo)
+					{
+						ListItemInfo itemInfo = item.Tag as ListItemInfo;
+						if (itemInfo.Book != null)
+						{
+							yield return itemInfo.Book;
+						}
+					}
 				}
 			}
 		}
@@ -201,8 +223,14 @@ namespace KindleLibrarySynchronizer
 				}
 			}
 
-			// Refresh the trees.
+			// Refresh the list.
 			listview.EndUpdate();
+
+			// Notify listeners.
+			if (SelectionChanged != null)
+			{
+				SelectionChanged(this, EventArgs.Empty);
+			}
 		}
 
 		private ListViewItem CreateFolderItem(BookFolder folder, int nestingLevel)
@@ -240,6 +268,14 @@ namespace KindleLibrarySynchronizer
 			return item;
 		}
 
+
+		private void listview_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			if (SelectionChanged != null)
+			{
+				SelectionChanged(this, EventArgs.Empty);
+			}
+		}
 
 		private void listview_ClientSizeChanged(object sender, EventArgs e)
 		{

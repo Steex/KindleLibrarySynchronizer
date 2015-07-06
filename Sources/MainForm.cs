@@ -70,6 +70,19 @@ namespace KindleLibrarySynchronizer
 			synchroList.ShowChangedBooks = checkShowChanged.Checked;
 		}
 
+		private void synchroList_SelectionChanged(object sender, EventArgs e)
+		{
+			buttonUpdate.Enabled =
+				synchroList.SelectedBooks.Any() &&
+				synchroList.SelectedBooks.All(book => book.State == BookState.New || book.State == BookState.Changed);
+
+			buttonDelete.Enabled =
+				synchroList.SelectedBooks.Any() &&
+				synchroList.SelectedBooks.All(book => book.State == BookState.Deleted);
+
+			labelSelection.Text = string.Format("{0} books is selected", synchroList.SelectedBooks.Count());
+		}
+
 	}
 
 }

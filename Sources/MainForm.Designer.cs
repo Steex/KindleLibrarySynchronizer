@@ -38,7 +38,10 @@
 			this.checkShowChanged = new System.Windows.Forms.CheckBox();
 			this.checkShowNew = new System.Windows.Forms.CheckBox();
 			this.checkShowDeleted = new System.Windows.Forms.CheckBox();
+			this.labelSelection = new System.Windows.Forms.Label();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
+			this.buttonUpdate = new System.Windows.Forms.Button();
+			this.buttonDelete = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textSourceRoot
@@ -156,6 +159,15 @@
 			this.checkShowDeleted.UseVisualStyleBackColor = true;
 			this.checkShowDeleted.CheckedChanged += new System.EventHandler(this.checkShowDeleted_CheckedChanged);
 			// 
+			// labelSelection
+			// 
+			this.labelSelection.AutoSize = true;
+			this.labelSelection.Location = new System.Drawing.Point(337, 101);
+			this.labelSelection.Name = "labelSelection";
+			this.labelSelection.Size = new System.Drawing.Size(83, 13);
+			this.labelSelection.TabIndex = 5;
+			this.labelSelection.Text = "0 book selected";
+			// 
 			// synchroList
 			// 
 			this.synchroList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -171,18 +183,44 @@
 			this.synchroList.ShowNewBooks = true;
 			this.synchroList.Size = new System.Drawing.Size(787, 382);
 			this.synchroList.TabIndex = 3;
+			this.synchroList.SelectionChanged += new System.EventHandler(this.synchroList_SelectionChanged);
+			// 
+			// buttonUpdate
+			// 
+			this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonUpdate.Enabled = false;
+			this.buttonUpdate.Location = new System.Drawing.Point(481, 96);
+			this.buttonUpdate.Name = "buttonUpdate";
+			this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
+			this.buttonUpdate.TabIndex = 2;
+			this.buttonUpdate.Text = "Update";
+			this.buttonUpdate.UseVisualStyleBackColor = true;
+			// 
+			// buttonDelete
+			// 
+			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonDelete.Enabled = false;
+			this.buttonDelete.Location = new System.Drawing.Point(562, 96);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
+			this.buttonDelete.TabIndex = 2;
+			this.buttonDelete.Text = "Delete";
+			this.buttonDelete.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
+			this.Controls.Add(this.labelSelection);
 			this.Controls.Add(this.checkShowDeleted);
 			this.Controls.Add(this.checkShowNew);
 			this.Controls.Add(this.checkShowChanged);
 			this.Controls.Add(this.checkShowActual);
 			this.Controls.Add(this.synchroList);
 			this.Controls.Add(this.textLog);
+			this.Controls.Add(this.buttonDelete);
+			this.Controls.Add(this.buttonUpdate);
 			this.Controls.Add(this.buttonCompare);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
@@ -208,6 +246,9 @@
 		private System.Windows.Forms.CheckBox checkShowChanged;
 		private System.Windows.Forms.CheckBox checkShowNew;
 		private System.Windows.Forms.CheckBox checkShowDeleted;
+		private System.Windows.Forms.Label labelSelection;
+		private System.Windows.Forms.Button buttonUpdate;
+		private System.Windows.Forms.Button buttonDelete;
 	}
 }
 
