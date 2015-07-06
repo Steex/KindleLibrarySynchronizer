@@ -43,26 +43,26 @@
 			this.buttonDelete = new System.Windows.Forms.Button();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuRecompare = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuCompare = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuSelectNew = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSelectChanged = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSelectDeleted = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuUpdateSelected = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuView = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowActual = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowNew = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowChanged = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowDeleted = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuUpdateSelected = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowIgnored = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuOptions = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -233,35 +233,7 @@
             this.menuExit});
 			this.menuFile.Name = "menuFile";
 			this.menuFile.Size = new System.Drawing.Size(35, 20);
-			this.menuFile.Text = "File";
-			// 
-			// menuTools
-			// 
-			this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuSettings});
-			this.menuTools.Name = "menuTools";
-			this.menuTools.Size = new System.Drawing.Size(44, 20);
-			this.menuTools.Text = "Tools";
-			// 
-			// menuHelp
-			// 
-			this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuAbout});
-			this.menuHelp.Name = "menuHelp";
-			this.menuHelp.Size = new System.Drawing.Size(40, 20);
-			this.menuHelp.Text = "Help";
-			// 
-			// menuAbout
-			// 
-			this.menuAbout.Name = "menuAbout";
-			this.menuAbout.Size = new System.Drawing.Size(152, 22);
-			this.menuAbout.Text = "About...";
-			// 
-			// menuSettings
-			// 
-			this.menuSettings.Name = "menuSettings";
-			this.menuSettings.Size = new System.Drawing.Size(152, 22);
-			this.menuSettings.Text = "Settings...";
+			this.menuFile.Text = "&File";
 			// 
 			// menuExit
 			// 
@@ -272,7 +244,7 @@
 			// menuEdit
 			// 
 			this.menuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuRecompare,
+            this.menuCompare,
             this.toolStripMenuItem1,
             this.menuSelectNew,
             this.menuSelectChanged,
@@ -282,13 +254,18 @@
             this.menuDeleteSelected});
 			this.menuEdit.Name = "menuEdit";
 			this.menuEdit.Size = new System.Drawing.Size(37, 20);
-			this.menuEdit.Text = "Edit";
+			this.menuEdit.Text = "&Edit";
 			// 
-			// menuRecompare
+			// menuCompare
 			// 
-			this.menuRecompare.Name = "menuRecompare";
-			this.menuRecompare.Size = new System.Drawing.Size(184, 22);
-			this.menuRecompare.Text = "Recompare";
+			this.menuCompare.Name = "menuCompare";
+			this.menuCompare.Size = new System.Drawing.Size(184, 22);
+			this.menuCompare.Text = "Compare";
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
 			// 
 			// menuSelectNew
 			// 
@@ -308,10 +285,22 @@
 			this.menuSelectDeleted.Size = new System.Drawing.Size(184, 22);
 			this.menuSelectDeleted.Text = "Select All Deleted";
 			// 
-			// toolStripMenuItem1
+			// toolStripMenuItem2
 			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
+			// 
+			// menuUpdateSelected
+			// 
+			this.menuUpdateSelected.Name = "menuUpdateSelected";
+			this.menuUpdateSelected.Size = new System.Drawing.Size(184, 22);
+			this.menuUpdateSelected.Text = "Update Selected Books";
+			// 
+			// menuDeleteSelected
+			// 
+			this.menuDeleteSelected.Name = "menuDeleteSelected";
+			this.menuDeleteSelected.Size = new System.Drawing.Size(184, 22);
+			this.menuDeleteSelected.Text = "Delete Selected Books";
 			// 
 			// menuView
 			// 
@@ -323,7 +312,7 @@
             this.menuShowIgnored});
 			this.menuView.Name = "menuView";
 			this.menuView.Size = new System.Drawing.Size(41, 20);
-			this.menuView.Text = "View";
+			this.menuView.Text = "&View";
 			// 
 			// menuShowActual
 			// 
@@ -349,28 +338,39 @@
 			this.menuShowDeleted.Size = new System.Drawing.Size(152, 22);
 			this.menuShowDeleted.Text = "Show Deleted";
 			// 
-			// toolStripMenuItem2
-			// 
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
-			// 
-			// menuUpdateSelected
-			// 
-			this.menuUpdateSelected.Name = "menuUpdateSelected";
-			this.menuUpdateSelected.Size = new System.Drawing.Size(184, 22);
-			this.menuUpdateSelected.Text = "Update Selected Books";
-			// 
-			// menuDeleteSelected
-			// 
-			this.menuDeleteSelected.Name = "menuDeleteSelected";
-			this.menuDeleteSelected.Size = new System.Drawing.Size(184, 22);
-			this.menuDeleteSelected.Text = "Delete Selected Books";
-			// 
 			// menuShowIgnored
 			// 
 			this.menuShowIgnored.Name = "menuShowIgnored";
 			this.menuShowIgnored.Size = new System.Drawing.Size(152, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
+			// 
+			// menuTools
+			// 
+			this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuOptions});
+			this.menuTools.Name = "menuTools";
+			this.menuTools.Size = new System.Drawing.Size(44, 20);
+			this.menuTools.Text = "&Tools";
+			// 
+			// menuOptions
+			// 
+			this.menuOptions.Name = "menuOptions";
+			this.menuOptions.Size = new System.Drawing.Size(152, 22);
+			this.menuOptions.Text = "Options...";
+			// 
+			// menuHelp
+			// 
+			this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAbout});
+			this.menuHelp.Name = "menuHelp";
+			this.menuHelp.Size = new System.Drawing.Size(40, 20);
+			this.menuHelp.Text = "&Help";
+			// 
+			// menuAbout
+			// 
+			this.menuAbout.Name = "menuAbout";
+			this.menuAbout.Size = new System.Drawing.Size(152, 22);
+			this.menuAbout.Text = "About...";
 			// 
 			// synchroList
 			// 
@@ -439,7 +439,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuFile;
 		private System.Windows.Forms.ToolStripMenuItem menuExit;
 		private System.Windows.Forms.ToolStripMenuItem menuEdit;
-		private System.Windows.Forms.ToolStripMenuItem menuRecompare;
+		private System.Windows.Forms.ToolStripMenuItem menuCompare;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem menuSelectNew;
 		private System.Windows.Forms.ToolStripMenuItem menuSelectChanged;
@@ -454,7 +454,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuShowDeleted;
 		private System.Windows.Forms.ToolStripMenuItem menuShowIgnored;
 		private System.Windows.Forms.ToolStripMenuItem menuTools;
-		private System.Windows.Forms.ToolStripMenuItem menuSettings;
+		private System.Windows.Forms.ToolStripMenuItem menuOptions;
 		private System.Windows.Forms.ToolStripMenuItem menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem menuAbout;
 	}

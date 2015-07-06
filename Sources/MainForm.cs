@@ -17,6 +17,7 @@ namespace KindleLibrarySynchronizer
 		public MainForm()
 		{
 			InitializeComponent();
+			InitializeActions();
 
 			Logger.OnWrite += (msg) => textLog.AppendText(msg);
 			Logger.OnClear += () => textLog.Clear();
