@@ -13,8 +13,9 @@ namespace KindleLibrarySynchronizer
 	public partial class SynchroList : UserControl
 	{
 		private BookComparer bookComparer;
-
 		private bool[] showState;
+		private Color[] stateBackColors;
+		private Color[] stateTextColors;
 
 		private float treeSplitCoeff = 0.5f;
 
@@ -109,10 +110,20 @@ namespace KindleLibrarySynchronizer
 			InitializeComponent();
 
 			showState = new bool[Enum.GetValues(typeof(BookState)).Length];
+			stateBackColors = new Color[Enum.GetValues(typeof(BookState)).Length];
+			stateTextColors = new Color[Enum.GetValues(typeof(BookState)).Length];
 			for (int i = 0; i < showState.Length; ++i)
 			{
 				showState[i] = true;
+				stateBackColors[i] = listview.BackColor;
+				stateTextColors[i] = listview.ForeColor;
 			}
+
+			stateBackColors[(int)BookState.New] = Color.FromArgb(223, 238, 223); ;
+			stateBackColors[(int)BookState.Changed] = Color.FromArgb(210, 229, 247);
+			stateBackColors[(int)BookState.Deleted] = Color.FromArgb(255, 206, 206);
+
+			stateTextColors[(int)BookState.New] = Color.FromArgb(127, 127, 127);
 		}
 
 
@@ -127,16 +138,16 @@ namespace KindleLibrarySynchronizer
 
 		protected virtual void OnBookComparerChanged(EventArgs args)
 		{
-			FillTrees();
+			FillList();
 		}
 
 		protected virtual void OnShowStateChanged(EventArgs args)
 		{
-			FillTrees();
+			FillList();
 		}
 
 
-		private void FillTrees()
+		private void FillList()
 		{
 			listview.BeginUpdate();
 
@@ -157,7 +168,7 @@ namespace KindleLibrarySynchronizer
 
 				if (enumerator.MoveNext())
 				{
-					// Skip the folder if it does not contain books to display.
+					// Skip the subfolder if it does not contain books to display.
 					bool containsDisplayableBooks = false;
 					foreach (BookState state in Enum.GetValues(typeof(BookState)))
 					{
@@ -171,15 +182,10 @@ namespace KindleLibrarySynchronizer
 						continue;
 					}
 
-					// Create the folder item.
-					string prefix = new string(' ', (folderStack.Count - 1) * 4);
+					// Create the subfolder item.
+					ListViewItem item = listview.Items.Add(CreateFolderItem(enumerator.Current, folderStack.Count - 1));
 
-					ListViewItem item = listview.Items.Add("folder");
-					item.SubItems.Add(prefix + enumerator.Current.Name);
-					item.SubItems.Add(prefix + enumerator.Current.Name);
-					item.Tag = new ListItemInfo(enumerator.Current, null);
-					item.UseItemStyleForSubItems = false;
-
+					// Iterate the subfolder.
 					folderStack.Push(enumerator.Current);
 					enumeratorStack.Push(enumerator.Current.Folders.GetEnumerator());
 				}
@@ -197,50 +203,48 @@ namespace KindleLibrarySynchronizer
 						}
 
 						// Create the book item.
-						string prefix = new string(' ', (folderStack.Count) * 4);
-
-						ListViewItem item = listview.Items.Add("file");
-						Color sourceColor = item.ForeColor;
-						Color targetColor = item.ForeColor;
-						Color backColor = item.BackColor;
-
-						switch (book.State)
-						{
-							case BookState.Actual:
-								sourceColor = Color.Black;
-								targetColor = Color.Black;
-								backColor = item.BackColor;
-								break;
-
-							case BookState.New:
-								sourceColor = Color.Blue;
-								targetColor = Color.Blue;
-								backColor = Color.FromArgb(255, 192, 220, 192);
-								break;
-
-							case BookState.Changed:
-								sourceColor = Color.DarkGreen;
-								targetColor = Color.DarkGreen;
-								backColor = Color.FromArgb(255, 166, 202, 240);
-								break;
-
-							case BookState.Deleted:
-								sourceColor = Color.Silver;
-								targetColor = Color.Red;
-								backColor = Color.FromArgb(255, 255, 156, 156);
-								break;
-						}
-
-						item.SubItems.Add(prefix + Path.GetFileName(book.SourcePath), item.ForeColor, backColor, item.Font);
-						item.SubItems.Add(prefix + Path.GetFileName(book.TargetPath), item.ForeColor, backColor, item.Font);
-						item.Tag = new ListItemInfo(null, book);
-						item.UseItemStyleForSubItems = false;
+						ListViewItem item = listview.Items.Add(CreateBookItem(book, folderStack.Count));
 					}
 				}
 			}
 
 			// Refresh the trees.
 			listview.EndUpdate();
+		}
+
+
+		private ListViewItem CreateFolderItem(BookFolder folder, int nestingLevel)
+		{
+			string textPrefix = new string(' ', nestingLevel * 4);
+
+			// Create a new item.
+			ListViewItem item = new ListViewItem("folder");
+			item.SubItems.Add(textPrefix + folder.Name);
+			item.SubItems.Add(textPrefix + folder.Name);
+			item.Tag = new ListItemInfo(folder, null);
+
+			// Return the created item.
+			return item;
+		}
+
+		private ListViewItem CreateBookItem(BookInfo book, int nestingLevel)
+		{
+			string textPrefix = new string(' ', nestingLevel * 4);
+
+			// Create a new item.
+			ListViewItem item = new ListViewItem("file");
+			item.Tag = new ListItemInfo(null, book);
+			item.UseItemStyleForSubItems = false;
+
+			var subitemSource = item.SubItems.Add(textPrefix + Path.GetFileName(book.SourcePath));
+			subitemSource.BackColor = stateBackColors[(int)book.State];
+
+			var subitemTarget = item.SubItems.Add(textPrefix + Path.GetFileName(book.TargetPath));
+			subitemTarget.ForeColor = stateTextColors[(int)book.State];
+			subitemTarget.BackColor = stateBackColors[(int)book.State];
+
+			// Return the created item.
+			return item;
 		}
 
 	}
