@@ -51,6 +51,9 @@
 			this.listview.TabIndex = 0;
 			this.listview.UseCompatibleStateImageBehavior = false;
 			this.listview.View = System.Windows.Forms.View.Details;
+			this.listview.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listview_ColumnWidthChanged);
+			this.listview.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listview_ColumnWidthChanging);
+			this.listview.ClientSizeChanged += new System.EventHandler(this.listview_ClientSizeChanged);
 			// 
 			// headerSource
 			// 

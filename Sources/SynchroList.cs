@@ -17,7 +17,9 @@ namespace KindleLibrarySynchronizer
 		private Color[] stateBackColors;
 		private Color[] stateTextColors;
 
-		private float treeSplitCoeff = 0.5f;
+		private float columnWidthCoeff = 0.5f;
+		private bool updatingColumnWidths = false;
+
 
 		[Browsable(false)]
 		public BookComparer BookComparer
@@ -127,15 +129,6 @@ namespace KindleLibrarySynchronizer
 		}
 
 
-		protected override void OnSizeChanged(EventArgs args)
-		{
-			base.OnSizeChanged(args);
-
-			headerSource.Width = (int)(listview.ClientSize.Width * treeSplitCoeff);
-			headerTarget.Width = listview.ClientSize.Width - headerSource.Width;
-		}
-
-
 		protected virtual void OnBookComparerChanged(EventArgs args)
 		{
 			FillList();
@@ -212,7 +205,6 @@ namespace KindleLibrarySynchronizer
 			listview.EndUpdate();
 		}
 
-
 		private ListViewItem CreateFolderItem(BookFolder folder, int nestingLevel)
 		{
 			string textPrefix = new string(' ', nestingLevel * 4);
@@ -248,6 +240,47 @@ namespace KindleLibrarySynchronizer
 			return item;
 		}
 
+
+		private void listview_ClientSizeChanged(object sender, EventArgs e)
+		{
+			UpdateColumnWidths();
+		}
+
+		private void listview_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+			{
+				headerTarget.Width = listview.ClientSize.Width - e.NewWidth;
+				columnWidthCoeff = (float)e.NewWidth / listview.ClientSize.Width;
+			}
+			else
+			{
+				e.Cancel = true;
+				e.NewWidth = headerTarget.Width;
+			}
+		}
+
+		private void listview_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+			{
+				UpdateColumnWidths();
+			}
+		}
+
+		private void UpdateColumnWidths()
+		{
+			if (!updatingColumnWidths)
+			{
+				updatingColumnWidths = true;
+
+				headerSource.Width = (int)(listview.ClientSize.Width * columnWidthCoeff);
+				headerTarget.Width = listview.ClientSize.Width - headerSource.Width;
+
+				updatingColumnWidths = false;
+			}
+		}
+
 	}
 
 
@@ -262,6 +295,5 @@ namespace KindleLibrarySynchronizer
 			Book = book;
 		}
 	}
-
 
 }
