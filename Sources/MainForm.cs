@@ -12,7 +12,7 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class MainForm : Form
 	{
-		private List<string> skippedFiles = new List<string>();
+		private LibraryInfo library;
 		private BookComparer bookComparer;
 
 		public MainForm()
@@ -23,13 +23,30 @@ namespace KindleLibrarySynchronizer
 			Logger.OnWrite += (msg) => textLog.AppendText(msg);
 			Logger.OnClear += () => textLog.Clear();
 
-			skippedFiles.Add("Разное\\Эти странные…\\");
-			skippedFiles.Add("Художественная\\_Не оформленное\\");
-			skippedFiles.Add("Художественная\\_Периодика\\");
-
-			bookComparer = new BookComparer(textSourceRoot.Text, textTargetRoot.Text, skippedFiles);
+			bookComparer = new BookComparer();
 			synchroList.BookComparer = bookComparer;
+
+			PopulateLibraryCombo();
+			if (comboLibraries.Items.Count > 0)
+			{
+				comboLibraries.SelectedIndex = 0;
+			}
 		}
+
+
+		private void PopulateLibraryCombo()
+		{
+			comboLibraries.BeginUpdate();
+
+			comboLibraries.Items.Clear();
+			foreach (LibraryInfo libraryInfo in Globals.Libraries)
+			{
+				comboLibraries.Items.Add(libraryInfo.Name);
+			}
+
+			comboLibraries.EndUpdate();
+		}
+
 
 		private void synchroList_SelectionChanged(object sender, EventArgs e)
 		{
@@ -38,6 +55,13 @@ namespace KindleLibrarySynchronizer
 			statusSelection.Text = string.Format(textTemplate, selectedCount);
 
 			Action.UpdateActions(EventArgs.Empty);
+		}
+
+		private void comboLibraries_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			string libraryName = (string)comboLibraries.SelectedItem;
+
+			library = Globals.Libraries.Find(l => l.Name == libraryName);
 		}
 
 	}

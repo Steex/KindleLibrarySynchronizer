@@ -87,8 +87,8 @@ namespace KindleLibrarySynchronizer
 
 					foreach (BookInfo book in folder.Books)
 					{
-						TreeNode sourceNode = sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, BookComparer.SourceRoot));
-						TreeNode targetNode = targetNodes.Add(Utils.GetRelativePath(book.TargetPath, BookComparer.TargetRoot));
+						TreeNode sourceNode = sourceNodes.Add(Utils.GetRelativePath(book.SourcePath, BookComparer.Library.SourceRoot));
+						TreeNode targetNode = targetNodes.Add(Utils.GetRelativePath(book.TargetPath, BookComparer.Library.TargetRoot));
 
 						sourceNode.Tag = new NodeInfo(targetNode, null, book);
 						targetNode.Tag = new NodeInfo(sourceNode, null, book);

@@ -29,10 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.textSourceRoot = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.textTargetRoot = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
 			this.textLog = new System.Windows.Forms.TextBox();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,56 +77,16 @@
 			this.statusBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// textSourceRoot
-			// 
-			this.textSourceRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSourceRoot.Location = new System.Drawing.Point(13, 66);
-			this.textSourceRoot.Name = "textSourceRoot";
-			this.textSourceRoot.Size = new System.Drawing.Size(782, 20);
-			this.textSourceRoot.TabIndex = 0;
-			this.textSourceRoot.Text = "E:\\Library";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(10, 50);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(120, 13);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Music source root folder";
-			// 
-			// textTargetRoot
-			// 
-			this.textTargetRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textTargetRoot.Location = new System.Drawing.Point(13, 111);
-			this.textTargetRoot.Name = "textTargetRoot";
-			this.textTargetRoot.Size = new System.Drawing.Size(782, 20);
-			this.textTargetRoot.TabIndex = 0;
-			this.textTargetRoot.Text = "E:\\Library-Kindle";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 95);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(115, 13);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Music target root folder";
-			// 
 			// textLog
 			// 
 			this.textLog.AllowDrop = true;
 			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location = new System.Drawing.Point(9, 507);
+			this.textLog.Location = new System.Drawing.Point(0, 507);
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size = new System.Drawing.Size(788, 84);
+			this.textLog.Size = new System.Drawing.Size(806, 91);
 			this.textLog.TabIndex = 0;
 			// 
 			// mainMenu
@@ -333,6 +289,7 @@
 			this.comboLibraries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboLibraries.Name = "comboLibraries";
 			this.comboLibraries.Size = new System.Drawing.Size(200, 25);
+			this.comboLibraries.SelectedIndexChanged += new System.EventHandler(this.comboLibraries_SelectedIndexChanged);
 			// 
 			// buttonCompare
 			// 
@@ -486,14 +443,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.synchroList.BookComparer = null;
-			this.synchroList.Location = new System.Drawing.Point(9, 163);
-			this.synchroList.Margin = new System.Windows.Forms.Padding(0);
+			this.synchroList.Location = new System.Drawing.Point(0, 52);
 			this.synchroList.Name = "synchroList";
 			this.synchroList.ShowActualBooks = true;
 			this.synchroList.ShowChangedBooks = true;
 			this.synchroList.ShowDeletedBooks = true;
 			this.synchroList.ShowNewBooks = true;
-			this.synchroList.Size = new System.Drawing.Size(787, 341);
+			this.synchroList.Size = new System.Drawing.Size(806, 449);
 			this.synchroList.TabIndex = 3;
 			this.synchroList.SelectionChanged += new System.EventHandler(this.synchroList_SelectionChanged);
 			// 
@@ -506,10 +462,6 @@
 			this.Controls.Add(this.toolbar);
 			this.Controls.Add(this.synchroList);
 			this.Controls.Add(this.textLog);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.textTargetRoot);
-			this.Controls.Add(this.textSourceRoot);
 			this.Controls.Add(this.mainMenu);
 			this.MainMenuStrip = this.mainMenu;
 			this.Name = "MainForm";
@@ -527,10 +479,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox textSourceRoot;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textTargetRoot;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox textLog;
 		private SynchroList synchroList;
 		private System.Windows.Forms.MenuStrip mainMenu;

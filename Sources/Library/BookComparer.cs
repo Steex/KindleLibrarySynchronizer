@@ -12,19 +12,15 @@ namespace KindleLibrarySynchronizer
 		private readonly string sourceFileMask = "*.fb2";
 		private readonly string targetFileMask = "*.pdf";
 
-		public string SourceRoot { get; private set; }
-		public string TargetRoot { get; private set; }
-		public List<string> SkippedFiles { get; private set; }
+		public LibraryInfo Library { get; private set; }
 		public BookFolder Books { get; private set; }
 
 
-		public BookComparer(string sourceRoot, string targetRoot, IEnumerable<string> skippedFiles)
+		public BookComparer()
 		{
-			SourceRoot = sourceRoot;
-			TargetRoot = targetRoot;
-			SkippedFiles = new List<string>(skippedFiles);
 			Books = new BookFolder(null, "");
 		}
+
 
 		public void Compare()
 		{
@@ -33,12 +29,12 @@ namespace KindleLibrarySynchronizer
 			SortedSet<string> targetPaths = new SortedSet<string>();
 
 			// Collect source books.
-			foreach (string sourceFile in FindBookFiles(SourceRoot, sourceFileMask))
+			foreach (string sourceFile in FindBookFiles(Library.SourceRoot, sourceFileMask))
 			{
 				try
 				{
-					string sourcePath = Path.Combine(SourceRoot, sourceFile);
-					string targetDir = Path.Combine(TargetRoot, Path.GetDirectoryName(sourceFile));
+					string sourcePath = Path.Combine(Library.SourceRoot, sourceFile);
+					string targetDir = Path.Combine(Library.TargetRoot, Path.GetDirectoryName(sourceFile));
 
 					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
 
@@ -53,9 +49,9 @@ namespace KindleLibrarySynchronizer
 			}
 
 			// Collect unknown target books.
-			foreach (string targetFile in FindBookFiles(TargetRoot, targetFileMask))
+			foreach (string targetFile in FindBookFiles(Library.TargetRoot, targetFileMask))
 			{
-				string targetPath = Path.Combine(TargetRoot, targetFile);
+				string targetPath = Path.Combine(Library.TargetRoot, targetFile);
 
 				if (!targetPaths.Contains(targetPath.ToLower()))
 				{
@@ -70,13 +66,20 @@ namespace KindleLibrarySynchronizer
 			Books.CountStates();
 		}
 
+		public void Compare(LibraryInfo library)
+		{
+			Library = library;
+			Compare();
+		}
+
+
 		private IEnumerable<string> FindBookFiles(string root, string mask)
 		{
 			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
 			{
 				string basePath = Utils.GetRelativePath(targetFile, root);
 
-				if (!SkippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
+				if (!Library.SkippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
 				{
 					yield return basePath;
 				}
