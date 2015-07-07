@@ -54,6 +54,7 @@
     <Compile Include="BookInfo.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="BookFolder.cs" />
+    <Compile Include="LibraryInfo.cs" />
     <Compile Include="MainForm.Actions.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
