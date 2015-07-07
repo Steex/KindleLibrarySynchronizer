@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Text;
 using System.Drawing.Imaging;
+using Microsoft.Win32;
 
 namespace KindleLibrarySynchronizer
 {
@@ -45,6 +46,25 @@ namespace KindleLibrarySynchronizer
 		public static string BoolToString(bool value)
 		{
 			return value ? "1" : "0";
+		}
+
+
+		public static T ReadRegistryValue<T>(RegistryKey key, string name, T defaultValue)
+		{
+			try
+			{
+				string strValue = (string)key.GetValue(name, InvariantConverter.ToString(defaultValue));
+				return InvariantConverter.FromString<T>(strValue);
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+
+		public static void WriteRegistryValue<T>(RegistryKey key, string name, T value)
+		{
+			key.SetValue(name, InvariantConverter.ToString(value));
 		}
 
 

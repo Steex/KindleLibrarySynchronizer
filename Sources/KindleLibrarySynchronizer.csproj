@@ -89,6 +89,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils.cs" />
+    <Compile Include="Utils\InvariantConverter.cs" />
     <EmbeddedResource Include="SynchroList.resx">
       <DependentUpon>SynchroList.cs</DependentUpon>
       <SubType>Designer</SubType>

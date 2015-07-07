@@ -15,7 +15,10 @@ namespace KindleLibrarySynchronizer
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			Globals.Load();
 			Application.Run(new MainForm());
+			Globals.Save();
 		}
 	}
 }
