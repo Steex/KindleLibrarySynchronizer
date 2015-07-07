@@ -100,6 +100,7 @@ namespace KindleLibrarySynchronizer
 
 			actionOptions = new KindleLibrarySynchronizer.Action("&Options...", "Display the configuration dialog");
 			actionOptions.AttachToolItem(menuOptions);
+			actionOptions.AttachToolItem(buttonOptions);
 			actionOptions.Execute += actionOptions_Execute;
 
 			actionAbout = new KindleLibrarySynchronizer.Action("&About...");
