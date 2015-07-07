@@ -28,13 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.textSourceRoot = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textTargetRoot = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.buttonCompare = new System.Windows.Forms.Button();
 			this.textLog = new System.Windows.Forms.TextBox();
-			this.labelSelection = new System.Windows.Forms.Label();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +56,29 @@
 			this.menuOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolbar = new System.Windows.Forms.ToolStrip();
+			this.comboLibraries = new System.Windows.Forms.ToolStripComboBox();
+			this.buttonCompare = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.buttonShowActual = new System.Windows.Forms.ToolStripButton();
+			this.buttonShowNew = new System.Windows.Forms.ToolStripButton();
+			this.buttonShowChanged = new System.Windows.Forms.ToolStripButton();
+			this.buttonShowDeleted = new System.Windows.Forms.ToolStripButton();
+			this.buttonShowIgnored = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.buttonSelectNew = new System.Windows.Forms.ToolStripButton();
+			this.buttonSelectChanged = new System.Windows.Forms.ToolStripButton();
+			this.buttonSelectDeleted = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.buttonUpdateSelected = new System.Windows.Forms.ToolStripButton();
+			this.buttonDeleteSelected = new System.Windows.Forms.ToolStripButton();
+			this.statusBar = new System.Windows.Forms.StatusStrip();
+			this.statusSelection = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.mainMenu.SuspendLayout();
+			this.toolbar.SuspendLayout();
+			this.statusBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// textSourceRoot
@@ -101,17 +121,6 @@
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Music target root folder";
 			// 
-			// buttonCompare
-			// 
-			this.buttonCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCompare.Location = new System.Drawing.Point(720, 137);
-			this.buttonCompare.Name = "buttonCompare";
-			this.buttonCompare.Size = new System.Drawing.Size(75, 23);
-			this.buttonCompare.TabIndex = 2;
-			this.buttonCompare.Text = "Compare";
-			this.buttonCompare.UseVisualStyleBackColor = true;
-			this.buttonCompare.Click += new System.EventHandler(this.buttonCompare_Click);
-			// 
 			// textLog
 			// 
 			this.textLog.AllowDrop = true;
@@ -121,17 +130,8 @@
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size = new System.Drawing.Size(788, 104);
+			this.textLog.Size = new System.Drawing.Size(788, 84);
 			this.textLog.TabIndex = 0;
-			// 
-			// labelSelection
-			// 
-			this.labelSelection.AutoSize = true;
-			this.labelSelection.Location = new System.Drawing.Point(338, 142);
-			this.labelSelection.Name = "labelSelection";
-			this.labelSelection.Size = new System.Drawing.Size(83, 13);
-			this.labelSelection.TabIndex = 5;
-			this.labelSelection.Text = "0 book selected";
 			// 
 			// mainMenu
 			// 
@@ -178,6 +178,7 @@
 			// 
 			// menuCompare
 			// 
+			this.menuCompare.Image = global::KindleLibrarySynchronizer.Properties.Resources.Compare;
 			this.menuCompare.Name = "menuCompare";
 			this.menuCompare.Size = new System.Drawing.Size(184, 22);
 			this.menuCompare.Text = "Compare";
@@ -189,18 +190,21 @@
 			// 
 			// menuSelectNew
 			// 
+			this.menuSelectNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_New;
 			this.menuSelectNew.Name = "menuSelectNew";
 			this.menuSelectNew.Size = new System.Drawing.Size(184, 22);
 			this.menuSelectNew.Text = "Select All New";
 			// 
 			// menuSelectChanged
 			// 
+			this.menuSelectChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_Changed;
 			this.menuSelectChanged.Name = "menuSelectChanged";
 			this.menuSelectChanged.Size = new System.Drawing.Size(184, 22);
 			this.menuSelectChanged.Text = "Select All Changed";
 			// 
 			// menuSelectDeleted
 			// 
+			this.menuSelectDeleted.Image = ((System.Drawing.Image)(resources.GetObject("menuSelectDeleted.Image")));
 			this.menuSelectDeleted.Name = "menuSelectDeleted";
 			this.menuSelectDeleted.Size = new System.Drawing.Size(184, 22);
 			this.menuSelectDeleted.Text = "Select All Deleted";
@@ -212,12 +216,14 @@
 			// 
 			// menuUpdateSelected
 			// 
+			this.menuUpdateSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
 			this.menuUpdateSelected.Name = "menuUpdateSelected";
 			this.menuUpdateSelected.Size = new System.Drawing.Size(184, 22);
 			this.menuUpdateSelected.Text = "Update Selected Books";
 			// 
 			// menuDeleteSelected
 			// 
+			this.menuDeleteSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Delete;
 			this.menuDeleteSelected.Name = "menuDeleteSelected";
 			this.menuDeleteSelected.Size = new System.Drawing.Size(184, 22);
 			this.menuDeleteSelected.Text = "Delete Selected Books";
@@ -236,30 +242,35 @@
 			// 
 			// menuShowActual
 			// 
+			this.menuShowActual.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Actual;
 			this.menuShowActual.Name = "menuShowActual";
 			this.menuShowActual.Size = new System.Drawing.Size(146, 22);
 			this.menuShowActual.Text = "Show Actual";
 			// 
 			// menuShowNew
 			// 
+			this.menuShowNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_New;
 			this.menuShowNew.Name = "menuShowNew";
 			this.menuShowNew.Size = new System.Drawing.Size(146, 22);
 			this.menuShowNew.Text = "Show New";
 			// 
 			// menuShowChanged
 			// 
+			this.menuShowChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Changed;
 			this.menuShowChanged.Name = "menuShowChanged";
 			this.menuShowChanged.Size = new System.Drawing.Size(146, 22);
 			this.menuShowChanged.Text = "Show Changed";
 			// 
 			// menuShowDeleted
 			// 
+			this.menuShowDeleted.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Deleted;
 			this.menuShowDeleted.Name = "menuShowDeleted";
 			this.menuShowDeleted.Size = new System.Drawing.Size(146, 22);
 			this.menuShowDeleted.Text = "Show Deleted";
 			// 
 			// menuShowIgnored
 			// 
+			this.menuShowIgnored.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Ignored;
 			this.menuShowIgnored.Name = "menuShowIgnored";
 			this.menuShowIgnored.Size = new System.Drawing.Size(146, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
@@ -274,6 +285,7 @@
 			// 
 			// menuOptions
 			// 
+			this.menuOptions.Image = global::KindleLibrarySynchronizer.Properties.Resources.Options;
 			this.menuOptions.Name = "menuOptions";
 			this.menuOptions.Size = new System.Drawing.Size(123, 22);
 			this.menuOptions.Text = "Options...";
@@ -291,6 +303,182 @@
 			this.menuAbout.Name = "menuAbout";
 			this.menuAbout.Size = new System.Drawing.Size(115, 22);
 			this.menuAbout.Text = "About...";
+			// 
+			// toolbar
+			// 
+			this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.comboLibraries,
+            this.buttonCompare,
+            this.toolStripSeparator1,
+            this.buttonShowActual,
+            this.buttonShowNew,
+            this.buttonShowChanged,
+            this.buttonShowDeleted,
+            this.buttonShowIgnored,
+            this.toolStripSeparator2,
+            this.buttonSelectNew,
+            this.buttonSelectChanged,
+            this.buttonSelectDeleted,
+            this.toolStripSeparator3,
+            this.buttonUpdateSelected,
+            this.buttonDeleteSelected});
+			this.toolbar.Location = new System.Drawing.Point(0, 24);
+			this.toolbar.Name = "toolbar";
+			this.toolbar.Size = new System.Drawing.Size(806, 25);
+			this.toolbar.TabIndex = 7;
+			this.toolbar.Text = "toolStrip1";
+			// 
+			// comboLibraries
+			// 
+			this.comboLibraries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboLibraries.Name = "comboLibraries";
+			this.comboLibraries.Size = new System.Drawing.Size(200, 25);
+			// 
+			// buttonCompare
+			// 
+			this.buttonCompare.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonCompare.Image = global::KindleLibrarySynchronizer.Properties.Resources.Compare;
+			this.buttonCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonCompare.Name = "buttonCompare";
+			this.buttonCompare.Size = new System.Drawing.Size(23, 22);
+			this.buttonCompare.Text = "toolStripButton1";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// buttonShowActual
+			// 
+			this.buttonShowActual.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowActual.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Actual;
+			this.buttonShowActual.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowActual.Name = "buttonShowActual";
+			this.buttonShowActual.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowActual.Text = "toolStripButton2";
+			// 
+			// buttonShowNew
+			// 
+			this.buttonShowNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_New;
+			this.buttonShowNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowNew.Name = "buttonShowNew";
+			this.buttonShowNew.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowNew.Text = "toolStripButton3";
+			// 
+			// buttonShowChanged
+			// 
+			this.buttonShowChanged.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Changed;
+			this.buttonShowChanged.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowChanged.Name = "buttonShowChanged";
+			this.buttonShowChanged.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowChanged.Text = "toolStripButton4";
+			// 
+			// buttonShowDeleted
+			// 
+			this.buttonShowDeleted.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowDeleted.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Deleted;
+			this.buttonShowDeleted.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowDeleted.Name = "buttonShowDeleted";
+			this.buttonShowDeleted.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowDeleted.Text = "toolStripButton8";
+			// 
+			// buttonShowIgnored
+			// 
+			this.buttonShowIgnored.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowIgnored.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Ignored;
+			this.buttonShowIgnored.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowIgnored.Name = "buttonShowIgnored";
+			this.buttonShowIgnored.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowIgnored.Text = "toolStripButton9";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// buttonSelectNew
+			// 
+			this.buttonSelectNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonSelectNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_New;
+			this.buttonSelectNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonSelectNew.Name = "buttonSelectNew";
+			this.buttonSelectNew.Size = new System.Drawing.Size(23, 22);
+			this.buttonSelectNew.Text = "toolStripButton5";
+			// 
+			// buttonSelectChanged
+			// 
+			this.buttonSelectChanged.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonSelectChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_Changed;
+			this.buttonSelectChanged.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonSelectChanged.Name = "buttonSelectChanged";
+			this.buttonSelectChanged.Size = new System.Drawing.Size(23, 22);
+			this.buttonSelectChanged.Text = "toolStripButton6";
+			// 
+			// buttonSelectDeleted
+			// 
+			this.buttonSelectDeleted.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonSelectDeleted.Image = ((System.Drawing.Image)(resources.GetObject("buttonSelectDeleted.Image")));
+			this.buttonSelectDeleted.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonSelectDeleted.Name = "buttonSelectDeleted";
+			this.buttonSelectDeleted.Size = new System.Drawing.Size(23, 22);
+			this.buttonSelectDeleted.Text = "toolStripButton7";
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			// 
+			// buttonUpdateSelected
+			// 
+			this.buttonUpdateSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonUpdateSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
+			this.buttonUpdateSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonUpdateSelected.Name = "buttonUpdateSelected";
+			this.buttonUpdateSelected.Size = new System.Drawing.Size(23, 22);
+			this.buttonUpdateSelected.Text = "toolStripButton10";
+			// 
+			// buttonDeleteSelected
+			// 
+			this.buttonDeleteSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonDeleteSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Delete;
+			this.buttonDeleteSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonDeleteSelected.Name = "buttonDeleteSelected";
+			this.buttonDeleteSelected.Size = new System.Drawing.Size(23, 22);
+			this.buttonDeleteSelected.Text = "toolStripButton11";
+			// 
+			// statusBar
+			// 
+			this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusSelection,
+            this.statusCounters});
+			this.statusBar.Location = new System.Drawing.Point(0, 601);
+			this.statusBar.Name = "statusBar";
+			this.statusBar.Size = new System.Drawing.Size(806, 22);
+			this.statusBar.SizingGrip = false;
+			this.statusBar.TabIndex = 8;
+			this.statusBar.Text = "statusStrip1";
+			// 
+			// statusSelection
+			// 
+			this.statusSelection.AutoSize = false;
+			this.statusSelection.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.statusSelection.Name = "statusSelection";
+			this.statusSelection.Size = new System.Drawing.Size(200, 17);
+			this.statusSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// statusCounters
+			// 
+			this.statusCounters.AutoSize = false;
+			this.statusCounters.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.statusCounters.Name = "statusCounters";
+			this.statusCounters.Size = new System.Drawing.Size(300, 17);
+			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// synchroList
 			// 
@@ -314,10 +502,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
-			this.Controls.Add(this.labelSelection);
+			this.Controls.Add(this.statusBar);
+			this.Controls.Add(this.toolbar);
 			this.Controls.Add(this.synchroList);
 			this.Controls.Add(this.textLog);
-			this.Controls.Add(this.buttonCompare);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.textTargetRoot);
@@ -328,6 +516,10 @@
 			this.Text = "Kindle Library Synchronizer";
 			this.mainMenu.ResumeLayout(false);
 			this.mainMenu.PerformLayout();
+			this.toolbar.ResumeLayout(false);
+			this.toolbar.PerformLayout();
+			this.statusBar.ResumeLayout(false);
+			this.statusBar.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -339,10 +531,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textTargetRoot;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button buttonCompare;
 		private System.Windows.Forms.TextBox textLog;
 		private SynchroList synchroList;
-		private System.Windows.Forms.Label labelSelection;
 		private System.Windows.Forms.MenuStrip mainMenu;
 		private System.Windows.Forms.ToolStripMenuItem menuFile;
 		private System.Windows.Forms.ToolStripMenuItem menuExit;
@@ -365,6 +555,25 @@
 		private System.Windows.Forms.ToolStripMenuItem menuOptions;
 		private System.Windows.Forms.ToolStripMenuItem menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem menuAbout;
+		private System.Windows.Forms.ToolStrip toolbar;
+		private System.Windows.Forms.StatusStrip statusBar;
+		private System.Windows.Forms.ToolStripStatusLabel statusSelection;
+		private System.Windows.Forms.ToolStripStatusLabel statusCounters;
+		private System.Windows.Forms.ToolStripComboBox comboLibraries;
+		private System.Windows.Forms.ToolStripButton buttonCompare;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton buttonShowActual;
+		private System.Windows.Forms.ToolStripButton buttonShowNew;
+		private System.Windows.Forms.ToolStripButton buttonShowChanged;
+		private System.Windows.Forms.ToolStripButton buttonShowDeleted;
+		private System.Windows.Forms.ToolStripButton buttonShowIgnored;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton buttonSelectNew;
+		private System.Windows.Forms.ToolStripButton buttonSelectChanged;
+		private System.Windows.Forms.ToolStripButton buttonSelectDeleted;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripButton buttonUpdateSelected;
+		private System.Windows.Forms.ToolStripButton buttonDeleteSelected;
 	}
 }
 

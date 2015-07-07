@@ -31,33 +31,12 @@ namespace KindleLibrarySynchronizer
 			synchroList.BookComparer = bookComparer;
 		}
 
-		private void buttonCompare_Click(object sender, EventArgs e)
-		{
-			Logger.Clear();
-
-			bookComparer.Compare();
-			synchroList.UpdateItems();
-
-			// Report.
-			foreach (BookInfo book in bookComparer.Books.AllBooks)
-			{
-				Logger.WriteLine("{0}:\t{1}",
-					book.State.ToString()[0],
-					Utils.GetRelativePath(book.TargetPath, bookComparer.TargetRoot));
-			}
-
-			Logger.WriteLine();
-			Logger.WriteLine("{0} actual, {1} new, {2} changed, {3} deleted",
-				bookComparer.Books.GetBookStateCount(BookState.Actual),
-				bookComparer.Books.GetBookStateCount(BookState.New),
-				bookComparer.Books.GetBookStateCount(BookState.Changed),
-				bookComparer.Books.GetBookStateCount(BookState.Deleted));
-			Logger.WriteLine("---");
-		}
-
 		private void synchroList_SelectionChanged(object sender, EventArgs e)
 		{
-			labelSelection.Text = string.Format("{0} books is selected", synchroList.SelectedBooks.Count());
+			int selectedCount = synchroList.SelectedBooks.Count();
+			string textTemplate = (selectedCount == 1) ? "{0} book selected" : "{0} books selected";
+			statusSelection.Text = string.Format(textTemplate, selectedCount);
+
 			Action.UpdateActions(EventArgs.Empty);
 		}
 

@@ -120,4 +120,31 @@
   <metadata name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="menuSelectDeleted.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAD4SURBVDhPY4CC/1AMAyTxkSVIBWC9FBsw8ACrM/6nOjf8
+        T3PBkAOJgeRgXDiBDH4n2jcA8f//qzr+g2ioMEgcLgZSAxTCajnDtyiL//8XNUAwUMOPHC8wBrFh4iA1
+        UOXYwYcgg///pxZDMEgjCEP5IDmoMjDAadL7SPP//9tTUTBIDCoNAmA2TgNe+mr//z8x////ijAIBrJB
+        YlBpEICzQQwUidtmIhBnZ3mgYqAYSA6kBqIUC7iqxwPRHGsNxg+sJMAYxgfJgdRAlWOC8+qsDRfUWf//
+        DzX+D6KhwgzIYiA1UGHs4LQiQ8MZJUxngsRAclAupYCBAQBMpNFdurW3hgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="toolbar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>120, 17</value>
+  </metadata>
+  <data name="buttonSelectDeleted.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD4SURBVDhPY4CC/1AMAyTxkSVIBWC9FBsw8ACrM/6nOjf8
+        T3PBkAOJgeRgXDiBDH4n2jcA8f//qzr+g2ioMEgcLgZSAxTCajnDtyiL//8XNUAwUMOPHC8wBrFh4iA1
+        UOXYwYcgg///pxZDMEgjCEP5IDmoMjDAadL7SPP//9tTUTBIDCoNAmA2TgNe+mr//z8x////ijAIBrJB
+        YlBpEICzQQwUidtmIhBnZ3mgYqAYSA6kBqIUC7iqxwPRHGsNxg+sJMAYxgfJgdRAlWOC8+qsDRfUWf//
+        DzX+D6KhwgzIYiA1UGHs4LQiQ8MZJUxngsRAclAupYCBAQBMpNFdurW3hgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="statusBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>219, 17</value>
+  </metadata>
 </root>

@@ -29,65 +29,76 @@ namespace KindleLibrarySynchronizer
 			actionExit.AttachToolItem(menuExit);
 			actionExit.Execute += actionExit_Execute;
 
-			actionCompare = new KindleLibrarySynchronizer.Action("&Compare", "Recompare books in the library.");
+			actionCompare = new KindleLibrarySynchronizer.Action("&Compare", "Recompare books in the library");
 			actionCompare.ShortcutKeys = Keys.F5;
 			actionCompare.AttachToolItem(menuCompare);
+			actionCompare.AttachToolItem(buttonCompare);
 			actionCompare.Execute += actionCompare_Execute;
 			actionCompare.Update += actionCompare_Update;
 
-			actionSelectNew = new KindleLibrarySynchronizer.Action("Select All &New", "Select all books that are present on PC bun not on the device.");
+			actionSelectNew = new KindleLibrarySynchronizer.Action("Select All &New", "Select all books that are present on PC but not on the device");
 			actionSelectNew.AttachToolItem(menuSelectNew);
+			actionSelectNew.AttachToolItem(buttonSelectNew);
 			actionSelectNew.Execute += actionSelectNew_Execute;
 			actionSelectNew.Update += actionSelectNew_Update;
 
 			actionSelectChanged = new KindleLibrarySynchronizer.Action("Select All &Changed", "Select all books that were changed since they had been copied to the device");
 			actionSelectChanged.AttachToolItem(menuSelectChanged);
+			actionSelectChanged.AttachToolItem(buttonSelectChanged);
 			actionSelectChanged.Execute += actionSelectChanged_Execute;
 			actionSelectChanged.Update += actionSelectChanged_Update;
 
-			actionSelectDeleted = new KindleLibrarySynchronizer.Action("Select All &Deleted", "Select all books that are present on the device but not on PC.");
+			actionSelectDeleted = new KindleLibrarySynchronizer.Action("Select All &Deleted", "Select all books that are present on the device but not on PC");
 			actionSelectDeleted.AttachToolItem(menuSelectDeleted);
+			actionSelectDeleted.AttachToolItem(buttonSelectDeleted);
 			actionSelectDeleted.Execute += actionSelectDeleted_Execute ;
 			actionSelectDeleted.Update += actionSelectDeleted_Update;
 
-			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Covert all selected books into PDF and copy them to the device.");
+			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Covert all selected books into PDF and copy them to the device");
 			actionUpdateSelected.ShortcutKeys = Keys.Control | Keys.U;
 			actionUpdateSelected.AttachToolItem(menuUpdateSelected);
+			actionUpdateSelected.AttachToolItem(buttonUpdateSelected);
 			actionUpdateSelected.Execute += actionUpdateSelected_Execute;
 			actionUpdateSelected.Update += actionUpdateSelected_Update;
 
-			actionDeleteSelected = new KindleLibrarySynchronizer.Action("Delete Selected Books", "Delete all selected PDF books from the device (original books will remain safe).");
+			actionDeleteSelected = new KindleLibrarySynchronizer.Action("Delete Selected Books", "Delete all selected PDF books from the device (original books will remain safe)");
 			actionDeleteSelected.ShortcutKeys = Keys.Control | Keys.Delete;
 			actionDeleteSelected.AttachToolItem(menuDeleteSelected);
+			actionDeleteSelected.AttachToolItem(buttonDeleteSelected);
 			actionDeleteSelected.Execute += actionDeleteSelected_Execute;
 			actionDeleteSelected.Update += actionDeleteSelected_Update;
 
-			actionShowActual = new KindleLibrarySynchronizer.Action("Show &Actual", "Display in the list all books that haven't been changed since they had been copied to the device.");
+			actionShowActual = new KindleLibrarySynchronizer.Action("Show &Actual", "Display in the list all books that haven't been changed since they had been copied to the device");
 			actionShowActual.AttachToolItem(menuShowActual);
+			actionShowActual.AttachToolItem(buttonShowActual);
 			actionShowActual.Execute += actionShowActual_Execute;
 			actionShowActual.Update += actionShowActual_Update;
 
-			actionShowNew = new KindleLibrarySynchronizer.Action("Show &New", "Display in the list all books that are present on PC bun not on the device.");
+			actionShowNew = new KindleLibrarySynchronizer.Action("Show &New", "Display in the list all books that are present on PC but not on the device");
 			actionShowNew.AttachToolItem(menuShowNew);
+			actionShowNew.AttachToolItem(buttonShowNew);
 			actionShowNew.Execute += actionShowNew_Execute;
 			actionShowNew.Update += actionShowNew_Update;
 
-			actionShowChanged = new KindleLibrarySynchronizer.Action("Show &Changed", "Display in the list all books that were changed since they had been copied to the device.");
+			actionShowChanged = new KindleLibrarySynchronizer.Action("Show &Changed", "Display in the list all books that were changed since they had been copied to the device");
 			actionShowChanged.AttachToolItem(menuShowChanged);
+			actionShowChanged.AttachToolItem(buttonShowChanged);
 			actionShowChanged.Execute += actionShowChanged_Execute;
 			actionShowChanged.Update += actionShowChanged_Update;
 
-			actionShowDeleted = new KindleLibrarySynchronizer.Action("Show &Deleted", "Display in the list all books that are present on the device but not on PC.");
+			actionShowDeleted = new KindleLibrarySynchronizer.Action("Show &Deleted", "Display in the list all books that are present on the device but not on PC");
 			actionShowDeleted.AttachToolItem(menuShowDeleted);
+			actionShowDeleted.AttachToolItem(buttonShowDeleted);
 			actionShowDeleted.Execute += actionShowDeleted_Execute;
 			actionShowDeleted.Update += actionShowDeleted_Update;
 
-			actionShowIgnored = new KindleLibrarySynchronizer.Action("Show &Ignored", "Display in the list books from ignored folders.");
+			actionShowIgnored = new KindleLibrarySynchronizer.Action("Show &Ignored", "Display in the list books from ignored folders");
 			actionShowIgnored.AttachToolItem(menuShowIgnored);
+			actionShowIgnored.AttachToolItem(buttonShowIgnored);
 			actionShowIgnored.Execute += actionShowIgnored_Execute;
 			actionShowIgnored.Update += actionShowIgnored_Update;
 
-			actionOptions = new KindleLibrarySynchronizer.Action("&Options...", "Display the configuration dialog.");
+			actionOptions = new KindleLibrarySynchronizer.Action("&Options...", "Display the configuration dialog");
 			actionOptions.AttachToolItem(menuOptions);
 			actionOptions.Execute += actionOptions_Execute;
 
@@ -106,6 +117,32 @@ namespace KindleLibrarySynchronizer
 
 		private void actionCompare_Execute(object sender, EventArgs e)
 		{
+			Logger.Clear();
+
+			bookComparer.Compare();
+			synchroList.UpdateItems();
+
+			statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
+				bookComparer.Books.GetBookStateCount(BookState.Actual),
+				bookComparer.Books.GetBookStateCount(BookState.New),
+				bookComparer.Books.GetBookStateCount(BookState.Changed),
+				bookComparer.Books.GetBookStateCount(BookState.Deleted));
+
+			// Report.
+			foreach (BookInfo book in bookComparer.Books.AllBooks)
+			{
+				Logger.WriteLine("{0}:\t{1}",
+					book.State.ToString()[0],
+					Utils.GetRelativePath(book.TargetPath, bookComparer.TargetRoot));
+			}
+
+			Logger.WriteLine();
+			Logger.WriteLine("{0} actual, {1} new, {2} changed, {3} deleted",
+				bookComparer.Books.GetBookStateCount(BookState.Actual),
+				bookComparer.Books.GetBookStateCount(BookState.New),
+				bookComparer.Books.GetBookStateCount(BookState.Changed),
+				bookComparer.Books.GetBookStateCount(BookState.Deleted));
+			Logger.WriteLine("---");
 		}
 
 		private void actionSelectNew_Execute(object sender, EventArgs e)
