@@ -193,11 +193,11 @@ namespace KindleLibrarySynchronizer
 
 		private void actionOptions_Execute(object sender, EventArgs e)
 		{
-			using (OptionsForm optionsForm = new OptionsForm())
+			using (OptionsForm optionsForm = new OptionsForm(new Config(Config.Main)))
 			{
 				if (optionsForm.ShowDialog(this) == DialogResult.OK)
 				{
-
+					// TODO: copy the modified config into the global one.
 				}
 			}
 		}

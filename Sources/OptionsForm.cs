@@ -11,9 +11,14 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class OptionsForm : Form
 	{
-		public OptionsForm()
+		public Config LocalConfig { get; private set; }
+
+
+		public OptionsForm(Config configCopy)
 		{
 			InitializeComponent();
+
+			LocalConfig = configCopy;
 		}
 	}
 }
