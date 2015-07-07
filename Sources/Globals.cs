@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace KindleLibrarySynchronizer
 {
-	public static class Config
+	public static class Globals
 	{
 		public static readonly int SeriesNameMaxLength = 10; // longer strings will be abbreviated
 	}

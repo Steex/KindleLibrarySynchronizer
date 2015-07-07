@@ -52,7 +52,7 @@
     <Compile Include="Actions.cs" />
     <Compile Include="BookComparer.cs" />
     <Compile Include="BookInfo.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="BookFolder.cs" />
     <Compile Include="LibraryInfo.cs" />
     <Compile Include="MainForm.Actions.cs">
