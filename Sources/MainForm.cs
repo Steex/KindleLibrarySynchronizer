@@ -39,7 +39,7 @@ namespace KindleLibrarySynchronizer
 			comboLibraries.BeginUpdate();
 
 			comboLibraries.Items.Clear();
-			foreach (LibraryInfo libraryInfo in Globals.Libraries)
+			foreach (LibraryInfo libraryInfo in Globals.Main.Libraries)
 			{
 				comboLibraries.Items.Add(libraryInfo.Name);
 			}
@@ -61,7 +61,7 @@ namespace KindleLibrarySynchronizer
 		{
 			string libraryName = (string)comboLibraries.SelectedItem;
 
-			library = Globals.Libraries.Find(l => l.Name == libraryName);
+			library = Globals.Main.Libraries.Find(l => l.Name == libraryName);
 		}
 
 	}

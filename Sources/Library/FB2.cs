@@ -107,7 +107,7 @@ namespace KindleLibrarySynchronizer
 				SeriesNumber > 0)
 			{
 				string seriesPrefix;
-				if (SeriesName.Length < Globals.SeriesNameMaxLength &&
+				if (SeriesName.Length < Globals.Main.SeriesNameMaxLength &&
 					!SeriesName.Contains(' '))
 				{
 					seriesPrefix = SeriesName;

@@ -17,6 +17,15 @@ namespace KindleLibrarySynchronizer
 		{
 			SkippedFiles = new List<string>();
 		}
+
+		public LibraryInfo(LibraryInfo right)
+		{
+			Name = right.Name;
+			SourceRoot = right.SourceRoot;
+			TargetRoot = right.TargetRoot;
+			SkippedFiles = new List<string>(right.SkippedFiles);
+		}
+
 	}
 
 }

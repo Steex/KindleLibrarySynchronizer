@@ -11,16 +11,24 @@ using Microsoft.Win32;
 
 namespace KindleLibrarySynchronizer
 {
-	public static class Globals
+	public class Globals
 	{
-		private static readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
+		private readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
 
-		public static readonly int SeriesNameMaxLength = 10; // longer strings will be abbreviated
+		public readonly int SeriesNameMaxLength = 10; // longer strings will be abbreviated
 
-		public static List<LibraryInfo> Libraries { get; private set; }
+		public List<LibraryInfo> Libraries { get; private set; }
+
+
+		public static Globals Main { get; private set; }
 
 
 		static Globals()
+		{
+			Main = new Globals();
+		}
+
+		private Globals()
 		{
 			Libraries = new List<LibraryInfo>();
 
@@ -36,8 +44,18 @@ namespace KindleLibrarySynchronizer
 			Libraries.Add(library);/**/
 		}
 
+		public Globals(Globals right)
+		{
+			Libraries = new List<LibraryInfo>();
 
-		public static void Load()
+			foreach (LibraryInfo library in right.Libraries)
+			{
+				Libraries.Add(new LibraryInfo(library));
+			}
+		}
+
+
+		public void Load()
 		{
 			RegistryKey settingsRoot = Registry.CurrentUser.OpenSubKey(registryRootName);
 			if (settingsRoot != null)
@@ -78,7 +96,7 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		public static void Save()
+		public void Save()
 		{
 			try
 			{
