@@ -61,7 +61,7 @@
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Actions.cs" />
-    <Compile Include="Globals.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="MainForm.Actions.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>

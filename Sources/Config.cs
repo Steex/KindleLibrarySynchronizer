@@ -11,7 +11,7 @@ using Microsoft.Win32;
 
 namespace KindleLibrarySynchronizer
 {
-	public class Globals
+	public class Config
 	{
 		private readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
 
@@ -20,15 +20,15 @@ namespace KindleLibrarySynchronizer
 		public List<LibraryInfo> Libraries { get; private set; }
 
 
-		public static Globals Main { get; private set; }
+		public static Config Main { get; private set; }
 
 
-		static Globals()
+		static Config()
 		{
-			Main = new Globals();
+			Main = new Config();
 		}
 
-		private Globals()
+		private Config()
 		{
 			Libraries = new List<LibraryInfo>();
 
@@ -44,7 +44,7 @@ namespace KindleLibrarySynchronizer
 			Libraries.Add(library);/**/
 		}
 
-		public Globals(Globals right)
+		public Config(Config right)
 		{
 			Libraries = new List<LibraryInfo>();
 

@@ -16,9 +16,9 @@ namespace KindleLibrarySynchronizer
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Globals.Main.Load();
+			Config.Main.Load();
 			Application.Run(new MainForm());
-			Globals.Main.Save();
+			Config.Main.Save();
 		}
 	}
 }
