@@ -54,7 +54,7 @@ namespace KindleLibrarySynchronizer
 			actionSelectDeleted.Execute += actionSelectDeleted_Execute ;
 			actionSelectDeleted.Update += actionSelectDeleted_Update;
 
-			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Covert all selected books into PDF and copy them to the device");
+			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Convert all selected books into PDF and copy them to the device");
 			actionUpdateSelected.ShortcutKeys = Keys.Control | Keys.U;
 			actionUpdateSelected.AttachToolItem(menuUpdateSelected);
 			actionUpdateSelected.AttachToolItem(buttonUpdateSelected);

@@ -68,11 +68,12 @@
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonUpdateSelected = new System.Windows.Forms.ToolStripButton();
 			this.buttonDeleteSelected = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonOptions = new System.Windows.Forms.ToolStripButton();
 			this.statusBar = new System.Windows.Forms.StatusStrip();
 			this.statusSelection = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.mainMenu.SuspendLayout();
 			this.toolbar.SuspendLayout();
@@ -266,6 +267,7 @@
 			// 
 			this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.comboLibraries,
+            this.toolStripSeparator5,
             this.buttonCompare,
             this.toolStripSeparator1,
             this.buttonShowActual,
@@ -409,6 +411,11 @@
 			this.buttonDeleteSelected.Size = new System.Drawing.Size(23, 22);
 			this.buttonDeleteSelected.Text = "toolStripButton11";
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+			// 
 			// buttonOptions
 			// 
 			this.buttonOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -426,7 +433,6 @@
 			this.statusBar.Location = new System.Drawing.Point(0, 601);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.Size = new System.Drawing.Size(806, 22);
-			this.statusBar.SizingGrip = false;
 			this.statusBar.TabIndex = 8;
 			this.statusBar.Text = "statusStrip1";
 			// 
@@ -450,10 +456,10 @@
 			this.statusCounters.Size = new System.Drawing.Size(300, 17);
 			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// toolStripSeparator4
+			// toolStripSeparator5
 			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
 			// 
 			// synchroList
 			// 
@@ -542,6 +548,7 @@
 		private System.Windows.Forms.ToolStripButton buttonDeleteSelected;
 		private System.Windows.Forms.ToolStripButton buttonOptions;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 	}
 }
 
