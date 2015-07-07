@@ -193,6 +193,13 @@ namespace KindleLibrarySynchronizer
 
 		private void actionOptions_Execute(object sender, EventArgs e)
 		{
+			using (OptionsForm optionsForm = new OptionsForm())
+			{
+				if (optionsForm.ShowDialog(this) == DialogResult.OK)
+				{
+
+				}
+			}
 		}
 
 		private void actionAbout_Execute(object sender, EventArgs e)
