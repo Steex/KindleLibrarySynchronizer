@@ -197,7 +197,29 @@ namespace KindleLibrarySynchronizer
 			{
 				if (optionsForm.ShowDialog(this) == DialogResult.OK)
 				{
-					// TODO: copy the modified config into the global one.
+					// Update and save the config.
+					Config.SetMain(optionsForm.LocalConfig);
+					Config.Main.Save();
+
+					// Update the combo.
+					PopulateLibraryCombo();
+
+					// Try to select the same library.
+					if (library != null)
+					{
+						for (int i = 0; i < comboLibraries.Items.Count; ++i)
+						{
+							if ((string)comboLibraries.Items[i] == library.Name)
+							{
+								comboLibraries.SelectedIndex = i;
+								break;
+							}
+						}
+					}
+					else if (comboLibraries.Items.Count > 0)
+					{
+						comboLibraries.SelectedIndex = 0;
+					}
 				}
 			}
 		}
