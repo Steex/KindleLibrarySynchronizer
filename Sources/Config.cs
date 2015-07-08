@@ -37,9 +37,9 @@ namespace KindleLibrarySynchronizer
 			library.Name = "Test Library";
 			library.SourceRoot = "E:\\Library";
 			library.TargetRoot = "E:\\Library-Kindle";
-			library.SkippedFiles.Add("Разное\\Эти странные…\\");
-			library.SkippedFiles.Add("Художественная\\_Не оформленное\\");
-			library.SkippedFiles.Add("Художественная\\_Периодика\\");
+			library.IgnoredFiles.Add("Разное\\Эти странные…\\");
+			library.IgnoredFiles.Add("Художественная\\_Не оформленное\\");
+			library.IgnoredFiles.Add("Художественная\\_Периодика\\");
 
 			Libraries.Add(library);/**/
 		}
@@ -52,6 +52,12 @@ namespace KindleLibrarySynchronizer
 			{
 				Libraries.Add(new LibraryInfo(library));
 			}
+		}
+
+
+		public static void SetMain(Config config)
+		{
+			Main = new Config(config);
 		}
 
 
@@ -75,12 +81,12 @@ namespace KindleLibrarySynchronizer
 							library.SourceRoot = Utils.ReadRegistryValue(libraryKey, "Source Root", "");
 							library.TargetRoot = Utils.ReadRegistryValue(libraryKey, "Target Root", "");
 
-							foreach (string skippedFileValue in libraryKey.GetValueNames().Where(n => n.StartsWith("Skipped Files ")))
+							foreach (string ignoredFileValue in libraryKey.GetValueNames().Where(n => n.StartsWith("Ignored Files ")))
 							{
-								string skippedFile = Utils.ReadRegistryValue(libraryKey, skippedFileValue, "");
-								if (!string.IsNullOrEmpty(skippedFile))
+								string ignoredFile = Utils.ReadRegistryValue(libraryKey, ignoredFileValue, "");
+								if (!string.IsNullOrEmpty(ignoredFile))
 								{
-									library.SkippedFiles.Add(skippedFile);
+									library.IgnoredFiles.Add(ignoredFile);
 								}
 							}
 
@@ -118,9 +124,9 @@ namespace KindleLibrarySynchronizer
 								Utils.WriteRegistryValue(libraryKey, "Source Root", Libraries[i].SourceRoot);
 								Utils.WriteRegistryValue(libraryKey, "Target Root", Libraries[i].TargetRoot);
 
-								for (int s = 0; s < Libraries[i].SkippedFiles.Count; ++s)
+								for (int s = 0; s < Libraries[i].IgnoredFiles.Count; ++s)
 								{
-									Utils.WriteRegistryValue(libraryKey, "Skipped Files " + (s + 1).ToString(), Libraries[i].SkippedFiles[s]);
+									Utils.WriteRegistryValue(libraryKey, "Ignored Files " + (s + 1).ToString(), Libraries[i].IgnoredFiles[s]);
 								}
 
 								libraryKey.Close();

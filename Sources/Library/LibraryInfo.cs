@@ -11,11 +11,14 @@ namespace KindleLibrarySynchronizer
 		public string Name { get; set; }
 		public string SourceRoot { get; set; }
 		public string TargetRoot { get; set; }
-		public List<string> SkippedFiles { get; private set; }
+		public List<string> IgnoredFiles { get; private set; }
 
 		public LibraryInfo()
 		{
-			SkippedFiles = new List<string>();
+			Name = "";
+			SourceRoot = "";
+			TargetRoot = "";
+			IgnoredFiles = new List<string>();
 		}
 
 		public LibraryInfo(LibraryInfo right)
@@ -23,7 +26,7 @@ namespace KindleLibrarySynchronizer
 			Name = right.Name;
 			SourceRoot = right.SourceRoot;
 			TargetRoot = right.TargetRoot;
-			SkippedFiles = new List<string>(right.SkippedFiles);
+			IgnoredFiles = new List<string>(right.IgnoredFiles);
 		}
 
 	}

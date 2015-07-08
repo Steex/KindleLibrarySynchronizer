@@ -143,10 +143,6 @@ namespace KindleLibrarySynchronizer
 				stateTextColors[i] = listview.ForeColor;
 			}
 
-			//stateBackColors[(int)BookState.New] = Color.FromArgb(223, 238, 223); ;
-			//stateBackColors[(int)BookState.Changed] = Color.FromArgb(210, 229, 247);
-			//stateBackColors[(int)BookState.Deleted] = Color.FromArgb(255, 206, 206);
-
 			stateBackColors[(int)BookState.New] = Color.FromArgb(223, 238, 223); ;
 			stateBackColors[(int)BookState.Changed] = Color.FromArgb(255, 240, 191);
 			stateBackColors[(int)BookState.Deleted] = Color.FromArgb(255, 206, 206);

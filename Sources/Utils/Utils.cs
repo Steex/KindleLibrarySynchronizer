@@ -64,7 +64,14 @@ namespace KindleLibrarySynchronizer
 
 		public static void WriteRegistryValue<T>(RegistryKey key, string name, T value)
 		{
-			key.SetValue(name, InvariantConverter.ToString(value));
+			if (value != null)
+			{
+				key.SetValue(name, InvariantConverter.ToString(value));
+			}
+			else
+			{
+				key.SetValue(name, "");
+			}
 		}
 
 

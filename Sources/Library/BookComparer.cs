@@ -79,7 +79,7 @@ namespace KindleLibrarySynchronizer
 			{
 				string basePath = Utils.GetRelativePath(targetFile, root);
 
-				if (!Library.SkippedFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
+				if (!Library.IgnoredFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
 				{
 					yield return basePath;
 				}
