@@ -30,10 +30,30 @@
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.pageGeneral = new System.Windows.Forms.TabPage();
+			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+			this.pageLibraries = new System.Windows.Forms.TabPage();
+			this.groupEditLibrary = new System.Windows.Forms.GroupBox();
+			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.buttonResetLibrary = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
+			this.buttonSaveLibrary = new System.Windows.Forms.Button();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.buttonAddLibrary = new System.Windows.Forms.Button();
+			this.buttonDeleteLibrary = new System.Windows.Forms.Button();
+			this.buttonMoveLibraryDown = new System.Windows.Forms.Button();
+			this.buttonMoveLibraryUp = new System.Windows.Forms.Button();
+			this.listLibraries = new System.Windows.Forms.ListBox();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
-			this.pageLibraries = new System.Windows.Forms.TabPage();
 			this.tabControl.SuspendLayout();
+			this.pageGeneral.SuspendLayout();
+			this.pageLibraries.SuspendLayout();
+			this.groupEditLibrary.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -46,24 +66,216 @@
 			this.tabControl.Location = new System.Drawing.Point(12, 12);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(596, 412);
+			this.tabControl.Size = new System.Drawing.Size(626, 396);
 			this.tabControl.TabIndex = 0;
 			// 
 			// pageGeneral
 			// 
+			this.pageGeneral.Controls.Add(this.propertyGrid1);
 			this.pageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.pageGeneral.Name = "pageGeneral";
 			this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.pageGeneral.Size = new System.Drawing.Size(588, 386);
+			this.pageGeneral.Size = new System.Drawing.Size(618, 370);
 			this.pageGeneral.TabIndex = 0;
 			this.pageGeneral.Text = "General";
 			this.pageGeneral.UseVisualStyleBackColor = true;
+			// 
+			// propertyGrid1
+			// 
+			this.propertyGrid1.Location = new System.Drawing.Point(6, 6);
+			this.propertyGrid1.Name = "propertyGrid1";
+			this.propertyGrid1.Size = new System.Drawing.Size(210, 358);
+			this.propertyGrid1.TabIndex = 0;
+			// 
+			// pageLibraries
+			// 
+			this.pageLibraries.Controls.Add(this.groupEditLibrary);
+			this.pageLibraries.Controls.Add(this.buttonAddLibrary);
+			this.pageLibraries.Controls.Add(this.buttonDeleteLibrary);
+			this.pageLibraries.Controls.Add(this.buttonMoveLibraryDown);
+			this.pageLibraries.Controls.Add(this.buttonMoveLibraryUp);
+			this.pageLibraries.Controls.Add(this.listLibraries);
+			this.pageLibraries.Location = new System.Drawing.Point(4, 22);
+			this.pageLibraries.Name = "pageLibraries";
+			this.pageLibraries.Padding = new System.Windows.Forms.Padding(3);
+			this.pageLibraries.Size = new System.Drawing.Size(618, 370);
+			this.pageLibraries.TabIndex = 1;
+			this.pageLibraries.Text = "Libraries";
+			this.pageLibraries.UseVisualStyleBackColor = true;
+			// 
+			// groupEditLibrary
+			// 
+			this.groupEditLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupEditLibrary.Controls.Add(this.textBox4);
+			this.groupEditLibrary.Controls.Add(this.buttonResetLibrary);
+			this.groupEditLibrary.Controls.Add(this.label5);
+			this.groupEditLibrary.Controls.Add(this.buttonSaveLibrary);
+			this.groupEditLibrary.Controls.Add(this.textBox1);
+			this.groupEditLibrary.Controls.Add(this.label4);
+			this.groupEditLibrary.Controls.Add(this.textBox2);
+			this.groupEditLibrary.Controls.Add(this.label3);
+			this.groupEditLibrary.Controls.Add(this.textBox3);
+			this.groupEditLibrary.Controls.Add(this.label2);
+			this.groupEditLibrary.Location = new System.Drawing.Point(188, 6);
+			this.groupEditLibrary.Name = "groupEditLibrary";
+			this.groupEditLibrary.Size = new System.Drawing.Size(424, 358);
+			this.groupEditLibrary.TabIndex = 8;
+			this.groupEditLibrary.TabStop = false;
+			this.groupEditLibrary.Text = "Library Properties";
+			// 
+			// textBox4
+			// 
+			this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox4.Location = new System.Drawing.Point(6, 180);
+			this.textBox4.Multiline = true;
+			this.textBox4.Name = "textBox4";
+			this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox4.Size = new System.Drawing.Size(412, 143);
+			this.textBox4.TabIndex = 3;
+			// 
+			// buttonResetLibrary
+			// 
+			this.buttonResetLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonResetLibrary.Location = new System.Drawing.Point(366, 329);
+			this.buttonResetLibrary.Name = "buttonResetLibrary";
+			this.buttonResetLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonResetLibrary.TabIndex = 1;
+			this.buttonResetLibrary.Text = "x";
+			this.buttonResetLibrary.UseVisualStyleBackColor = true;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 164);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(80, 13);
+			this.label5.TabIndex = 7;
+			this.label5.Text = "Ignored Folders";
+			// 
+			// buttonSaveLibrary
+			// 
+			this.buttonSaveLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonSaveLibrary.Location = new System.Drawing.Point(395, 329);
+			this.buttonSaveLibrary.Name = "buttonSaveLibrary";
+			this.buttonSaveLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonSaveLibrary.TabIndex = 1;
+			this.buttonSaveLibrary.Text = "!";
+			this.buttonSaveLibrary.UseVisualStyleBackColor = true;
+			// 
+			// textBox1
+			// 
+			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox1.Location = new System.Drawing.Point(6, 48);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(412, 20);
+			this.textBox1.TabIndex = 3;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(6, 120);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(64, 13);
+			this.label4.TabIndex = 6;
+			this.label4.Text = "Target Root";
+			// 
+			// textBox2
+			// 
+			this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox2.Location = new System.Drawing.Point(6, 92);
+			this.textBox2.Name = "textBox2";
+			this.textBox2.Size = new System.Drawing.Size(412, 20);
+			this.textBox2.TabIndex = 3;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(6, 76);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(67, 13);
+			this.label3.TabIndex = 5;
+			this.label3.Text = "Source Root";
+			// 
+			// textBox3
+			// 
+			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox3.Location = new System.Drawing.Point(6, 136);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(412, 20);
+			this.textBox3.TabIndex = 3;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 32);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(69, 13);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "Library Name";
+			// 
+			// buttonAddLibrary
+			// 
+			this.buttonAddLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonAddLibrary.Location = new System.Drawing.Point(130, 341);
+			this.buttonAddLibrary.Name = "buttonAddLibrary";
+			this.buttonAddLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonAddLibrary.TabIndex = 1;
+			this.buttonAddLibrary.Text = "+";
+			this.buttonAddLibrary.UseVisualStyleBackColor = true;
+			// 
+			// buttonDeleteLibrary
+			// 
+			this.buttonDeleteLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonDeleteLibrary.Location = new System.Drawing.Point(159, 341);
+			this.buttonDeleteLibrary.Name = "buttonDeleteLibrary";
+			this.buttonDeleteLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonDeleteLibrary.TabIndex = 1;
+			this.buttonDeleteLibrary.Text = "-";
+			this.buttonDeleteLibrary.UseVisualStyleBackColor = true;
+			// 
+			// buttonMoveLibraryDown
+			// 
+			this.buttonMoveLibraryDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonMoveLibraryDown.Location = new System.Drawing.Point(35, 341);
+			this.buttonMoveLibraryDown.Name = "buttonMoveLibraryDown";
+			this.buttonMoveLibraryDown.Size = new System.Drawing.Size(23, 23);
+			this.buttonMoveLibraryDown.TabIndex = 1;
+			this.buttonMoveLibraryDown.Text = "v";
+			this.buttonMoveLibraryDown.UseVisualStyleBackColor = true;
+			// 
+			// buttonMoveLibraryUp
+			// 
+			this.buttonMoveLibraryUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonMoveLibraryUp.Location = new System.Drawing.Point(6, 341);
+			this.buttonMoveLibraryUp.Name = "buttonMoveLibraryUp";
+			this.buttonMoveLibraryUp.Size = new System.Drawing.Size(23, 23);
+			this.buttonMoveLibraryUp.TabIndex = 1;
+			this.buttonMoveLibraryUp.Text = "^";
+			this.buttonMoveLibraryUp.UseVisualStyleBackColor = true;
+			// 
+			// listLibraries
+			// 
+			this.listLibraries.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.listLibraries.FormattingEnabled = true;
+			this.listLibraries.IntegralHeight = false;
+			this.listLibraries.Location = new System.Drawing.Point(6, 6);
+			this.listLibraries.Name = "listLibraries";
+			this.listLibraries.Size = new System.Drawing.Size(176, 323);
+			this.listLibraries.TabIndex = 0;
 			// 
 			// buttonOk
 			// 
 			this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonOk.Location = new System.Drawing.Point(533, 430);
+			this.buttonOk.Location = new System.Drawing.Point(563, 414);
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.Size = new System.Drawing.Size(75, 23);
 			this.buttonOk.TabIndex = 1;
@@ -74,22 +286,12 @@
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(452, 430);
+			this.buttonCancel.Location = new System.Drawing.Point(482, 414);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 1;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
-			// 
-			// pageLibraries
-			// 
-			this.pageLibraries.Location = new System.Drawing.Point(4, 22);
-			this.pageLibraries.Name = "pageLibraries";
-			this.pageLibraries.Padding = new System.Windows.Forms.Padding(3);
-			this.pageLibraries.Size = new System.Drawing.Size(588, 386);
-			this.pageLibraries.TabIndex = 1;
-			this.pageLibraries.Text = "Libraries";
-			this.pageLibraries.UseVisualStyleBackColor = true;
 			// 
 			// OptionsForm
 			// 
@@ -97,7 +299,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(620, 465);
+			this.ClientSize = new System.Drawing.Size(650, 449);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOk);
 			this.Controls.Add(this.tabControl);
@@ -105,6 +307,10 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "OptionsForm";
 			this.tabControl.ResumeLayout(false);
+			this.pageGeneral.ResumeLayout(false);
+			this.pageLibraries.ResumeLayout(false);
+			this.groupEditLibrary.ResumeLayout(false);
+			this.groupEditLibrary.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -116,5 +322,22 @@
 		private System.Windows.Forms.Button buttonOk;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.TabPage pageLibraries;
+		private System.Windows.Forms.Button buttonAddLibrary;
+		private System.Windows.Forms.Button buttonDeleteLibrary;
+		private System.Windows.Forms.Button buttonMoveLibraryDown;
+		private System.Windows.Forms.Button buttonMoveLibraryUp;
+		private System.Windows.Forms.ListBox listLibraries;
+		private System.Windows.Forms.TextBox textBox4;
+		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.GroupBox groupEditLibrary;
+		private System.Windows.Forms.Button buttonResetLibrary;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Button buttonSaveLibrary;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.PropertyGrid propertyGrid1;
 	}
 }

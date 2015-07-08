@@ -120,7 +120,7 @@ namespace KindleLibrarySynchronizer
 		{
 			Logger.Clear();
 
-			bookComparer.Compare(library);
+			bookComparer.Compare(new LibraryInfo(library));
 			synchroList.UpdateItems();
 
 			statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
@@ -210,6 +210,7 @@ namespace KindleLibrarySynchronizer
 
 		private void actionCompare_Update(object sender, EventArgs e)
 		{
+			actionCompare.Enabled = library != null;
 		}
 
 		private void actionSelectNew_Update(object sender, EventArgs e)

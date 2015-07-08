@@ -18,7 +18,6 @@ namespace KindleLibrarySynchronizer
 		public MainForm()
 		{
 			InitializeComponent();
-			InitializeActions();
 
 			Logger.OnWrite += (msg) => textLog.AppendText(msg);
 			Logger.OnClear += () => textLog.Clear();
@@ -31,6 +30,8 @@ namespace KindleLibrarySynchronizer
 			{
 				comboLibraries.SelectedIndex = 0;
 			}
+
+			InitializeActions();
 		}
 
 

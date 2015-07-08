@@ -19,6 +19,15 @@ namespace KindleLibrarySynchronizer
 			InitializeComponent();
 
 			LocalConfig = configCopy;
+
+			// Prepare library editor.
+			foreach (LibraryInfo library in LocalConfig.Libraries)
+			{
+				listLibraries.Items.Add(library.Name);
+			}
+
+			propertyGrid1.SelectedObject = LocalConfig;
 		}
+
 	}
 }
