@@ -13,13 +13,47 @@ namespace KindleLibrarySynchronizer
 {
 	public class Config
 	{
+		/*
+		Test Library
+		E:\Library
+		E:\Library-Kindle
+		Разное\Эти странные…\
+		Художественная\_Не оформленное\
+		Художественная\_Периодика\
+		*/
+
+
+
 		private readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
+		private readonly string defaultStylesheet = @"data\stylesheet.json";
 
 		public readonly int SeriesNameMaxLength = 10; // longer strings will be abbreviated
 
+
+		// Libraries.
 		public List<LibraryInfo> Libraries { get; private set; }
 
+		// Converter.
+		public String ConverterDirectory { get; set; }
 
+		public String ConverterDefaultStylesheet { get { return defaultStylesheet; } }
+		public String ConverterUserStylesheet { get; set; }
+		public String ConverterStylesheet
+		{
+			get
+			{
+				if (!string.IsNullOrWhiteSpace(ConverterUserStylesheet))
+				{
+					return ConverterUserStylesheet;
+				}
+				else
+				{
+					return ConverterDefaultStylesheet;
+				}
+			}
+		}
+
+		// The config used by application.
 		public static Config Main { get; private set; }
 
 
@@ -32,26 +66,23 @@ namespace KindleLibrarySynchronizer
 		{
 			Libraries = new List<LibraryInfo>();
 
-			/*LibraryInfo library = new LibraryInfo();
-
-			library.Name = "Test Library";
-			library.SourceRoot = "E:\\Library";
-			library.TargetRoot = "E:\\Library-Kindle";
-			library.IgnoredFiles.Add("Разное\\Эти странные…\\");
-			library.IgnoredFiles.Add("Художественная\\_Не оформленное\\");
-			library.IgnoredFiles.Add("Художественная\\_Периодика\\");
-
-			Libraries.Add(library);/**/
+			ConverterDirectory = "";
+			ConverterUserStylesheet = "";
 		}
 
 		public Config(Config right)
 		{
+			// Libraries.
 			Libraries = new List<LibraryInfo>();
 
 			foreach (LibraryInfo library in right.Libraries)
 			{
 				Libraries.Add(new LibraryInfo(library));
 			}
+
+			// Converter.
+			ConverterDirectory = right.ConverterDirectory;
+			ConverterUserStylesheet = right.ConverterUserStylesheet;
 		}
 
 
@@ -97,6 +128,14 @@ namespace KindleLibrarySynchronizer
 					}
 				}
 
+				// Converter.
+				RegistryKey converterKey = settingsRoot.OpenSubKey("Converter");
+				if (converterKey != null)
+				{
+					ConverterDirectory = Utils.ReadRegistryValue(converterKey, "Directory", ConverterDirectory);
+					ConverterUserStylesheet = Utils.ReadRegistryValue(converterKey, "User Stylesheet", ConverterUserStylesheet);
+				}
+
 				// All done.
 				settingsRoot.Close();
 			}
@@ -132,6 +171,14 @@ namespace KindleLibrarySynchronizer
 								libraryKey.Close();
 							}
 						}
+					}
+
+					// Converter.
+					RegistryKey converterKey = settingsRoot.CreateSubKey("Converter");
+					if (converterKey != null)
+					{
+						Utils.WriteRegistryValue(converterKey, "Directory", ConverterDirectory);
+						Utils.WriteRegistryValue(converterKey, "User Stylesheet", ConverterUserStylesheet);
 					}
 
 					// All done.

@@ -36,7 +36,10 @@ namespace KindleLibrarySynchronizer
 
 			propertyGrid1.SelectedObject = LocalConfig;
 
-			tabControl.SelectedTab = pageLibraries;
+			tabControl.SelectedTab = pageGeneral;
+
+			// Assign tooltips.
+			toolTip.SetToolTip(textConverterStylesheet, "The main style sheet is used unless it is overridden by library settings\r\nCan be relative or absolute");
 		}
 
 

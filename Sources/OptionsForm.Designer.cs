@@ -28,13 +28,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.pageGeneral = new System.Windows.Forms.TabPage();
-			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.pageLibraries = new System.Windows.Forms.TabPage();
 			this.groupEditLibrary = new System.Windows.Forms.GroupBox();
 			this.textLibraryIgnoredFiles = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.buttonResetLibraryData = new System.Windows.Forms.Button();
+			this.buttonSaveLibraryData = new System.Windows.Forms.Button();
 			this.textLibraryName = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.textLibrarySourceRoot = new System.Windows.Forms.TextBox();
@@ -49,12 +51,19 @@
 			this.pageConverter = new System.Windows.Forms.TabPage();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
-			this.buttonSaveLibraryData = new System.Windows.Forms.Button();
-			this.buttonResetLibraryData = new System.Windows.Forms.Button();
+			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+			this.groupConverter = new System.Windows.Forms.GroupBox();
+			this.textConverterFolder = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.textConverterStylesheet = new System.Windows.Forms.TextBox();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.tabControl.SuspendLayout();
 			this.pageGeneral.SuspendLayout();
 			this.pageLibraries.SuspendLayout();
 			this.groupEditLibrary.SuspendLayout();
+			this.pageConverter.SuspendLayout();
+			this.groupConverter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -73,7 +82,7 @@
 			// 
 			// pageGeneral
 			// 
-			this.pageGeneral.Controls.Add(this.propertyGrid1);
+			this.pageGeneral.Controls.Add(this.groupConverter);
 			this.pageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.pageGeneral.Name = "pageGeneral";
 			this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -81,13 +90,6 @@
 			this.pageGeneral.TabIndex = 0;
 			this.pageGeneral.Text = "General";
 			this.pageGeneral.UseVisualStyleBackColor = true;
-			// 
-			// propertyGrid1
-			// 
-			this.propertyGrid1.Location = new System.Drawing.Point(6, 6);
-			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.Size = new System.Drawing.Size(210, 358);
-			this.propertyGrid1.TabIndex = 0;
 			// 
 			// pageLibraries
 			// 
@@ -147,6 +149,28 @@
 			this.label5.Size = new System.Drawing.Size(219, 13);
 			this.label5.TabIndex = 7;
 			this.label5.Text = "Ignored Files (one path or path mask per line)";
+			// 
+			// buttonResetLibraryData
+			// 
+			this.buttonResetLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonResetLibraryData.Location = new System.Drawing.Point(366, 329);
+			this.buttonResetLibraryData.Name = "buttonResetLibraryData";
+			this.buttonResetLibraryData.Size = new System.Drawing.Size(23, 23);
+			this.buttonResetLibraryData.TabIndex = 1;
+			this.buttonResetLibraryData.Text = "x";
+			this.buttonResetLibraryData.UseVisualStyleBackColor = true;
+			this.buttonResetLibraryData.Click += new System.EventHandler(this.buttonResetLibraryData_Click);
+			// 
+			// buttonSaveLibraryData
+			// 
+			this.buttonSaveLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonSaveLibraryData.Location = new System.Drawing.Point(395, 329);
+			this.buttonSaveLibraryData.Name = "buttonSaveLibraryData";
+			this.buttonSaveLibraryData.Size = new System.Drawing.Size(23, 23);
+			this.buttonSaveLibraryData.TabIndex = 1;
+			this.buttonSaveLibraryData.Text = "!";
+			this.buttonSaveLibraryData.UseVisualStyleBackColor = true;
+			this.buttonSaveLibraryData.Click += new System.EventHandler(this.buttonSaveLibraryData_Click);
 			// 
 			// textLibraryName
 			// 
@@ -260,6 +284,7 @@
 			// 
 			// pageConverter
 			// 
+			this.pageConverter.Controls.Add(this.propertyGrid1);
 			this.pageConverter.Location = new System.Drawing.Point(4, 22);
 			this.pageConverter.Name = "pageConverter";
 			this.pageConverter.Padding = new System.Windows.Forms.Padding(3);
@@ -291,27 +316,63 @@
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
-			// buttonSaveLibraryData
+			// propertyGrid1
 			// 
-			this.buttonSaveLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSaveLibraryData.Location = new System.Drawing.Point(395, 329);
-			this.buttonSaveLibraryData.Name = "buttonSaveLibraryData";
-			this.buttonSaveLibraryData.Size = new System.Drawing.Size(23, 23);
-			this.buttonSaveLibraryData.TabIndex = 1;
-			this.buttonSaveLibraryData.Text = "!";
-			this.buttonSaveLibraryData.UseVisualStyleBackColor = true;
-			this.buttonSaveLibraryData.Click += new System.EventHandler(this.buttonSaveLibraryData_Click);
+			this.propertyGrid1.Location = new System.Drawing.Point(204, 6);
+			this.propertyGrid1.Name = "propertyGrid1";
+			this.propertyGrid1.Size = new System.Drawing.Size(210, 358);
+			this.propertyGrid1.TabIndex = 1;
 			// 
-			// buttonResetLibraryData
+			// groupConverter
 			// 
-			this.buttonResetLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonResetLibraryData.Location = new System.Drawing.Point(366, 329);
-			this.buttonResetLibraryData.Name = "buttonResetLibraryData";
-			this.buttonResetLibraryData.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetLibraryData.TabIndex = 1;
-			this.buttonResetLibraryData.Text = "x";
-			this.buttonResetLibraryData.UseVisualStyleBackColor = true;
-			this.buttonResetLibraryData.Click += new System.EventHandler(this.buttonResetLibraryData_Click);
+			this.groupConverter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupConverter.Controls.Add(this.textConverterFolder);
+			this.groupConverter.Controls.Add(this.textConverterStylesheet);
+			this.groupConverter.Controls.Add(this.label7);
+			this.groupConverter.Controls.Add(this.label6);
+			this.groupConverter.Location = new System.Drawing.Point(6, 6);
+			this.groupConverter.Name = "groupConverter";
+			this.groupConverter.Size = new System.Drawing.Size(606, 172);
+			this.groupConverter.TabIndex = 0;
+			this.groupConverter.TabStop = false;
+			this.groupConverter.Text = "Converter";
+			// 
+			// textConverterFolder
+			// 
+			this.textConverterFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textConverterFolder.Location = new System.Drawing.Point(6, 44);
+			this.textConverterFolder.Name = "textConverterFolder";
+			this.textConverterFolder.Size = new System.Drawing.Size(594, 20);
+			this.textConverterFolder.TabIndex = 7;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 28);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(341, 13);
+			this.label6.TabIndex = 8;
+			this.label6.Text = "Path to converter folder (the folder where the file fb2pdf.cmd is located)";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 72);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(352, 13);
+			this.label7.TabIndex = 9;
+			this.label7.Text = "Path to main stylesheet (leave blank to use default \"data\\stylesheet.json\"";
+			// 
+			// textConverterStylesheet
+			// 
+			this.textConverterStylesheet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textConverterStylesheet.Location = new System.Drawing.Point(6, 88);
+			this.textConverterStylesheet.Name = "textConverterStylesheet";
+			this.textConverterStylesheet.Size = new System.Drawing.Size(594, 20);
+			this.textConverterStylesheet.TabIndex = 6;
 			// 
 			// OptionsForm
 			// 
@@ -332,6 +393,9 @@
 			this.pageLibraries.ResumeLayout(false);
 			this.groupEditLibrary.ResumeLayout(false);
 			this.groupEditLibrary.PerformLayout();
+			this.pageConverter.ResumeLayout(false);
+			this.groupConverter.ResumeLayout(false);
+			this.groupConverter.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -357,9 +421,15 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.PropertyGrid propertyGrid1;
 		private System.Windows.Forms.TabPage pageConverter;
 		private System.Windows.Forms.Button buttonResetLibraryData;
 		private System.Windows.Forms.Button buttonSaveLibraryData;
+		private System.Windows.Forms.PropertyGrid propertyGrid1;
+		private System.Windows.Forms.GroupBox groupConverter;
+		private System.Windows.Forms.TextBox textConverterFolder;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.TextBox textConverterStylesheet;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }
