@@ -165,6 +165,24 @@
   <ItemGroup>
     <None Include="Resources\Convert.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Move Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Move Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
