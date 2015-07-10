@@ -70,25 +70,21 @@ namespace KindleLibrarySynchronizer
 			ConverterUserStylesheet = "";
 		}
 
-		public Config(Config right)
+		public Config Clone()
 		{
-			// Libraries.
-			Libraries = new List<LibraryInfo>();
+			Config copy = new Config();
 
-			foreach (LibraryInfo library in right.Libraries)
-			{
-				Libraries.Add(new LibraryInfo(library));
-			}
+			copy.Libraries = new List<LibraryInfo>(Libraries.Select(l => l.Clone()));
+			copy.ConverterDirectory = ConverterDirectory;
+			copy.ConverterUserStylesheet = ConverterUserStylesheet;
 
-			// Converter.
-			ConverterDirectory = right.ConverterDirectory;
-			ConverterUserStylesheet = right.ConverterUserStylesheet;
+			return copy;
 		}
 
 
 		public static void SetMain(Config config)
 		{
-			Main = new Config(config);
+			Main = config.Clone();
 		}
 
 

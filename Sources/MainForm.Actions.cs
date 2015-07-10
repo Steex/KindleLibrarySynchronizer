@@ -120,7 +120,7 @@ namespace KindleLibrarySynchronizer
 		{
 			Logger.Clear();
 
-			bookComparer.Compare(new LibraryInfo(library));
+			bookComparer.Compare(library.Clone());
 			synchroList.UpdateItems();
 
 			statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
@@ -193,7 +193,7 @@ namespace KindleLibrarySynchronizer
 
 		private void actionOptions_Execute(object sender, EventArgs e)
 		{
-			using (OptionsForm optionsForm = new OptionsForm(new Config(Config.Main)))
+			using (OptionsForm optionsForm = new OptionsForm(Config.Main.Clone()))
 			{
 				if (optionsForm.ShowDialog(this) == DialogResult.OK)
 				{

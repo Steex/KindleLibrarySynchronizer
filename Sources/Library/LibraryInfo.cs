@@ -8,10 +8,15 @@ namespace KindleLibrarySynchronizer
 {
 	public class LibraryInfo
 	{
-		public struct CustomStylesheet
+		public class CustomStylesheet
 		{
 			public string Mask;
 			public string Stylesheet;
+
+			public CustomStylesheet Clone()
+			{
+				return (CustomStylesheet)MemberwiseClone();
+			}
 		}
 
 		public string Name { get; set; }
@@ -31,14 +36,18 @@ namespace KindleLibrarySynchronizer
 			CustomStylesheets = new List<CustomStylesheet>();
 		}
 
-		public LibraryInfo(LibraryInfo right)
+		public LibraryInfo Clone()
 		{
-			Name = right.Name;
-			SourceRoot = right.SourceRoot;
-			TargetRoot = right.TargetRoot;
-			IgnoredFiles = new List<string>(right.IgnoredFiles);
-			MainStylesheet = right.MainStylesheet;
-			CustomStylesheets = new List<CustomStylesheet>(right.CustomStylesheets);
+			LibraryInfo copy = new LibraryInfo();
+
+			copy.Name = Name;
+			copy.SourceRoot = SourceRoot;
+			copy.TargetRoot = TargetRoot;
+			copy.IgnoredFiles = new List<string>(IgnoredFiles);
+			copy.MainStylesheet = MainStylesheet;
+			copy.CustomStylesheets = new List<CustomStylesheet>(CustomStylesheets.Select(s => s.Clone()));
+
+			return copy;
 		}
 
 
