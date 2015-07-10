@@ -24,8 +24,9 @@ namespace KindleLibrarySynchronizer
 
 
 
-		private readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
-		private readonly string defaultStylesheet = @"data\stylesheet.json";
+		private static readonly string registryRootName = @"Software\SteexSoft\KindleLibrarySynchronizer";
+		private static readonly string defaultStylesheet = @"data\stylesheet.json";
+		private static readonly string converterExecutable = @"lib\fb2pdf.jar";
 
 		public readonly int SeriesNameMaxLength = 10; // longer strings will be abbreviated
 
@@ -35,6 +36,8 @@ namespace KindleLibrarySynchronizer
 
 		// Converter.
 		public String ConverterDirectory { get; set; }
+
+		public String ConverterExecutable { get { return converterExecutable; } }
 
 		public String ConverterDefaultStylesheet { get { return defaultStylesheet; } }
 		public String ConverterUserStylesheet { get; set; }
@@ -107,15 +110,8 @@ namespace KindleLibrarySynchronizer
 							library.Name = Utils.ReadRegistryValue(libraryKey, null, libraryKeyName);
 							library.SourceRoot = Utils.ReadRegistryValue(libraryKey, "Source Root", "");
 							library.TargetRoot = Utils.ReadRegistryValue(libraryKey, "Target Root", "");
-
-							foreach (string ignoredFileValue in libraryKey.GetValueNames().Where(n => n.StartsWith("Ignored Files ")))
-							{
-								string ignoredFile = Utils.ReadRegistryValue(libraryKey, ignoredFileValue, "");
-								if (!string.IsNullOrEmpty(ignoredFile))
-								{
-									library.IgnoredFiles.Add(ignoredFile);
-								}
-							}
+							library.IgnoredFiles = Utils.ReadRegistryList(libraryKey, "Ignored Files ").ToList();
+							library.MainStylesheet = Utils.ReadRegistryValue(libraryKey, "Main Stylesheet", "");
 
 							Libraries.Add(library);
 
@@ -158,11 +154,8 @@ namespace KindleLibrarySynchronizer
 								Utils.WriteRegistryValue(libraryKey, null, Libraries[i].Name);
 								Utils.WriteRegistryValue(libraryKey, "Source Root", Libraries[i].SourceRoot);
 								Utils.WriteRegistryValue(libraryKey, "Target Root", Libraries[i].TargetRoot);
-
-								for (int s = 0; s < Libraries[i].IgnoredFiles.Count; ++s)
-								{
-									Utils.WriteRegistryValue(libraryKey, "Ignored Files " + (s + 1).ToString(), Libraries[i].IgnoredFiles[s]);
-								}
+								Utils.WriteRegistryList(libraryKey, "Ignored Files ", Libraries[i].IgnoredFiles);
+								Utils.WriteRegistryValue(libraryKey, "Main Stylesheet", Libraries[i].MainStylesheet);
 
 								libraryKey.Close();
 							}

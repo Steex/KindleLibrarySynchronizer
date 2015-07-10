@@ -23,6 +23,10 @@ namespace KindleLibrarySynchronizer
 
 			LocalConfig = configCopy;
 
+			// Prepare converter settings.
+			textConverterDirectory.Text = LocalConfig.ConverterDirectory;
+			textConverterStylesheet.Text = LocalConfig.ConverterUserStylesheet;
+
 			// Prepare library editor.
 			foreach (LibraryInfo library in LocalConfig.Libraries)
 			{
@@ -37,6 +41,9 @@ namespace KindleLibrarySynchronizer
 			propertyGrid1.SelectedObject = LocalConfig;
 
 			tabControl.SelectedTab = pageGeneral;
+
+			// Limit resizing by the current size.
+			MinimumSize = Size;
 
 			// Assign tooltips.
 			toolTip.SetToolTip(textConverterStylesheet, "The main style sheet is used unless it is overridden by library settings\r\nCan be relative or absolute");
@@ -54,6 +61,7 @@ namespace KindleLibrarySynchronizer
 				textLibrarySourceRoot.Text = currentLibrary.SourceRoot;
 				textLibraryTargetRoot.Text = currentLibrary.TargetRoot;
 				textLibraryIgnoredFiles.Text = string.Join("\r\n", currentLibrary.IgnoredFiles);
+				textLibraryMainStylesheet.Text = currentLibrary.MainStylesheet;
 			}
 			else
 			{
@@ -63,6 +71,7 @@ namespace KindleLibrarySynchronizer
 				textLibrarySourceRoot.Text = "";
 				textLibraryTargetRoot.Text = "";
 				textLibraryIgnoredFiles.Text = "";
+				textLibraryMainStylesheet.Text = "";
 			}
 
 
@@ -203,10 +212,22 @@ namespace KindleLibrarySynchronizer
 					return;
 				}
 
+				// Check the path to stylesheet is in correct format (but allow empty paths).
+				string enteredMainStylesheet = textLibraryMainStylesheet.Text.Trim();
+				if (enteredMainStylesheet.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+				{
+					Utils.ShowErrorMessage(this, "The stylesheet path is invalid.");
+					textLibraryMainStylesheet.Focus();
+					textLibraryMainStylesheet.SelectAll();
+					return;
+				}
+
+
 				// Store the library data.
 				currentLibrary.Name = enteredName;
 				currentLibrary.SourceRoot = enteredSourceRoot;
 				currentLibrary.TargetRoot = enteredTargetRoot;
+				currentLibrary.MainStylesheet = enteredMainStylesheet;
 
 				currentLibrary.IgnoredFiles.Clear();
 
@@ -226,9 +247,76 @@ namespace KindleLibrarySynchronizer
 
 		private void buttonOk_Click(object sender, EventArgs e)
 		{
+			// Check the converter directory is exists.
+			string enteredConverterDirectory = textConverterDirectory.Text.Trim();
+			if (!string.IsNullOrEmpty(enteredConverterDirectory))
+			{
+				if (!Directory.Exists(enteredConverterDirectory))
+				{
+					ProcessValidationError(textConverterDirectory, "Cannot find the converter directory.");
+					return;
+				}
+
+				// Check the converter directory have fb2pdf executable.
+				if (!File.Exists(Path.Combine(enteredConverterDirectory, LocalConfig.ConverterExecutable)))
+				{
+					ProcessValidationError(textConverterDirectory, "Cannot find the converter executable in the specified directory.");
+					return;
+				}
+			}
+
+			// Check the path to stylesheet is in correct format (but allow empty paths).
+			string enteredConverterStylesheet = textConverterStylesheet.Text.Trim();
+			if (!string.IsNullOrEmpty(enteredConverterStylesheet))
+			{
+				try
+				{
+					string fullStylesheetPath;
+					if (Path.IsPathRooted(enteredConverterStylesheet))
+					{
+						fullStylesheetPath = enteredConverterStylesheet;
+					}
+					else
+					{
+						fullStylesheetPath = Path.Combine(enteredConverterDirectory, enteredConverterStylesheet);
+					}
+
+					if (!File.Exists(fullStylesheetPath))
+					{
+						ProcessValidationError(textConverterStylesheet, "Cannot find the stylesheet.");
+						return;
+					}
+				}
+				catch
+				{
+					ProcessValidationError(textConverterStylesheet, "The stylesheet path is invalid.");
+					return;
+				}
+			}
+
+			// Store the library data.
+			LocalConfig.ConverterDirectory = enteredConverterDirectory;
+			LocalConfig.ConverterUserStylesheet = enteredConverterStylesheet;
+
+			// Close the form.
 			DialogResult = DialogResult.OK;
 			Close();
 		}
 
+
+		private void ProcessValidationError(Control control, string message)
+		{
+			Utils.ShowErrorMessage(this, message);
+
+			if (control != null)
+			{
+				control.Focus();
+
+				if (control is TextBox)
+				{
+					(control as TextBox).SelectAll();
+				}
+			}
+		}
 	}
 }

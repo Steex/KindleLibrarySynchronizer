@@ -22,7 +22,7 @@ namespace KindleLibrarySynchronizer
 		public string Name { get; set; }
 		public string SourceRoot { get; set; }
 		public string TargetRoot { get; set; }
-		public List<string> IgnoredFiles { get; private set; }
+		public List<string> IgnoredFiles { get; set; }
 		public string MainStylesheet { get; set; }
 		public List<CustomStylesheet> CustomStylesheets { get; set; }
 
