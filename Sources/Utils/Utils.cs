@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Drawing.Imaging;
 using Microsoft.Win32;
@@ -62,6 +63,27 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		public static IEnumerable<string> ReadRegistryList(RegistryKey key, string baseName)
+		{
+			return ReadRegistryList<string>(key, baseName);
+		}
+
+		public static IEnumerable<T> ReadRegistryList<T>(RegistryKey key, string baseName)
+		{
+			for (int index = 1; ; ++index)
+			{
+				object value = key.GetValue(baseName + index.ToString());
+				if (value != null)
+				{
+					yield return InvariantConverter.FromString<T>(value.ToString());
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
 		public static void WriteRegistryValue<T>(RegistryKey key, string name, T value)
 		{
 			if (value != null)
@@ -71,6 +93,19 @@ namespace KindleLibrarySynchronizer
 			else
 			{
 				key.SetValue(name, "");
+			}
+		}
+
+		public static void WriteRegistryList<T>(RegistryKey key, string baseName, IEnumerable<T> list)
+		{
+			if (list != null)
+			{
+				int index = 1;
+				foreach (T item in list)
+				{
+					Utils.WriteRegistryValue(key, baseName + index.ToString(), InvariantConverter.ToString(item));
+					++index;
+				}
 			}
 		}
 
