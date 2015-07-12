@@ -194,16 +194,41 @@ namespace KindleLibrarySynchronizer
 
 		public static void MoveFile(string sourcePath, string targetPath)
 		{
-			if (File.Exists(targetPath))
+			// If the target file is not exists, just move the source and get out.
+			if (!File.Exists(targetPath))
 			{
-				string backupPath = Path.Combine(Path.GetDirectoryName(targetPath), Path.GetRandomFileName());
-				File.Move(targetPath, backupPath);
 				File.Move(sourcePath, targetPath);
+				return;
+			}
+
+			// Backup info.
+			bool backupCreated = false;
+			bool targetUpdated = false;
+			string backupPath = Path.Combine(Path.GetDirectoryName(targetPath), Path.GetRandomFileName());
+
+			try
+			{
+				// Move the existing target file to a backup.
+				File.Move(targetPath, backupPath);
+				backupCreated = true;
+
+				// Move the source file to the target path
+				File.Move(sourcePath, targetPath);
+				targetUpdated = true;
+
+				// Delete the backup.
 				File.Delete(backupPath);
 			}
-			else
+			catch
 			{
-				File.Move(sourcePath, targetPath);
+				// Try to recover the target file from a backup.
+				if (backupCreated && !targetUpdated)
+				{
+					File.Move(backupPath, targetPath);
+				}
+
+				// Pass the exception to a callee.
+				throw;
 			}
 		}
 
