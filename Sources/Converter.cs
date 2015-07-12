@@ -34,85 +34,32 @@ namespace KindleLibrarySynchronizer
 				// Report progress before an operation so we can inform UI about a book currently converted.
 				worker.ReportProgress((int)((float)convertedCount / bookCount * 100), book);
 
+				string tempFilePath = null;
 				string errorMessage = null;
 
 				try
 				{
-					// If the target book exists, delete it.
-					if (File.Exists(book.TargetPath))
-					{
-						File.Delete(book.TargetPath);
-					}
+					// Create a temporary file to convert to.
+					tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
-					// Convert the book.
-					using (Process converter = new Process())
-					{
-						converter.StartInfo.FileName = "java";
-						converter.StartInfo.Arguments = string.Format("-Xmx512m -jar \"{0}\" -l false -s \"{1}\" \"{2}\" \"{3}\"",
-							Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterExecutable),
-							Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterStylesheet),
-							book.SourcePath,
-							book.TargetPath);
-						converter.StartInfo.UseShellExecute = false;
-						converter.StartInfo.CreateNoWindow = true;
-						converter.StartInfo.RedirectStandardOutput = true;
-						converter.StartInfo.RedirectStandardError = true;
-						converter.StartInfo.StandardOutputEncoding = Encoding.Default;
-						converter.StartInfo.StandardErrorEncoding = Encoding.Default;
+					// Convert the book to the temporary file.
+					ConvertBook(book.SourcePath, tempFilePath);
 
-						StringBuilder output = new StringBuilder();
-						StringBuilder errors = new StringBuilder();
+					// Move the temporary file to the target path.
+					Utils.MoveFile(tempFilePath, book.TargetPath);
 
-						using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
-						using (AutoResetEvent errorsWaitHandle = new AutoResetEvent(false))
-						{
-							converter.OutputDataReceived += (evSenver, evArgs) =>
-							{
-								if (evArgs.Data == null)
-								{
-									outputWaitHandle.Set();
-								}
-								else
-								{
-									output.AppendLine(evArgs.Data);
-								}
-							};
-							converter.ErrorDataReceived += (evSenver, evArgs) =>
-							{
-								if (evArgs.Data == null)
-								{
-									errorsWaitHandle.Set();
-								}
-								else
-								{
-									errors.AppendLine(evArgs.Data);
-								}
-							};
-
-							converter.Start();
-
-							converter.BeginOutputReadLine();
-							converter.BeginErrorReadLine();
-
-							if (converter.WaitForExit(60000) &&
-								outputWaitHandle.WaitOne(60000) &&
-								errorsWaitHandle.WaitOne(60000))
-							{
-								if (converter.ExitCode != 0)
-								{
-									errorMessage = errors.ToString();
-								}
-							}
-							else
-							{
-								errorMessage = "Timeout";
-							}
-						}
-					}
 				}
 				catch (Exception ex)
 				{
-					errorMessage = "Exception: " + ex.Message;
+					errorMessage = ex.Message;
+				}
+				finally
+				{
+					if (tempFilePath != null &&
+						File.Exists(tempFilePath))
+					{
+						File.Delete(tempFilePath);
+					}
 				}
 
 				// Report progress after the operation so we can inform UI about the result.
@@ -126,5 +73,73 @@ namespace KindleLibrarySynchronizer
 			worker.ReportProgress(100, null);
 		}
 
+
+		private static void ConvertBook(string sourcePath, string targetPath)
+		{
+			using (Process converter = new Process())
+			{
+				converter.StartInfo.FileName = "java";
+				converter.StartInfo.Arguments = string.Format("-Xmx512m -jar \"{0}\" -l false -s \"{1}\" \"{2}\" \"{3}\"",
+					Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterExecutable),
+					Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterStylesheet),
+					sourcePath,
+					targetPath);
+				converter.StartInfo.UseShellExecute = false;
+				converter.StartInfo.CreateNoWindow = true;
+				converter.StartInfo.RedirectStandardOutput = true;
+				converter.StartInfo.RedirectStandardError = true;
+				converter.StartInfo.StandardOutputEncoding = Encoding.Default;
+				converter.StartInfo.StandardErrorEncoding = Encoding.Default;
+
+				StringBuilder output = new StringBuilder();
+				StringBuilder errors = new StringBuilder();
+
+				using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+				using (AutoResetEvent errorsWaitHandle = new AutoResetEvent(false))
+				{
+					converter.OutputDataReceived += (evSenver, evArgs) =>
+					{
+						if (evArgs.Data == null)
+						{
+							outputWaitHandle.Set();
+						}
+						else
+						{
+							output.AppendLine(evArgs.Data);
+						}
+					};
+					converter.ErrorDataReceived += (evSenver, evArgs) =>
+					{
+						if (evArgs.Data == null)
+						{
+							errorsWaitHandle.Set();
+						}
+						else
+						{
+							errors.AppendLine(evArgs.Data);
+						}
+					};
+
+					converter.Start();
+
+					converter.BeginOutputReadLine();
+					converter.BeginErrorReadLine();
+
+					if (converter.WaitForExit(60000) &&
+						outputWaitHandle.WaitOne(60000) &&
+						errorsWaitHandle.WaitOne(60000))
+					{
+						if (converter.ExitCode != 0)
+						{
+							throw new Exception(errors.ToString());
+						}
+					}
+					else
+					{
+						throw new TimeoutException("Converter is not responding. Skip the current book.");
+					}
+				}
+			}
+		}
 	}
 }

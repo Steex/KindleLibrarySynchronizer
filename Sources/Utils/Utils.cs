@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Drawing.Imaging;
 using Microsoft.Win32;
 
@@ -189,6 +190,21 @@ namespace KindleLibrarySynchronizer
 			}
 
 			return path;
+		}
+
+		public static void MoveFile(string sourcePath, string targetPath)
+		{
+			if (File.Exists(targetPath))
+			{
+				string backupPath = Path.Combine(Path.GetDirectoryName(targetPath), Path.GetRandomFileName());
+				File.Move(targetPath, backupPath);
+				File.Move(sourcePath, targetPath);
+				File.Delete(backupPath);
+			}
+			else
+			{
+				File.Move(sourcePath, targetPath);
+			}
 		}
 
 
