@@ -9,6 +9,31 @@ using System.Threading;
 
 namespace KindleLibrarySynchronizer
 {
+	public class OperationStepInfo
+	{
+		public BookInfo Book { get; private set; }
+
+		public OperationStepInfo(BookInfo book)
+		{
+			Book = book;
+		}
+	}
+
+	public class OperationStepResult
+	{
+		public bool Succeeded { get; private set; }
+		public string ErrorText { get; private set; }
+
+		public OperationStepResult(bool succeded, string errorText)
+		{
+			Succeeded = succeded;
+			ErrorText = errorText;
+		}
+	}
+
+
+
+
 	public static class BookOperations
 	{
 		public static BackgroundWorker CreateConverter(/*IEnumerable<BookInfo> books*/)
@@ -32,8 +57,11 @@ namespace KindleLibrarySynchronizer
 			foreach (BookInfo book in books)
 			{
 				// Report progress before an operation so we can inform UI about a book currently converted.
-				worker.ReportProgress((int)((float)convertedCount / bookCount * 100), book);
+				worker.ReportProgress(
+					(int)((float)convertedCount / bookCount * 100),
+					new OperationStepInfo(book));
 
+				// Start operation.
 				string tempFilePath = null;
 				string errorMessage = null;
 
@@ -63,7 +91,9 @@ namespace KindleLibrarySynchronizer
 				}
 
 				// Report progress after the operation so we can inform UI about the result.
-				worker.ReportProgress((int)((float)convertedCount / bookCount * 100), errorMessage);
+				worker.ReportProgress(
+					(int)((float)convertedCount / bookCount * 100),
+					new OperationStepResult(errorMessage == null, errorMessage));
 
 				// Count the operation progress.
 				convertedCount += 1;

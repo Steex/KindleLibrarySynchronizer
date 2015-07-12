@@ -94,13 +94,18 @@ namespace KindleLibrarySynchronizer
 
 		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (e.UserState is BookInfo)
+			if (e.UserState is OperationStepInfo)
 			{
-				Logger.WriteLine("Conversion: {0}% done, next book: {1}", e.ProgressPercentage, (e.UserState as BookInfo).SourceName);
+				OperationStepInfo info = (OperationStepInfo)e.UserState;
+				Logger.WriteLine("Conversion: {0}% done, next book: {1}", e.ProgressPercentage, info.Book.SourceName);
 			}
-			else if (e.UserState is string)
+			else if (e.UserState is OperationStepResult)
 			{
-				Logger.WriteLine("Conversion error: {0}", (string)e.UserState);
+				OperationStepResult result = (OperationStepResult)e.UserState;
+				if (!result.Succeeded)
+				{
+					Logger.WriteLine("Conversion error: {0}", result.ErrorText);
+				}
 			}
 		}
 
