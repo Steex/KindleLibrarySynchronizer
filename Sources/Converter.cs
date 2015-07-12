@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Threading;
 
 namespace KindleLibrarySynchronizer
 {
@@ -35,28 +36,77 @@ namespace KindleLibrarySynchronizer
 
 				string errorMessage = null;
 
-				// Convert the book.
 				try
 				{
+					// If the target book exists, delete it.
+					if (File.Exists(book.TargetPath))
+					{
+						File.Delete(book.TargetPath);
+					}
+
+					// Convert the book.
 					using (Process converter = new Process())
 					{
-						converter.StartInfo.FileName = "find";
-						converter.StartInfo.Arguments = Path.GetDirectoryName(book.SourcePath);
+						converter.StartInfo.FileName = "java";
+						converter.StartInfo.Arguments = string.Format("-Xmx512m -jar \"{0}\" -l false -s \"{1}\" \"{2}\" \"{3}\"",
+							Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterExecutable),
+							Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterStylesheet),
+							book.SourcePath,
+							book.TargetPath);
 						converter.StartInfo.UseShellExecute = false;
 						converter.StartInfo.CreateNoWindow = true;
 						converter.StartInfo.RedirectStandardOutput = true;
 						converter.StartInfo.RedirectStandardError = true;
-						converter.StartInfo.StandardOutputEncoding = Encoding.GetEncoding(1251);
-						converter.StartInfo.StandardErrorEncoding = Encoding.GetEncoding(1251);
-						converter.Start();
+						converter.StartInfo.StandardOutputEncoding = Encoding.Default;
+						converter.StartInfo.StandardErrorEncoding = Encoding.Default;
 
-						string output = converter.StandardOutput.ReadToEnd();
-						string errors = converter.StandardError.ReadToEnd();
+						StringBuilder output = new StringBuilder();
+						StringBuilder errors = new StringBuilder();
 
-						converter.WaitForExit();
-						if (converter.ExitCode != 0)
+						using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+						using (AutoResetEvent errorsWaitHandle = new AutoResetEvent(false))
 						{
-							errorMessage = errors;
+							converter.OutputDataReceived += (evSenver, evArgs) =>
+							{
+								if (evArgs.Data == null)
+								{
+									outputWaitHandle.Set();
+								}
+								else
+								{
+									output.AppendLine(evArgs.Data);
+								}
+							};
+							converter.ErrorDataReceived += (evSenver, evArgs) =>
+							{
+								if (evArgs.Data == null)
+								{
+									errorsWaitHandle.Set();
+								}
+								else
+								{
+									errors.AppendLine(evArgs.Data);
+								}
+							};
+
+							converter.Start();
+
+							converter.BeginOutputReadLine();
+							converter.BeginErrorReadLine();
+
+							if (converter.WaitForExit(60000) &&
+								outputWaitHandle.WaitOne(60000) &&
+								errorsWaitHandle.WaitOne(60000))
+							{
+								if (converter.ExitCode != 0)
+								{
+									errorMessage = errors.ToString();
+								}
+							}
+							else
+							{
+								errorMessage = "Timeout";
+							}
 						}
 					}
 				}

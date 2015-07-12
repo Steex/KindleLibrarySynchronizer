@@ -76,7 +76,7 @@ namespace KindleLibrarySynchronizer
 			// Create book list.
 			List<BookInfo> books = new List<BookInfo>();
 
-			foreach (string file in Directory.GetFiles(@"E:\L2\Публицистика\_Дневники, биографии"))
+			foreach (string file in Directory.GetFiles(@"E:\L2\Публицистика\_Дневники, биографии", "*.fb2"))
 			{
 				string fullPath = Path.GetFullPath(file);
 				books.Add(BookInfo.CreateFromSource(fullPath, Path.GetDirectoryName(fullPath)));
