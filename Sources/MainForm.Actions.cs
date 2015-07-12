@@ -130,12 +130,12 @@ namespace KindleLibrarySynchronizer
 				bookComparer.Books.GetBookStateCount(BookState.Deleted));
 
 			// Report.
-			foreach (BookInfo book in bookComparer.Books.AllBooks)
+			/*foreach (BookInfo book in bookComparer.Books.AllBooks)
 			{
 				Logger.WriteLine("{0}:\t{1}",
 					book.State.ToString()[0],
 					Utils.GetRelativePath(book.TargetPath, bookComparer.Library.TargetRoot));
-			}
+			}*/
 
 			Logger.WriteLine();
 			Logger.WriteLine("{0} actual, {1} new, {2} changed, {3} deleted",

@@ -65,6 +65,50 @@ namespace KindleLibrarySynchronizer
 			library = Config.Main.Libraries.Find(l => l.Name == libraryName);
 		}
 
+		private void toolStripButton1_Click(object sender, EventArgs e)
+		{
+			//using (OperationProgressForm progressForm = new OperationProgressForm())
+			//{
+			//    progressForm.ShowDialog(this);
+			//}
+
+
+			// Create book list.
+			List<BookInfo> books = new List<BookInfo>();
+
+			foreach (string file in Directory.GetFiles(@"E:\L2\Публицистика\_Дневники, биографии"))
+			{
+				string fullPath = Path.GetFullPath(file);
+				books.Add(BookInfo.CreateFromSource(fullPath, Path.GetDirectoryName(fullPath)));
+			}
+
+			// Start the worker.
+			using (BackgroundWorker worker = BookOperations.CreateConverter())
+			{
+				worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+				worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+
+				worker.RunWorkerAsync(books);
+			}
+		}
+
+		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.UserState is BookInfo)
+			{
+				Logger.WriteLine("Conversion: {0}% done, next book: {1}", e.ProgressPercentage, (e.UserState as BookInfo).SourceName);
+			}
+			else if (e.UserState is string)
+			{
+				Logger.WriteLine("Conversion error: {0}", (string)e.UserState);
+			}
+		}
+
+		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			Logger.WriteLine("Conversion complete!");
+		}
+
 	}
 
 }

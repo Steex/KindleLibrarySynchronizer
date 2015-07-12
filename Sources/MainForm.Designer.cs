@@ -54,6 +54,7 @@
 			this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolbar = new System.Windows.Forms.ToolStrip();
 			this.comboLibraries = new System.Windows.Forms.ToolStripComboBox();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonCompare = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonShowActual = new System.Windows.Forms.ToolStripButton();
@@ -73,8 +74,8 @@
 			this.statusBar = new System.Windows.Forms.StatusStrip();
 			this.statusSelection = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
+			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.mainMenu.SuspendLayout();
 			this.toolbar.SuspendLayout();
 			this.statusBar.SuspendLayout();
@@ -283,7 +284,8 @@
             this.buttonUpdateSelected,
             this.buttonDeleteSelected,
             this.toolStripSeparator4,
-            this.buttonOptions});
+            this.buttonOptions,
+            this.toolStripButton1});
 			this.toolbar.Location = new System.Drawing.Point(0, 24);
 			this.toolbar.Name = "toolbar";
 			this.toolbar.Size = new System.Drawing.Size(806, 25);
@@ -296,6 +298,11 @@
 			this.comboLibraries.Name = "comboLibraries";
 			this.comboLibraries.Size = new System.Drawing.Size(200, 25);
 			this.comboLibraries.SelectedIndexChanged += new System.EventHandler(this.comboLibraries_SelectedIndexChanged);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
 			// 
 			// buttonCompare
 			// 
@@ -456,11 +463,6 @@
 			this.statusCounters.Size = new System.Drawing.Size(300, 17);
 			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-			// 
 			// synchroList
 			// 
 			this.synchroList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -476,6 +478,16 @@
 			this.synchroList.Size = new System.Drawing.Size(806, 449);
 			this.synchroList.TabIndex = 3;
 			this.synchroList.SelectionChanged += new System.EventHandler(this.synchroList_SelectionChanged);
+			// 
+			// toolStripButton1
+			// 
+			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton1.Name = "toolStripButton1";
+			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Text = "toolStripButton1";
+			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
 			// MainForm
 			// 
@@ -549,6 +561,7 @@
 		private System.Windows.Forms.ToolStripButton buttonOptions;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private System.Windows.Forms.ToolStripButton toolStripButton1;
 	}
 }
 

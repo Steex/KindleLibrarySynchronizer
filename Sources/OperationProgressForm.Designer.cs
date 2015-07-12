@@ -28,18 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.progressConversion = new System.Windows.Forms.ProgressBar();
+			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.labelCurrentBook = new System.Windows.Forms.Label();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// progressConversion
+			// progressBar
 			// 
-			this.progressConversion.Location = new System.Drawing.Point(12, 67);
-			this.progressConversion.Name = "progressConversion";
-			this.progressConversion.Size = new System.Drawing.Size(400, 16);
-			this.progressConversion.TabIndex = 0;
+			this.progressBar.Location = new System.Drawing.Point(12, 67);
+			this.progressBar.Name = "progressBar";
+			this.progressBar.Size = new System.Drawing.Size(400, 16);
+			this.progressBar.TabIndex = 0;
 			// 
 			// labelCurrentBook
 			// 
@@ -72,14 +72,16 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(424, 127);
 			this.ControlBox = false;
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.labelTitle);
 			this.Controls.Add(this.labelCurrentBook);
-			this.Controls.Add(this.progressConversion);
+			this.Controls.Add(this.progressBar);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "OperationProgressForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "<Operation name>";
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -88,7 +90,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.ProgressBar progressConversion;
+		private System.Windows.Forms.ProgressBar progressBar;
 		private System.Windows.Forms.Label labelCurrentBook;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Label labelTitle;

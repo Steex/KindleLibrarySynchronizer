@@ -60,8 +60,8 @@ namespace KindleLibrarySynchronizer
 			// Set the paths and change times.
 			PdfTitle = pdfTitle;
 
-			SourcePath = Path.GetFileName(sourcePath);
-			TargetPath = Path.GetFileName(sourcePath);
+			SourceName = Path.GetFileName(sourcePath);
+			TargetName = Path.GetFileName(targetPath);
 
 			SourcePath = sourcePath;
 			TargetPath = targetPath;
