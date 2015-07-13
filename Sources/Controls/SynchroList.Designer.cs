@@ -42,6 +42,7 @@
 			this.listview.FullRowSelect = true;
 			this.listview.GridLines = true;
 			this.listview.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.listview.HideSelection = false;
 			this.listview.LabelWrap = false;
 			this.listview.Location = new System.Drawing.Point(0, 0);
 			this.listview.Margin = new System.Windows.Forms.Padding(0);
