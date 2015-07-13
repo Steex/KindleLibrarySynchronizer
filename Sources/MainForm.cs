@@ -65,14 +65,9 @@ namespace KindleLibrarySynchronizer
 			library = Config.Main.Libraries.Find(l => l.Name == libraryName);
 		}
 
+
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			//using (OperationProgressForm progressForm = new OperationProgressForm())
-			//{
-			//    progressForm.ShowDialog(this);
-			//}
-
-
 			// Create book list.
 			List<BookInfo> books = new List<BookInfo>();
 
@@ -84,34 +79,41 @@ namespace KindleLibrarySynchronizer
 
 			// Start the worker.
 			using (BackgroundWorker worker = BookOperations.CreateConverter())
+			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", books)))
 			{
 				worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
 				worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
 
-				worker.RunWorkerAsync(books);
+			    progressForm.ShowDialog(this);
 			}
 		}
 
 		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (e.UserState is OperationStepInfo)
+			if (e.UserState is BookOperations.StepInfo)
 			{
-				OperationStepInfo info = (OperationStepInfo)e.UserState;
-				Logger.WriteLine("Conversion: {0}% done, next book: {1}", e.ProgressPercentage, info.Book.SourceName);
+				BookOperations.StepInfo info = (BookOperations.StepInfo)e.UserState;
+				Logger.Write(info.Book.SourceName + "... ");
 			}
-			else if (e.UserState is OperationStepResult)
+			else if (e.UserState is BookOperations.StepResult)
 			{
-				OperationStepResult result = (OperationStepResult)e.UserState;
-				if (!result.Succeeded)
+				BookOperations.StepResult result = (BookOperations.StepResult)e.UserState;
+				if (result.Succeeded)
 				{
-					Logger.WriteLine("Conversion error: {0}", result.ErrorText);
+					Logger.WriteLine("OK");
+				}
+				else
+				{
+					Logger.WriteLine("Failed!");
+					Logger.WriteLine(">> Error message: \"{0}\"", result.ErrorText);
 				}
 			}
 		}
 
 		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			Logger.WriteLine("Conversion complete!");
+			Logger.WriteLine("Conversion complete");
+			Logger.WriteLine("---");
 		}
 
 	}

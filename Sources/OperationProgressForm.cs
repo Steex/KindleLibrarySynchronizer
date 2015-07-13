@@ -11,12 +11,20 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class OperationProgressForm : Form
 	{
-		private bool operationComplete = false;
+		private BackgroundWorker worker;
+		private bool conversionSuccessfull = true;
 
 
-		public OperationProgressForm()
+		public OperationProgressForm(BackgroundWorker worker, BookOperations.OperationData data)
 		{
 			InitializeComponent();
+
+			labelTitle.Text = string.Format("{0}: {1} books queued", data.OperationName, data.Books.Count());
+
+			this.worker = worker;
+			this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+			this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+			this.worker.RunWorkerAsync(data);
 		}
 
 
@@ -24,11 +32,54 @@ namespace KindleLibrarySynchronizer
 		{
 			base.OnFormClosing(e);
 
-			if (!operationComplete &&
-				Utils.ShowQuestion(this, "Do you want to stop the current operation?", MessageBoxButtons.YesNo) != DialogResult.Yes)
+			if (worker.IsBusy)
 			{
-				e.Cancel = true;
+				if (Utils.ShowQuestion(this, "Do you want to stop the current operation?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				{
+					worker.CancelAsync();
+				}
+				else
+				{
+					e.Cancel = true;
+				}
 			}
 		}
+
+
+		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			// Update the progress bar.
+			progressBar.Value = e.ProgressPercentage;
+
+			// Show the current book and warnings.
+			if (e.UserState is BookOperations.StepInfo)
+			{
+				BookOperations.StepInfo info = (BookOperations.StepInfo)e.UserState;
+				labelCurrentBook.Text = "Processing \"" + info.Book.SourceName + "\"...";
+			}
+			else if (e.UserState is BookOperations.StepResult)
+			{
+				BookOperations.StepResult result = (BookOperations.StepResult)e.UserState;
+				if (!result.Succeeded)
+				{
+					conversionSuccessfull = false;
+					labelErrors.Visible = true;
+				}
+			}
+		}
+
+		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (conversionSuccessfull)
+			{
+				Close();
+			}
+			else
+			{
+				labelErrors.ForeColor = Color.Red;
+				buttonCancel.Text = "Close";
+			}
+		}
+
 	}
 }

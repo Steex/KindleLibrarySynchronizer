@@ -9,33 +9,43 @@ using System.Threading;
 
 namespace KindleLibrarySynchronizer
 {
-	public class OperationStepInfo
-	{
-		public BookInfo Book { get; private set; }
-
-		public OperationStepInfo(BookInfo book)
-		{
-			Book = book;
-		}
-	}
-
-	public class OperationStepResult
-	{
-		public bool Succeeded { get; private set; }
-		public string ErrorText { get; private set; }
-
-		public OperationStepResult(bool succeded, string errorText)
-		{
-			Succeeded = succeded;
-			ErrorText = errorText;
-		}
-	}
-
-
-
-
 	public static class BookOperations
 	{
+		public class OperationData
+		{
+			public string OperationName { get; private set; }
+			public IEnumerable<BookInfo> Books { get; private set; }
+
+			public OperationData(string operationName, IEnumerable<BookInfo> books)
+			{
+				OperationName = operationName;
+				Books = books;
+			}
+		}
+
+		public class StepInfo
+		{
+			public BookInfo Book { get; private set; }
+
+			public StepInfo(BookInfo book)
+			{
+				Book = book;
+			}
+		}
+
+		public class StepResult
+		{
+			public bool Succeeded { get; private set; }
+			public string ErrorText { get; private set; }
+
+			public StepResult(bool succeded, string errorText)
+			{
+				Succeeded = succeded;
+				ErrorText = errorText;
+			}
+		}
+
+
 		public static BackgroundWorker CreateConverter(/*IEnumerable<BookInfo> books*/)
 		{
 			BackgroundWorker worker = new BackgroundWorker();
@@ -50,16 +60,16 @@ namespace KindleLibrarySynchronizer
 		private static void ConverterWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			BackgroundWorker worker = (BackgroundWorker)sender;
-			IEnumerable<BookInfo> books = (IEnumerable<BookInfo>)e.Argument;
-			int bookCount = books.Count();
+			OperationData data = (OperationData)e.Argument;
+			int bookCount = data.Books.Count();
 			int convertedCount = 0;
 
-			foreach (BookInfo book in books)
+			foreach (BookInfo book in data.Books)
 			{
 				// Report progress before an operation so we can inform UI about a book currently converted.
 				worker.ReportProgress(
 					(int)((float)convertedCount / bookCount * 100),
-					new OperationStepInfo(book));
+					new StepInfo(book));
 
 				// Start operation.
 				string tempFilePath = null;
@@ -93,16 +103,21 @@ namespace KindleLibrarySynchronizer
 				// Report progress after the operation so we can inform UI about the result.
 				worker.ReportProgress(
 					(int)((float)convertedCount / bookCount * 100),
-					new OperationStepResult(errorMessage == null, errorMessage));
+					new StepResult(errorMessage == null, errorMessage));
 
 				// Count the operation progress.
 				convertedCount += 1;
+
+				// Check for cancellation.
+				if (worker.CancellationPending)
+				{
+					break;
+				}
 			}
 
 			// Report the final progress.
 			worker.ReportProgress(100, null);
 		}
-
 
 		private static void ConvertBook(string sourcePath, string targetPath)
 		{
