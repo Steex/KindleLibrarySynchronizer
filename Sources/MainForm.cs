@@ -66,29 +66,20 @@ namespace KindleLibrarySynchronizer
 		}
 
 
-		private void toolStripButton1_Click(object sender, EventArgs e)
+		private void ConvertBooks(IEnumerable<BookInfo> books)
 		{
-			// Create book list.
-			List<BookInfo> books = new List<BookInfo>();
-
-			foreach (string file in Directory.GetFiles(@"E:\L2\Публицистика\_Дневники, биографии", "*.fb2"))
-			{
-				string fullPath = Path.GetFullPath(file);
-				books.Add(BookInfo.CreateFromSource(fullPath, Path.GetDirectoryName(fullPath)));
-			}
-
-			// Start the worker.
+			// Create a worker and show the conversion progress.
 			using (BackgroundWorker worker = BookOperations.CreateConverter())
 			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", books)))
 			{
 				worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
 				worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
 
-			    progressForm.ShowDialog(this);
+				progressForm.ShowDialog(this);
 			}
 		}
 
-		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			if (e.UserState is BookOperations.StepInfo)
 			{
@@ -110,7 +101,7 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			Logger.WriteLine("Conversion complete");
 			Logger.WriteLine("---");

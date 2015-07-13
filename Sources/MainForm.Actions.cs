@@ -160,6 +160,15 @@ namespace KindleLibrarySynchronizer
 
 		private void actionUpdateSelected_Execute(object sender, EventArgs e)
 		{
+			// If some of the books are up-to-date, ask the user to overwrite.
+			if (synchroList.SelectedBooks.Any(b => b.State == BookState.Actual) &&
+				Utils.ShowQuestion(this, "Some of the books are up-to-date. Do you want to convert them anyway?", MessageBoxButtons.YesNo) != DialogResult.Yes)
+			{
+				return;
+			}
+
+			// Start converter.
+			ConvertBooks(synchroList.SelectedBooks);
 		}
 
 		private void actionDeleteSelected_Execute(object sender, EventArgs e)
@@ -249,15 +258,12 @@ namespace KindleLibrarySynchronizer
 
 		private void actionUpdateSelected_Update(object sender, EventArgs e)
 		{
-			actionUpdateSelected.Enabled =
-				synchroList.SelectedBooks.Any() &&
-				synchroList.SelectedBooks.All(book => book.State == BookState.New || book.State == BookState.Changed);
+			actionUpdateSelected.Enabled = synchroList.SelectedBooks.Any(book => book.State != BookState.Deleted);
 		}
 
 		private void actionDeleteSelected_Update(object sender, EventArgs e)
 		{
-			actionDeleteSelected.Enabled =
-				synchroList.SelectedBooks.Any();
+			actionDeleteSelected.Enabled = synchroList.SelectedBooks.Any();
 		}
 
 		private void actionShowActual_Update(object sender, EventArgs e)

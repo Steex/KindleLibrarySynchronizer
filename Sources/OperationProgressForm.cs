@@ -22,8 +22,8 @@ namespace KindleLibrarySynchronizer
 			labelTitle.Text = string.Format("{0}: {1} books queued", data.OperationName, data.Books.Count());
 
 			this.worker = worker;
-			this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-			this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+			this.worker.ProgressChanged += worker_ProgressChanged;
+			this.worker.RunWorkerCompleted += worker_RunWorkerCompleted;
 			this.worker.RunWorkerAsync(data);
 		}
 
@@ -46,7 +46,7 @@ namespace KindleLibrarySynchronizer
 		}
 
 
-		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			// Update the progress bar.
 			progressBar.Value = e.ProgressPercentage;
@@ -68,7 +68,7 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (conversionSuccessfull)
 			{

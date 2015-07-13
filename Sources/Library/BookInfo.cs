@@ -43,6 +43,11 @@ namespace KindleLibrarySynchronizer
 			return new BookInfo("", targetPath, pdfTitle);
 		}
 
+		public BookInfo Clone()
+		{
+			return (BookInfo)MemberwiseClone();
+		}
+
 		private BookInfo(string sourcePath, string targetPath, string pdfTitle)
 		{
 			// Check if source and target file are exists.

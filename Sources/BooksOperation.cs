@@ -19,7 +19,7 @@ namespace KindleLibrarySynchronizer
 			public OperationData(string operationName, IEnumerable<BookInfo> books)
 			{
 				OperationName = operationName;
-				Books = books;
+				Books = books.Select(b => b.Clone()).ToList();
 			}
 		}
 
