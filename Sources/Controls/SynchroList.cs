@@ -12,6 +12,19 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class SynchroList : UserControl
 	{
+		private class ListItemInfo
+		{
+			public BookFolder Folder { get; private set; }
+			public BookInfo Book { get; private set; }
+
+			public ListItemInfo(BookFolder folder, BookInfo book)
+			{
+				Folder = folder;
+				Book = book;
+			}
+		}
+
+
 		public event EventHandler SelectionChanged;
 
 
@@ -317,19 +330,6 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-	}
-
-
-	public class ListItemInfo
-	{
-		public BookFolder Folder { get; private set; }
-		public BookInfo Book { get; private set; }
-
-		public ListItemInfo(BookFolder folder, BookInfo book)
-		{
-			Folder = folder;
-			Book = book;
-		}
 	}
 
 }
