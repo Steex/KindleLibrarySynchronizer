@@ -85,7 +85,6 @@ namespace KindleLibrarySynchronizer
 
 					// Move the temporary file to the target path.
 					Utils.MoveFile(tempFilePath, book.TargetPath);
-
 				}
 				catch (Exception ex)
 				{
@@ -186,5 +185,63 @@ namespace KindleLibrarySynchronizer
 				}
 			}
 		}
+
+
+		public static BackgroundWorker CreateDeleter(/*IEnumerable<BookInfo> books*/)
+		{
+			BackgroundWorker worker = new BackgroundWorker();
+
+			worker.WorkerSupportsCancellation = true;
+			worker.WorkerReportsProgress = true;
+			worker.DoWork += DeleterWorker_DoWork;
+
+			return worker;
+		}
+
+		private static void DeleterWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			BackgroundWorker worker = (BackgroundWorker)sender;
+			OperationData data = (OperationData)e.Argument;
+			int bookCount = data.Books.Count();
+			int deletedCount = 0;
+
+			foreach (BookInfo book in data.Books)
+			{
+				// Report progress before an operation so we can inform UI about a book currently converted.
+				worker.ReportProgress(
+					(int)((float)deletedCount / bookCount * 100),
+					new StepInfo(book));
+
+				// Delete the target book.
+				string errorMessage = null;
+
+				try
+				{
+					File.Delete(book.TargetPath);
+				}
+				catch (Exception ex)
+				{
+					errorMessage = ex.Message;
+				}
+
+				// Report progress after the operation so we can inform UI about the result.
+				worker.ReportProgress(
+					(int)((float)deletedCount / bookCount * 100),
+					new StepResult(errorMessage == null, errorMessage));
+
+				// Count the operation progress.
+				deletedCount += 1;
+
+				// Check for cancellation.
+				if (worker.CancellationPending)
+				{
+					break;
+				}
+			}
+
+			// Report the final progress.
+			worker.ReportProgress(100, null);
+		}
+
 	}
 }

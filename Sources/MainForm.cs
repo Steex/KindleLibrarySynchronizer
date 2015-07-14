@@ -72,14 +72,14 @@ namespace KindleLibrarySynchronizer
 			using (BackgroundWorker worker = BookOperations.CreateConverter())
 			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", books)))
 			{
-				worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-				worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+				worker.ProgressChanged += ConvertWorker_ProgressChanged;
+				worker.RunWorkerCompleted += ConvertWorker_RunWorkerCompleted;
 
 				progressForm.ShowDialog(this);
 			}
 		}
 
-		private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		private void ConvertWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			if (e.UserState is BookOperations.StepInfo)
 			{
@@ -101,9 +101,51 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void ConvertWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			Logger.WriteLine("Conversion complete");
+			Logger.WriteLine("---");
+		}
+
+
+		private void DeleteBooks(IEnumerable<BookInfo> books)
+		{
+			// Create a worker and show the conversion progress.
+			using (BackgroundWorker worker = BookOperations.CreateDeleter())
+			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Delete", books)))
+			{
+				worker.ProgressChanged += DeleteWorker_ProgressChanged;
+				worker.RunWorkerCompleted += DeleteWorker_RunWorkerCompleted;
+
+				progressForm.ShowDialog(this);
+			}
+		}
+
+		private void DeleteWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.UserState is BookOperations.StepInfo)
+			{
+				BookOperations.StepInfo info = (BookOperations.StepInfo)e.UserState;
+				Logger.Write(info.Book.TargetName + "... ");
+			}
+			else if (e.UserState is BookOperations.StepResult)
+			{
+				BookOperations.StepResult result = (BookOperations.StepResult)e.UserState;
+				if (result.Succeeded)
+				{
+					Logger.WriteLine("OK");
+				}
+				else
+				{
+					Logger.WriteLine("Failed!");
+					Logger.WriteLine(">> Error message: \"{0}\"", result.ErrorText);
+				}
+			}
+		}
+
+		private void DeleteWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			Logger.WriteLine("Deleting complete");
 			Logger.WriteLine("---");
 		}
 
