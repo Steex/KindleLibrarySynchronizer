@@ -68,6 +68,8 @@ namespace KindleLibrarySynchronizer
 
 		private void ConvertBooks(IEnumerable<BookInfo> books)
 		{
+			Logger.WriteLine("Converting {0} books", books.Count());
+
 			// Create a worker and show the conversion progress.
 			using (BackgroundWorker worker = BookOperations.CreateConverter())
 			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", books)))
@@ -110,6 +112,8 @@ namespace KindleLibrarySynchronizer
 
 		private void DeleteBooks(IEnumerable<BookInfo> books)
 		{
+			Logger.WriteLine("Deleting {0} books", books.Count());
+
 			// Create a worker and show the conversion progress.
 			using (BackgroundWorker worker = BookOperations.CreateDeleter())
 			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Delete", books)))
