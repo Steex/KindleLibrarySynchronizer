@@ -79,6 +79,10 @@ namespace KindleLibrarySynchronizer
 
 				progressForm.ShowDialog(this);
 			}
+
+			// Update the list.
+			bookComparer.Compare();
+			synchroList.UpdateItems(true);
 		}
 
 		private void ConvertWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -123,6 +127,10 @@ namespace KindleLibrarySynchronizer
 
 				progressForm.ShowDialog(this);
 			}
+
+			// Update the list.
+			bookComparer.Compare();
+			synchroList.UpdateItems(true);
 		}
 
 		private void DeleteWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)

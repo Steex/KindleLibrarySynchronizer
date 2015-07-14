@@ -14,6 +14,7 @@ namespace KindleLibrarySynchronizer
 	{
 		private class ListItemInfo
 		{
+			public string Path { get; private set; }
 			public BookFolder Folder { get; private set; }
 			public BookInfo Book { get; private set; }
 
@@ -21,6 +22,55 @@ namespace KindleLibrarySynchronizer
 			{
 				Folder = folder;
 				Book = book;
+
+				if (Folder != null)
+				{
+					Path = Folder.Path;
+				}
+				else if (Book != null)
+				{
+					Path = Book.TargetPath;
+				}
+			}
+		}
+
+		private class ViewState
+		{
+			private int topItemIndex;
+			private HashSet<string> selectedPaths;
+
+
+			public ViewState(ListView listview)
+			{
+				// Store the scroll position.
+				topItemIndex = listview.Items.IndexOf(listview.TopItem);
+
+				// Store selected items.
+				selectedPaths = new HashSet<string>();
+				foreach (ListViewItem item in listview.SelectedItems)
+				{
+					selectedPaths.Add(((ListItemInfo)item.Tag).Path);
+				}
+			}
+
+			public void ApplyTo(ListView listview)
+			{
+				// Restore the scroll positions.
+				if (topItemIndex >= 0 && topItemIndex < listview.Items.Count)
+				{
+					listview.EnsureVisible(listview.Items.Count - 1);
+					listview.EnsureVisible(topItemIndex);
+				}
+
+				// Restore selected items.
+				if (selectedPaths.Count > 0)
+				{
+					foreach (ListViewItem item in listview.Items)
+					{
+						string itemPath = ((ListItemInfo)item.Tag).Path;
+						item.Selected = selectedPaths.Contains(itemPath);
+					}
+				}
 			}
 		}
 
@@ -166,18 +216,25 @@ namespace KindleLibrarySynchronizer
 
 		protected virtual void OnBookComparerChanged(EventArgs args)
 		{
-			UpdateItems();
+			UpdateItems(false);
 		}
 
 		protected virtual void OnShowStateChanged(EventArgs args)
 		{
-			UpdateItems();
+			UpdateItems(true);
 		}
 
 
-		public void UpdateItems()
+		public void UpdateItems(bool preserveViewState)
 		{
 			listview.BeginUpdate();
+
+			// Store the view state if necessary.
+			ViewState viewState = null;
+			if (preserveViewState)
+			{
+				viewState = new ViewState(listview);
+			}
 
 			// Clear existing items.
 			listview.Items.Clear();
@@ -234,6 +291,12 @@ namespace KindleLibrarySynchronizer
 						ListViewItem item = listview.Items.Add(CreateBookItem(book, folderStack.Count));
 					}
 				}
+			}
+
+			// Restore view state if necessary.
+			if (preserveViewState)
+			{
+				viewState.ApplyTo(listview);
 			}
 
 			// Refresh the list.

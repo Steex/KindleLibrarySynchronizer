@@ -121,7 +121,7 @@ namespace KindleLibrarySynchronizer
 			Logger.Clear();
 
 			bookComparer.Compare(library.Clone());
-			synchroList.UpdateItems();
+			synchroList.UpdateItems(false);
 
 			statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
 				bookComparer.Books.GetBookStateCount(BookState.Actual),
