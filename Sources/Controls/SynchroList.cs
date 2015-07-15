@@ -345,6 +345,20 @@ namespace KindleLibrarySynchronizer
 		}
 
 
+		public void SelectItemsWithState(BookState state)
+		{
+			listview.BeginUpdate();
+
+			foreach (ListViewItem item in listview.Items)
+			{
+				ListItemInfo itemInfo = (ListItemInfo)item.Tag;
+				item.Selected = itemInfo.Book != null && itemInfo.Book.State == state;
+			}
+
+			listview.EndUpdate();
+		}
+
+
 		private void listview_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
 			if (SelectionChanged != null)

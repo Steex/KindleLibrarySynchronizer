@@ -148,14 +148,17 @@ namespace KindleLibrarySynchronizer
 
 		private void actionSelectNew_Execute(object sender, EventArgs e)
 		{
+			synchroList.SelectItemsWithState(BookState.New);
 		}
 
 		private void actionSelectChanged_Execute(object sender, EventArgs e)
 		{
+			synchroList.SelectItemsWithState(BookState.Changed);
 		}
 
 		private void actionSelectDeleted_Execute(object sender, EventArgs e)
 		{
+			synchroList.SelectItemsWithState(BookState.Deleted);
 		}
 
 		private void actionUpdateSelected_Execute(object sender, EventArgs e)
