@@ -118,31 +118,10 @@ namespace KindleLibrarySynchronizer
 
 		private void actionCompare_Execute(object sender, EventArgs e)
 		{
-			Logger.Clear();
-
 			bookComparer.Compare(library.Clone());
 			synchroList.UpdateItems(false);
+			UpdateStatusCounters();
 
-			statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
-				bookComparer.Books.GetBookStateCount(BookState.Actual),
-				bookComparer.Books.GetBookStateCount(BookState.New),
-				bookComparer.Books.GetBookStateCount(BookState.Changed),
-				bookComparer.Books.GetBookStateCount(BookState.Deleted));
-
-			// Report.
-			/*foreach (BookInfo book in bookComparer.Books.AllBooks)
-			{
-				Logger.WriteLine("{0}:\t{1}",
-					book.State.ToString()[0],
-					Utils.GetRelativePath(book.TargetPath, bookComparer.Library.TargetRoot));
-			}*/
-
-			Logger.WriteLine();
-			Logger.WriteLine("{0} actual, {1} new, {2} changed, {3} deleted",
-				bookComparer.Books.GetBookStateCount(BookState.Actual),
-				bookComparer.Books.GetBookStateCount(BookState.New),
-				bookComparer.Books.GetBookStateCount(BookState.Changed),
-				bookComparer.Books.GetBookStateCount(BookState.Deleted));
 			Logger.WriteLine("---");
 		}
 
@@ -208,7 +187,10 @@ namespace KindleLibrarySynchronizer
 
 		private void actionShowIgnored_Execute(object sender, EventArgs e)
 		{
-			//synchroList.ShowIgnoredBooks = !synchroList.ShowIgnoredBooks;
+			bookComparer.SkipIgnoredBooks = !bookComparer.SkipIgnoredBooks;
+			bookComparer.Compare();
+			synchroList.UpdateItems(true);
+			UpdateStatusCounters();
 		}
 
 		private void actionOptions_Execute(object sender, EventArgs e)
@@ -299,7 +281,7 @@ namespace KindleLibrarySynchronizer
 
 		private void actionShowIgnored_Update(object sender, EventArgs e)
 		{
-			//actionShowIgnored.Checked = synchroList.ShowActualBooks;
+			actionShowIgnored.Checked = !bookComparer.SkipIgnoredBooks;
 		}
 
 	}

@@ -48,6 +48,22 @@ namespace KindleLibrarySynchronizer
 			comboLibraries.EndUpdate();
 		}
 
+		private void UpdateStatusCounters()
+		{
+			if (bookComparer.Library != null)
+			{
+				statusCounters.Text = string.Format("{0} actual, {1} new, {2} changed, {3} deleted",
+					bookComparer.Books.GetBookStateCount(BookState.Actual),
+					bookComparer.Books.GetBookStateCount(BookState.New),
+					bookComparer.Books.GetBookStateCount(BookState.Changed),
+					bookComparer.Books.GetBookStateCount(BookState.Deleted));
+			}
+			else
+			{
+				statusCounters.Text = "";
+			}
+		}
+
 
 		private void synchroList_SelectionChanged(object sender, EventArgs e)
 		{

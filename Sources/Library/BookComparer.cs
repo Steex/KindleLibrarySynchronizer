@@ -14,16 +14,25 @@ namespace KindleLibrarySynchronizer
 
 		public LibraryInfo Library { get; private set; }
 		public BookFolder Books { get; private set; }
+		public bool SkipIgnoredBooks { get; set; }
 
 
 		public BookComparer()
 		{
 			Books = new BookFolder(null, "");
+			SkipIgnoredBooks = true;
 		}
 
 
 		public void Compare()
 		{
+			// Make sure the library is set.
+			if (Library == null)
+			{
+				return;
+			}
+
+
 			Books = new BookFolder(null, "");
 
 			SortedSet<string> targetPaths = new SortedSet<string>();
@@ -78,12 +87,16 @@ namespace KindleLibrarySynchronizer
 			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
 			{
 				string basePath = Utils.GetRelativePath(targetFile, root);
-
-				if (!Library.IgnoredFiles.Any(f => basePath.StartsWith(f, StringComparison.CurrentCultureIgnoreCase)))
+				if (!SkipIgnoredBooks || !IsPathIgnored(basePath))
 				{
-					yield return basePath;
+					yield return Utils.GetRelativePath(targetFile, root);
 				}
 			}
+		}
+
+		private bool IsPathIgnored(string path)
+		{
+			return Library.IgnoredFiles.Any(f => path.StartsWith(f, StringComparison.CurrentCultureIgnoreCase));
 		}
 	}
 }
