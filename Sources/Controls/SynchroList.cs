@@ -12,13 +12,13 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class SynchroList : UserControl
 	{
-		private class ListItemInfo
+		public class ItemInfo
 		{
 			public string Path { get; private set; }
 			public BookFolder Folder { get; private set; }
 			public BookInfo Book { get; private set; }
 
-			public ListItemInfo(BookFolder folder, BookInfo book)
+			public ItemInfo(BookFolder folder, BookInfo book)
 			{
 				Folder = folder;
 				Book = book;
@@ -33,6 +33,7 @@ namespace KindleLibrarySynchronizer
 				}
 			}
 		}
+
 
 		private class ViewState
 		{
@@ -49,7 +50,7 @@ namespace KindleLibrarySynchronizer
 				selectedPaths = new HashSet<string>();
 				foreach (ListViewItem item in listview.SelectedItems)
 				{
-					selectedPaths.Add(((ListItemInfo)item.Tag).Path);
+					selectedPaths.Add(((ItemInfo)item.Tag).Path);
 				}
 			}
 
@@ -67,7 +68,7 @@ namespace KindleLibrarySynchronizer
 				{
 					foreach (ListViewItem item in listview.Items)
 					{
-						string itemPath = ((ListItemInfo)item.Tag).Path;
+						string itemPath = ((ItemInfo)item.Tag).Path;
 						item.Selected = selectedPaths.Contains(itemPath);
 					}
 				}
@@ -111,13 +112,44 @@ namespace KindleLibrarySynchronizer
 			{
 				foreach (ListViewItem item in listview.SelectedItems)
 				{
-					if (item.Tag is ListItemInfo)
+					if (item.Tag is ItemInfo)
 					{
-						ListItemInfo itemInfo = item.Tag as ListItemInfo;
+						ItemInfo itemInfo = item.Tag as ItemInfo;
 						if (itemInfo.Book != null)
 						{
 							yield return itemInfo.Book;
 						}
+					}
+				}
+			}
+		}
+
+		[Browsable(false)]
+		public ItemInfo FocusedItem
+		{
+			get
+			{
+				if (listview.FocusedItem != null)
+				{
+					return listview.FocusedItem.Tag as ItemInfo;
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
+
+		[Browsable(false)]
+		public IEnumerable<ItemInfo> SelectedItems
+		{
+			get
+			{
+				foreach (ListViewItem item in listview.SelectedItems)
+				{
+					if (item.Tag is ItemInfo)
+					{
+						yield return (ItemInfo)item.Tag;
 					}
 				}
 			}
@@ -318,7 +350,7 @@ namespace KindleLibrarySynchronizer
 			// Create a new item.
 			ListViewItem item = new ListViewItem(textSource);
 			item.SubItems.Add(textTarget);
-			item.Tag = new ListItemInfo(folder, null);
+			item.Tag = new ItemInfo(folder, null);
 
 			// Return the created item.
 			return item;
@@ -333,7 +365,7 @@ namespace KindleLibrarySynchronizer
 			// Create a new item.
 			ListViewItem item = new ListViewItem(textSource);
 			item.BackColor = stateBackColors[(int)book.State];
-			item.Tag = new ListItemInfo(null, book);
+			item.Tag = new ItemInfo(null, book);
 			item.UseItemStyleForSubItems = false;
 
 			var subitemTarget = item.SubItems.Add(textTarget);
@@ -351,7 +383,7 @@ namespace KindleLibrarySynchronizer
 
 			foreach (ListViewItem item in listview.Items)
 			{
-				ListItemInfo itemInfo = (ListItemInfo)item.Tag;
+				ItemInfo itemInfo = (ItemInfo)item.Tag;
 				item.Selected = itemInfo.Book != null && itemInfo.Book.State == state;
 			}
 

@@ -15,6 +15,10 @@ namespace KindleLibrarySynchronizer
 		private KindleLibrarySynchronizer.Action actionSelectDeleted;
 		private KindleLibrarySynchronizer.Action actionUpdateSelected;
 		private KindleLibrarySynchronizer.Action actionDeleteSelected;
+		private KindleLibrarySynchronizer.Action actionOpenSource;
+		private KindleLibrarySynchronizer.Action actionExploreSource;
+		private KindleLibrarySynchronizer.Action actionOpenTarget;
+		private KindleLibrarySynchronizer.Action actionExploreTarget;
 		private KindleLibrarySynchronizer.Action actionShowActual;
 		private KindleLibrarySynchronizer.Action actionShowNew;
 		private KindleLibrarySynchronizer.Action actionShowChanged;
@@ -57,6 +61,7 @@ namespace KindleLibrarySynchronizer
 			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Convert all selected books into PDF and copy them to the device");
 			actionUpdateSelected.ShortcutKeys = Keys.Control | Keys.U;
 			actionUpdateSelected.AttachToolItem(menuUpdateSelected);
+			actionUpdateSelected.AttachToolItem(menuBooksUpdate);
 			actionUpdateSelected.AttachToolItem(buttonUpdateSelected);
 			actionUpdateSelected.Execute += actionUpdateSelected_Execute;
 			actionUpdateSelected.Update += actionUpdateSelected_Update;
@@ -64,9 +69,30 @@ namespace KindleLibrarySynchronizer
 			actionDeleteSelected = new KindleLibrarySynchronizer.Action("Delete Selected Books", "Delete all selected PDF books from the device (original books will remain safe)");
 			actionDeleteSelected.ShortcutKeys = Keys.Control | Keys.Delete;
 			actionDeleteSelected.AttachToolItem(menuDeleteSelected);
+			actionDeleteSelected.AttachToolItem(menuBooksDelete);
 			actionDeleteSelected.AttachToolItem(buttonDeleteSelected);
 			actionDeleteSelected.Execute += actionDeleteSelected_Execute;
 			actionDeleteSelected.Update += actionDeleteSelected_Update;
+
+			actionOpenSource = new KindleLibrarySynchronizer.Action("&Open Source", "Open the selected item in the default viewer");
+			actionOpenSource.AttachToolItem(menuBooksOpenSource);
+			actionOpenSource.Execute += actionOpenSource_Execute;
+			actionOpenSource.Update += actionOpenSource_Update;
+
+			actionExploreSource = new KindleLibrarySynchronizer.Action("&Explore Source", "Open the selected item in Windows Explorer");
+			actionExploreSource.AttachToolItem(menuBooksExploreSource);
+			actionExploreSource.Execute += actionExploreSource_Execute;
+			actionExploreSource.Update += actionExploreSource_Update;
+
+			actionOpenTarget = new KindleLibrarySynchronizer.Action("&Open Target", "Open the selected item in the default viewer");
+			actionOpenTarget.AttachToolItem(menuBooksOpenTarget);
+			actionOpenTarget.Execute += actionOpenTarget_Execute;
+			actionOpenTarget.Update += actionOpenTarget_Update;
+
+			actionExploreTarget = new KindleLibrarySynchronizer.Action("&Explore Target", "Open the selected item in Windows Explorer");
+			actionExploreTarget.AttachToolItem(menuBooksExploreTarget);
+			actionExploreTarget.Execute += actionExploreTarget_Execute;
+			actionExploreTarget.Update += actionExploreTarget_Update;
 
 			actionShowActual = new KindleLibrarySynchronizer.Action("Show &Actual", "Display in the list all books that haven't been changed since they had been copied to the device");
 			actionShowActual.AttachToolItem(menuShowActual);
@@ -165,6 +191,86 @@ namespace KindleLibrarySynchronizer
 			DeleteBooks(synchroList.SelectedBooks);
 		}
 
+		private void actionOpenSource_Execute(object sender, EventArgs e)
+		{
+			if (synchroList.FocusedItem != null)
+			{
+				if (synchroList.FocusedItem.Folder != null)
+				{
+					OpenPath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
+				}
+				else if (synchroList.FocusedItem.Book != null)
+				{
+					if (synchroList.FocusedItem.Book.State != BookState.Deleted)
+					{
+						OpenPath(synchroList.FocusedItem.Book.SourcePath);
+					}
+					else
+					{
+						string targetDirectory = Path.GetDirectoryName(synchroList.FocusedItem.Book.TargetPath);
+						string relativeDirectory = Utils.GetRelativePath(targetDirectory, library.TargetRoot);
+						string sourceDirectory = Path.Combine(library.SourceRoot, relativeDirectory);
+						OpenPath(sourceDirectory);
+					}
+				}
+			}
+		}
+
+		private void actionExploreSource_Execute(object sender, EventArgs e)
+		{
+			if (synchroList.FocusedItem != null)
+			{
+				if (synchroList.FocusedItem.Folder != null)
+				{
+					ExplorePath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
+				}
+				else if (synchroList.FocusedItem.Book != null)
+				{
+					if (synchroList.FocusedItem.Book.State != BookState.Deleted)
+					{
+						ExplorePath(synchroList.FocusedItem.Book.SourcePath);
+					}
+					else
+					{
+						string targetDirectory = Path.GetDirectoryName(synchroList.FocusedItem.Book.TargetPath);
+						string relativeDirectory = Utils.GetRelativePath(targetDirectory, library.TargetRoot);
+						string sourceDirectory = Path.Combine(library.SourceRoot, relativeDirectory);
+						OpenPath(sourceDirectory);
+					}
+				}
+			}
+		}
+
+		private void actionOpenTarget_Execute(object sender, EventArgs e)
+		{
+			if (synchroList.FocusedItem != null)
+			{
+				if (synchroList.FocusedItem.Folder != null)
+				{
+					OpenPath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
+				}
+				else if (synchroList.FocusedItem.Book != null)
+				{
+					OpenPath(synchroList.FocusedItem.Book.TargetPath);
+				}
+			}
+		}
+
+		private void actionExploreTarget_Execute(object sender, EventArgs e)
+		{
+			if (synchroList.FocusedItem != null)
+			{
+				if (synchroList.FocusedItem.Folder != null)
+				{
+					ExplorePath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
+				}
+				else if (synchroList.FocusedItem.Book != null)
+				{
+					ExplorePath(synchroList.FocusedItem.Book.TargetPath);
+				}
+			}
+		}
+
 		private void actionShowActual_Execute(object sender, EventArgs e)
 		{
 			synchroList.ShowActualBooks = !synchroList.ShowActualBooks;
@@ -239,14 +345,17 @@ namespace KindleLibrarySynchronizer
 
 		private void actionSelectNew_Update(object sender, EventArgs e)
 		{
+			actionSelectNew.Enabled = bookComparer.Books.AllBooks.Any();
 		}
 
 		private void actionSelectChanged_Update(object sender, EventArgs e)
 		{
+			actionSelectChanged.Enabled = bookComparer.Books.AllBooks.Any();
 		}
 
 		private void actionSelectDeleted_Update(object sender, EventArgs e)
 		{
+			actionSelectDeleted.Enabled = bookComparer.Books.AllBooks.Any();
 		}
 
 		private void actionUpdateSelected_Update(object sender, EventArgs e)
@@ -257,6 +366,26 @@ namespace KindleLibrarySynchronizer
 		private void actionDeleteSelected_Update(object sender, EventArgs e)
 		{
 			actionDeleteSelected.Enabled = synchroList.SelectedBooks.Any(book => book.State != BookState.New);
+		}
+
+		private void actionOpenSource_Update(object sender, EventArgs e)
+		{
+			actionOpenSource.Enabled = synchroList.FocusedItem != null;
+		}
+
+		private void actionExploreSource_Update(object sender, EventArgs e)
+		{
+			actionExploreSource.Enabled = synchroList.FocusedItem != null;
+		}
+
+		private void actionOpenTarget_Update(object sender, EventArgs e)
+		{
+			actionOpenTarget.Enabled = synchroList.FocusedItem != null;
+		}
+
+		private void actionExploreTarget_Update(object sender, EventArgs e)
+		{
+			actionExploreTarget.Enabled = synchroList.FocusedItem != null;
 		}
 
 		private void actionShowActual_Update(object sender, EventArgs e)

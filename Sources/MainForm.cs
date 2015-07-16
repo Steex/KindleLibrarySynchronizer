@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -175,6 +176,29 @@ namespace KindleLibrarySynchronizer
 		{
 			Logger.WriteLine("Deleting complete");
 			Logger.WriteLine("---");
+		}
+
+
+		private void OpenPath(string path)
+		{
+			if (File.Exists(path) || Directory.Exists(path))
+			{
+				ProcessStartInfo processInfo = new ProcessStartInfo();
+				processInfo.FileName = path;
+				Process.Start(processInfo);
+			}
+			else
+			{
+				ExplorePath(path);
+			}
+		}
+
+		private void ExplorePath(string path)
+		{
+			ProcessStartInfo processInfo = new ProcessStartInfo();
+			processInfo.FileName = "explorer";
+			processInfo.Arguments = string.Format("/select,{0}", path);
+			Process.Start(processInfo);
 		}
 
 	}

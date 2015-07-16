@@ -40,7 +40,7 @@ namespace KindleLibrarySynchronizer
 		public BookFolder(BookFolder parent, string name)
 		{
 			Name = name;
-			Path = parent != null ? parent.Path + "/" + name : name;
+			Path = parent != null ? System.IO.Path.Combine(parent.Path, name) : name;
 			Parent = parent;
 			folders = new SortedDictionary<string, BookFolder>();
 			books = new SortedDictionary<string, BookInfo>();
