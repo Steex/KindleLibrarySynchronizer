@@ -217,7 +217,15 @@ namespace KindleLibrarySynchronizer
 
 				try
 				{
+					// Delete the book.
 					File.Delete(book.TargetPath);
+
+					// Delete a corresponding .sdr directory.
+					string sdrDirectoryPath = Path.ChangeExtension(book.TargetPath, ".sdr");
+					if (Directory.Exists(sdrDirectoryPath))
+					{
+						Directory.Delete(sdrDirectoryPath, true);
+					}
 				}
 				catch (Exception ex)
 				{
