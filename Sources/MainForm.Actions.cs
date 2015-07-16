@@ -16,8 +16,8 @@ namespace KindleLibrarySynchronizer
 		private KindleLibrarySynchronizer.Action actionUpdateSelected;
 		private KindleLibrarySynchronizer.Action actionDeleteSelected;
 		private KindleLibrarySynchronizer.Action actionOpenSource;
-		private KindleLibrarySynchronizer.Action actionExploreSource;
 		private KindleLibrarySynchronizer.Action actionOpenTarget;
+		private KindleLibrarySynchronizer.Action actionExploreSource;
 		private KindleLibrarySynchronizer.Action actionExploreTarget;
 		private KindleLibrarySynchronizer.Action actionShowActual;
 		private KindleLibrarySynchronizer.Action actionShowNew;
@@ -79,15 +79,15 @@ namespace KindleLibrarySynchronizer
 			actionOpenSource.Execute += actionOpenSource_Execute;
 			actionOpenSource.Update += actionOpenSource_Update;
 
-			actionExploreSource = new KindleLibrarySynchronizer.Action("&Explore Source", "Open the selected item in Windows Explorer");
-			actionExploreSource.AttachToolItem(menuBooksExploreSource);
-			actionExploreSource.Execute += actionExploreSource_Execute;
-			actionExploreSource.Update += actionExploreSource_Update;
-
 			actionOpenTarget = new KindleLibrarySynchronizer.Action("&Open Target", "Open the selected item in the default viewer");
 			actionOpenTarget.AttachToolItem(menuBooksOpenTarget);
 			actionOpenTarget.Execute += actionOpenTarget_Execute;
 			actionOpenTarget.Update += actionOpenTarget_Update;
+
+			actionExploreSource = new KindleLibrarySynchronizer.Action("&Explore Source", "Open the selected item in Windows Explorer");
+			actionExploreSource.AttachToolItem(menuBooksExploreSource);
+			actionExploreSource.Execute += actionExploreSource_Execute;
+			actionExploreSource.Update += actionExploreSource_Update;
 
 			actionExploreTarget = new KindleLibrarySynchronizer.Action("&Explore Target", "Open the selected item in Windows Explorer");
 			actionExploreTarget.AttachToolItem(menuBooksExploreTarget);
@@ -216,6 +216,21 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		private void actionOpenTarget_Execute(object sender, EventArgs e)
+		{
+			if (synchroList.FocusedItem != null)
+			{
+				if (synchroList.FocusedItem.Folder != null)
+				{
+					OpenPath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
+				}
+				else if (synchroList.FocusedItem.Book != null)
+				{
+					OpenPath(synchroList.FocusedItem.Book.TargetPath);
+				}
+			}
+		}
+
 		private void actionExploreSource_Execute(object sender, EventArgs e)
 		{
 			if (synchroList.FocusedItem != null)
@@ -237,21 +252,6 @@ namespace KindleLibrarySynchronizer
 						string sourceDirectory = Path.Combine(library.SourceRoot, relativeDirectory);
 						OpenPath(sourceDirectory);
 					}
-				}
-			}
-		}
-
-		private void actionOpenTarget_Execute(object sender, EventArgs e)
-		{
-			if (synchroList.FocusedItem != null)
-			{
-				if (synchroList.FocusedItem.Folder != null)
-				{
-					OpenPath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
-				}
-				else if (synchroList.FocusedItem.Book != null)
-				{
-					OpenPath(synchroList.FocusedItem.Book.TargetPath);
 				}
 			}
 		}
@@ -373,14 +373,14 @@ namespace KindleLibrarySynchronizer
 			actionOpenSource.Enabled = synchroList.FocusedItem != null;
 		}
 
-		private void actionExploreSource_Update(object sender, EventArgs e)
-		{
-			actionExploreSource.Enabled = synchroList.FocusedItem != null;
-		}
-
 		private void actionOpenTarget_Update(object sender, EventArgs e)
 		{
 			actionOpenTarget.Enabled = synchroList.FocusedItem != null;
+		}
+
+		private void actionExploreSource_Update(object sender, EventArgs e)
+		{
+			actionExploreSource.Enabled = synchroList.FocusedItem != null;
 		}
 
 		private void actionExploreTarget_Update(object sender, EventArgs e)

@@ -77,11 +77,11 @@
 			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.booksMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuBooksExploreSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksOpenSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuBooksExploreSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuBooksExploreTarget = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksOpenTarget = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuBooksExploreTarget = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksUpdate = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -493,9 +493,9 @@
 			// 
 			this.booksMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuBooksOpenSource,
-            this.menuBooksExploreSource,
-            this.toolStripSeparator6,
             this.menuBooksOpenTarget,
+            this.toolStripSeparator6,
+            this.menuBooksExploreSource,
             this.menuBooksExploreTarget,
             this.toolStripSeparator7,
             this.menuBooksUpdate,
@@ -503,34 +503,34 @@
 			this.booksMenu.Name = "contextMenu";
 			this.booksMenu.Size = new System.Drawing.Size(153, 170);
 			// 
-			// menuBooksExploreSource
-			// 
-			this.menuBooksExploreSource.Name = "menuBooksExploreSource";
-			this.menuBooksExploreSource.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksExploreSource.Text = "Explore Source";
-			// 
 			// menuBooksOpenSource
 			// 
 			this.menuBooksOpenSource.Name = "menuBooksOpenSource";
 			this.menuBooksOpenSource.Size = new System.Drawing.Size(152, 22);
 			this.menuBooksOpenSource.Text = "Open Source";
 			// 
+			// menuBooksExploreSource
+			// 
+			this.menuBooksExploreSource.Name = "menuBooksExploreSource";
+			this.menuBooksExploreSource.Size = new System.Drawing.Size(152, 22);
+			this.menuBooksExploreSource.Text = "Explore Source";
+			// 
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
 			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
-			// 
-			// menuBooksExploreTarget
-			// 
-			this.menuBooksExploreTarget.Name = "menuBooksExploreTarget";
-			this.menuBooksExploreTarget.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksExploreTarget.Text = "Explore Target";
 			// 
 			// menuBooksOpenTarget
 			// 
 			this.menuBooksOpenTarget.Name = "menuBooksOpenTarget";
 			this.menuBooksOpenTarget.Size = new System.Drawing.Size(152, 22);
 			this.menuBooksOpenTarget.Text = "Open Target";
+			// 
+			// menuBooksExploreTarget
+			// 
+			this.menuBooksExploreTarget.Name = "menuBooksExploreTarget";
+			this.menuBooksExploreTarget.Size = new System.Drawing.Size(152, 22);
+			this.menuBooksExploreTarget.Text = "Explore Target";
 			// 
 			// toolStripSeparator7
 			// 
