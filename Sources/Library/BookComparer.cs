@@ -52,7 +52,7 @@ namespace KindleLibrarySynchronizer
 				}
 				catch (Exception ex)
 				{
-					Logger.WriteLine("FB2 error in file {0}: {1}", sourceFile, ex.Message);
+					Logger.WriteError("FB2 error in file {0}: {1}", sourceFile, ex.Message);
 					continue;
 				}
 			}

@@ -92,7 +92,7 @@ namespace KindleLibrarySynchronizer
 				}
 				else
 				{
-					Logger.WriteLine("FB2 warning in file {0}: Sequence info doesn't contain a name or a number", path);
+					Logger.WriteWarning("FB2 warning in file {0}: Sequence info doesn't contain a name or a number", path);
 				}
 			}
 		}

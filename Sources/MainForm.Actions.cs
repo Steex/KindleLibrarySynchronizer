@@ -309,6 +309,7 @@ namespace KindleLibrarySynchronizer
 		private void actionToggleLogPane_Execute(object sender, EventArgs e)
 		{
 			splitContainer.Panel2Collapsed = !splitContainer.Panel2Collapsed;
+			ResetLogButtonLevel();
 		}
 
 		private void actionOptions_Execute(object sender, EventArgs e)

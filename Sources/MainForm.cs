@@ -14,15 +14,20 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class MainForm : Form
 	{
+
+
 		private LibraryInfo library;
 		private BookComparer bookComparer;
 		private List<string> errorInfoList;
+		private Color[] logButtonColors;
+		private LogLevel logLevel = LogLevel.Info;
+
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			Logger.OnWrite += (msg) => textLog.AppendText(msg);
+			Logger.OnWrite += (level, msg) => { textLog.AppendText(msg); UpdateLogButtonLevel(level); };
 			Logger.OnClear += () => textLog.Clear();
 
 			bookComparer = new BookComparer();
@@ -35,6 +40,11 @@ namespace KindleLibrarySynchronizer
 			}
 
 			errorInfoList = new List<string>();
+			logButtonColors = new Color[Enum.GetValues(typeof(LogLevel)).Length];
+			logButtonColors[(int)LogLevel.Debug] = buttonToggleLogPane.BackColor;
+			logButtonColors[(int)LogLevel.Info] = buttonToggleLogPane.BackColor;
+			logButtonColors[(int)LogLevel.Warning] = Color.FromArgb(255, 240, 191);
+			logButtonColors[(int)LogLevel.Error] = Color.FromArgb(255, 206, 206);
 
 			InitializeActions();
 		}
@@ -143,13 +153,13 @@ namespace KindleLibrarySynchronizer
 					}
 					else
 					{
-						Logger.WriteLine("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+						Logger.WriteWarning("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
 					}
 				}
 				else
 				{
-					Logger.WriteLine("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
-					Logger.WriteLine(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
+					Logger.WriteError("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
 				}
 			}
 		}
@@ -198,13 +208,13 @@ namespace KindleLibrarySynchronizer
 					}
 					else
 					{
-						Logger.WriteLine("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+						Logger.WriteWarning("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
 					}
 				}
 				else
 				{
-					Logger.WriteLine("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
-					Logger.WriteLine(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
+					Logger.WriteError("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
 				}
 			}
 		}
@@ -245,6 +255,21 @@ namespace KindleLibrarySynchronizer
 			return errorInfoList.Count();
 		}
 
+		private void UpdateLogButtonLevel(LogLevel level)
+		{
+			if (!buttonToggleLogPane.Checked &&
+				logLevel < level)
+			{
+				logLevel = level;
+				buttonToggleLogPane.BackColor = logButtonColors[(int)logLevel];
+			}
+		}
+
+		private void ResetLogButtonLevel()
+		{
+			logLevel = LogLevel.Info;
+			buttonToggleLogPane.BackColor = logButtonColors[(int)logLevel];
+		}
 	}
 
 }
