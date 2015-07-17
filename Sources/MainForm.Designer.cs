@@ -44,10 +44,12 @@
 			this.menuUpdateSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuView = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuShowAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowActual = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowNew = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowChanged = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowDeleted = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuShowIgnored = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuToggleLogPane = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,10 +62,12 @@
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonCompare = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.buttonShowAll = new System.Windows.Forms.ToolStripButton();
 			this.buttonShowActual = new System.Windows.Forms.ToolStripButton();
 			this.buttonShowNew = new System.Windows.Forms.ToolStripButton();
 			this.buttonShowChanged = new System.Windows.Forms.ToolStripButton();
 			this.buttonShowDeleted = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonShowIgnored = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonSelectNew = new System.Windows.Forms.ToolStripButton();
@@ -211,10 +215,12 @@
 			// menuView
 			// 
 			this.menuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuShowAll,
             this.menuShowActual,
             this.menuShowNew,
             this.menuShowChanged,
             this.menuShowDeleted,
+            this.toolStripMenuItem4,
             this.menuShowIgnored,
             this.toolStripMenuItem3,
             this.menuToggleLogPane});
@@ -222,50 +228,62 @@
 			this.menuView.Size = new System.Drawing.Size(41, 20);
 			this.menuView.Text = "&View";
 			// 
+			// menuShowAll
+			// 
+			this.menuShowAll.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_All;
+			this.menuShowAll.Name = "menuShowAll";
+			this.menuShowAll.Size = new System.Drawing.Size(152, 22);
+			this.menuShowAll.Text = "Show All";
+			// 
 			// menuShowActual
 			// 
 			this.menuShowActual.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Actual;
 			this.menuShowActual.Name = "menuShowActual";
-			this.menuShowActual.Size = new System.Drawing.Size(146, 22);
+			this.menuShowActual.Size = new System.Drawing.Size(152, 22);
 			this.menuShowActual.Text = "Show Actual";
 			// 
 			// menuShowNew
 			// 
 			this.menuShowNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_New;
 			this.menuShowNew.Name = "menuShowNew";
-			this.menuShowNew.Size = new System.Drawing.Size(146, 22);
+			this.menuShowNew.Size = new System.Drawing.Size(152, 22);
 			this.menuShowNew.Text = "Show New";
 			// 
 			// menuShowChanged
 			// 
 			this.menuShowChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Changed;
 			this.menuShowChanged.Name = "menuShowChanged";
-			this.menuShowChanged.Size = new System.Drawing.Size(146, 22);
+			this.menuShowChanged.Size = new System.Drawing.Size(152, 22);
 			this.menuShowChanged.Text = "Show Changed";
 			// 
 			// menuShowDeleted
 			// 
 			this.menuShowDeleted.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Deleted;
 			this.menuShowDeleted.Name = "menuShowDeleted";
-			this.menuShowDeleted.Size = new System.Drawing.Size(146, 22);
+			this.menuShowDeleted.Size = new System.Drawing.Size(152, 22);
 			this.menuShowDeleted.Text = "Show Deleted";
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(149, 6);
 			// 
 			// menuShowIgnored
 			// 
 			this.menuShowIgnored.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Ignored;
 			this.menuShowIgnored.Name = "menuShowIgnored";
-			this.menuShowIgnored.Size = new System.Drawing.Size(146, 22);
+			this.menuShowIgnored.Size = new System.Drawing.Size(152, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// menuToggleLogPane
 			// 
 			this.menuToggleLogPane.Name = "menuToggleLogPane";
-			this.menuToggleLogPane.Size = new System.Drawing.Size(146, 22);
+			this.menuToggleLogPane.Size = new System.Drawing.Size(152, 22);
 			this.menuToggleLogPane.Text = "Log Pane";
 			// 
 			// menuTools
@@ -304,10 +322,12 @@
             this.toolStripSeparator5,
             this.buttonCompare,
             this.toolStripSeparator1,
+            this.buttonShowAll,
             this.buttonShowActual,
             this.buttonShowNew,
             this.buttonShowChanged,
             this.buttonShowDeleted,
+            this.toolStripSeparator8,
             this.buttonShowIgnored,
             this.toolStripSeparator2,
             this.buttonSelectNew,
@@ -350,6 +370,15 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
+			// buttonShowAll
+			// 
+			this.buttonShowAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonShowAll.Image = ((System.Drawing.Image)(resources.GetObject("buttonShowAll.Image")));
+			this.buttonShowAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonShowAll.Name = "buttonShowAll";
+			this.buttonShowAll.Size = new System.Drawing.Size(23, 22);
+			this.buttonShowAll.Text = "toolStripButton1";
+			// 
 			// buttonShowActual
 			// 
 			this.buttonShowActual.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -385,6 +414,11 @@
 			this.buttonShowDeleted.Name = "buttonShowDeleted";
 			this.buttonShowDeleted.Size = new System.Drawing.Size(23, 22);
 			this.buttonShowDeleted.Text = "toolStripButton8";
+			// 
+			// toolStripSeparator8
+			// 
+			this.toolStripSeparator8.Name = "toolStripSeparator8";
+			this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
 			// 
 			// buttonShowIgnored
 			// 
@@ -506,7 +540,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
 			this.statusFiller.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.statusFiller.Name = "statusFiller";
-			this.statusFiller.Size = new System.Drawing.Size(205, 19);
+			this.statusFiller.Size = new System.Drawing.Size(236, 19);
 			this.statusFiller.Spring = true;
 			// 
 			// buttonToggleLogPane
@@ -704,6 +738,10 @@
 		private System.Windows.Forms.ToolStripStatusLabel statusFiller;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem menuToggleLogPane;
+		private System.Windows.Forms.ToolStripMenuItem menuShowAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+		private System.Windows.Forms.ToolStripButton buttonShowAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 	}
 }
 

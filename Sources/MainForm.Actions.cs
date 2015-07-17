@@ -19,6 +19,7 @@ namespace KindleLibrarySynchronizer
 		private KindleLibrarySynchronizer.Action actionOpenTarget;
 		private KindleLibrarySynchronizer.Action actionExploreSource;
 		private KindleLibrarySynchronizer.Action actionExploreTarget;
+		private KindleLibrarySynchronizer.Action actionShowAll;
 		private KindleLibrarySynchronizer.Action actionShowActual;
 		private KindleLibrarySynchronizer.Action actionShowNew;
 		private KindleLibrarySynchronizer.Action actionShowChanged;
@@ -94,6 +95,11 @@ namespace KindleLibrarySynchronizer
 			actionExploreTarget.AttachToolItem(menuBooksExploreTarget);
 			actionExploreTarget.Execute += actionExploreTarget_Execute;
 			actionExploreTarget.Update += actionExploreTarget_Update;
+
+			actionShowAll = new KindleLibrarySynchronizer.Action("Show A&ll", "Display all books in the list");
+			actionShowAll.AttachToolItem(menuShowAll);
+			actionShowAll.AttachToolItem(buttonShowAll);
+			actionShowAll.Execute += actionShowAll_Execute;
 
 			actionShowActual = new KindleLibrarySynchronizer.Action("Show &Actual", "Display in the list all books that haven't been changed since they had been copied to the device");
 			actionShowActual.AttachToolItem(menuShowActual);
@@ -276,6 +282,14 @@ namespace KindleLibrarySynchronizer
 					ExplorePath(synchroList.FocusedItem.Book.TargetPath);
 				}
 			}
+		}
+
+		private void actionShowAll_Execute(object sender, EventArgs e)
+		{
+			synchroList.ShowActualBooks = true;
+			synchroList.ShowNewBooks = true;
+			synchroList.ShowChangedBooks = true;
+			synchroList.ShowDeletedBooks = true;
 		}
 
 		private void actionShowActual_Execute(object sender, EventArgs e)

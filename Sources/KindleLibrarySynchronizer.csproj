@@ -152,21 +152,6 @@
     <None Include="Resources\Compare.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Show Changed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Show Deleted.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Show New.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Show Actual.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Show Ignored.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Delete.png" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +177,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Library Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show All.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show Actual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show Changed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show Deleted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show Ignored.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show New.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

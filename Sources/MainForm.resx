@@ -134,6 +134,18 @@
   <metadata name="toolbar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>120, 17</value>
   </metadata>
+  <data name="buttonShowAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFvSURBVDhPjY/BSwJBGMX9B/0zioWg6NAhKIgOHUqCICgN
+        CiOwwENsdfCwSCAsxBIbhCEZsgqLC1IbiqKlr3njrKOZ4YM3fPPN+30zE4uUdAb5tAtki0CuDBSqgOMP
+        zTrpACr6t44e+vhPHLAoFhWf1qHdQ3+AmeYAauaQg0IHX+IRs7x140s4ssK09u9b6H5jLjOrMK1dK0S7
+        hwmXSiWYpjnVZ1ZhWju5BppdTDiVSiEej0/1mVWY1vZdHWEHCIIAnufJ2rZtOeR3n1mFaW1e19BoD28V
+        WyQSCfkFDslkMrJnGIbMMCuhca1nKwha4iZhgrTruqOaDsNQnjOrMK21y1f4TYxMgK/g7ZZlTZwxqzCt
+        1YsX1D4hzb+Klnw+/86aQ6JzZiU0ruX0M7xQwMJ8Om+O9oTpaM+swrSWTp9Q+cBcZlZhWsbJI97eMZeZ
+        VZjWQtLJr5y52LgqYu+2jGOrivOCL82aPZ4xw+yQisV+AF5PhzT1aA86AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="buttonSelectDeleted.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

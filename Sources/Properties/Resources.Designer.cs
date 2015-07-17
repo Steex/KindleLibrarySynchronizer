@@ -203,6 +203,16 @@ namespace KindleLibrarySynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Show_All {
+            get {
+                object obj = ResourceManager.GetObject("Show_All", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Show_Changed {
             get {
                 object obj = ResourceManager.GetObject("Show_Changed", resourceCulture);
