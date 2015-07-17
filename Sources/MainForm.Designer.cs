@@ -483,8 +483,9 @@
 			this.statusSelection.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.statusSelection.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.statusSelection.Name = "statusSelection";
-			this.statusSelection.Size = new System.Drawing.Size(200, 17);
+			this.statusSelection.Size = new System.Drawing.Size(200, 19);
 			this.statusSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// statusCounters
@@ -493,14 +494,19 @@
 			this.statusCounters.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.statusCounters.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.statusCounters.Name = "statusCounters";
-			this.statusCounters.Size = new System.Drawing.Size(300, 17);
+			this.statusCounters.Size = new System.Drawing.Size(300, 19);
 			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// statusFiller
 			// 
+			this.statusFiller.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.statusFiller.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.statusFiller.Name = "statusFiller";
-			this.statusFiller.Size = new System.Drawing.Size(205, 17);
+			this.statusFiller.Size = new System.Drawing.Size(205, 19);
 			this.statusFiller.Spring = true;
 			// 
 			// buttonToggleLogPane
