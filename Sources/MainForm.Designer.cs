@@ -49,6 +49,8 @@
 			this.menuShowChanged = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowDeleted = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowIgnored = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuToggleLogPane = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +77,8 @@
 			this.statusBar = new System.Windows.Forms.StatusStrip();
 			this.statusSelection = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusFiller = new System.Windows.Forms.ToolStripStatusLabel();
+			this.buttonToggleLogPane = new System.Windows.Forms.ToolStripButton();
 			this.booksMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuBooksOpenSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksOpenTarget = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,23 +88,27 @@
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksUpdate = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.mainMenu.SuspendLayout();
 			this.toolbar.SuspendLayout();
 			this.statusBar.SuspendLayout();
 			this.booksMenu.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+			this.splitContainer.Panel1.SuspendLayout();
+			this.splitContainer.Panel2.SuspendLayout();
+			this.splitContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// textLog
 			// 
 			this.textLog.AllowDrop = true;
-			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location = new System.Drawing.Point(0, 507);
+			this.textLog.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textLog.Location = new System.Drawing.Point(0, 0);
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textLog.Size = new System.Drawing.Size(806, 91);
+			this.textLog.Size = new System.Drawing.Size(150, 46);
 			this.textLog.TabIndex = 0;
 			this.textLog.WordWrap = false;
 			this.textLog.DoubleClick += new System.EventHandler(this.textLog_DoubleClick);
@@ -207,7 +215,9 @@
             this.menuShowNew,
             this.menuShowChanged,
             this.menuShowDeleted,
-            this.menuShowIgnored});
+            this.menuShowIgnored,
+            this.toolStripMenuItem3,
+            this.menuToggleLogPane});
 			this.menuView.Name = "menuView";
 			this.menuView.Size = new System.Drawing.Size(41, 20);
 			this.menuView.Text = "&View";
@@ -246,6 +256,17 @@
 			this.menuShowIgnored.Name = "menuShowIgnored";
 			this.menuShowIgnored.Size = new System.Drawing.Size(146, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
+			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
+			// 
+			// menuToggleLogPane
+			// 
+			this.menuToggleLogPane.Name = "menuToggleLogPane";
+			this.menuToggleLogPane.Size = new System.Drawing.Size(146, 22);
+			this.menuToggleLogPane.Text = "Log Pane";
 			// 
 			// menuTools
 			// 
@@ -447,7 +468,9 @@
 			// 
 			this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusSelection,
-            this.statusCounters});
+            this.statusCounters,
+            this.statusFiller,
+            this.buttonToggleLogPane});
 			this.statusBar.Location = new System.Drawing.Point(0, 601);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.Size = new System.Drawing.Size(806, 22);
@@ -473,6 +496,21 @@
 			this.statusCounters.Name = "statusCounters";
 			this.statusCounters.Size = new System.Drawing.Size(300, 17);
 			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// statusFiller
+			// 
+			this.statusFiller.Name = "statusFiller";
+			this.statusFiller.Size = new System.Drawing.Size(205, 17);
+			this.statusFiller.Spring = true;
+			// 
+			// buttonToggleLogPane
+			// 
+			this.buttonToggleLogPane.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.buttonToggleLogPane.Image = ((System.Drawing.Image)(resources.GetObject("buttonToggleLogPane.Image")));
+			this.buttonToggleLogPane.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonToggleLogPane.Name = "buttonToggleLogPane";
+			this.buttonToggleLogPane.Size = new System.Drawing.Size(55, 20);
+			this.buttonToggleLogPane.Text = "Log Pane";
 			// 
 			// booksMenu
 			// 
@@ -534,20 +572,38 @@
 			this.menuBooksDelete.Size = new System.Drawing.Size(146, 22);
 			this.menuBooksDelete.Text = "Delete";
 			// 
+			// splitContainer
+			// 
+			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer.Location = new System.Drawing.Point(0, 49);
+			this.splitContainer.Name = "splitContainer";
+			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer.Panel1
+			// 
+			this.splitContainer.Panel1.Controls.Add(this.synchroList);
+			// 
+			// splitContainer.Panel2
+			// 
+			this.splitContainer.Panel2.Controls.Add(this.textLog);
+			this.splitContainer.Panel2Collapsed = true;
+			this.splitContainer.Size = new System.Drawing.Size(806, 552);
+			this.splitContainer.SplitterDistance = 410;
+			this.splitContainer.TabIndex = 9;
+			// 
 			// synchroList
 			// 
-			this.synchroList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.synchroList.BookComparer = null;
 			this.synchroList.ContextMenuStrip = this.booksMenu;
-			this.synchroList.Location = new System.Drawing.Point(0, 52);
+			this.synchroList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.synchroList.Location = new System.Drawing.Point(0, 0);
 			this.synchroList.Name = "synchroList";
 			this.synchroList.ShowActualBooks = true;
 			this.synchroList.ShowChangedBooks = true;
 			this.synchroList.ShowDeletedBooks = true;
 			this.synchroList.ShowNewBooks = true;
-			this.synchroList.Size = new System.Drawing.Size(806, 449);
+			this.synchroList.Size = new System.Drawing.Size(806, 552);
 			this.synchroList.TabIndex = 3;
 			this.synchroList.SelectionChanged += new System.EventHandler(this.synchroList_SelectionChanged);
 			// 
@@ -556,10 +612,9 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(806, 623);
+			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.statusBar);
 			this.Controls.Add(this.toolbar);
-			this.Controls.Add(this.synchroList);
-			this.Controls.Add(this.textLog);
 			this.Controls.Add(this.mainMenu);
 			this.MainMenuStrip = this.mainMenu;
 			this.Name = "MainForm";
@@ -571,6 +626,11 @@
 			this.statusBar.ResumeLayout(false);
 			this.statusBar.PerformLayout();
 			this.booksMenu.ResumeLayout(false);
+			this.splitContainer.Panel1.ResumeLayout(false);
+			this.splitContainer.Panel2.ResumeLayout(false);
+			this.splitContainer.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+			this.splitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -633,6 +693,11 @@
 		private System.Windows.Forms.ToolStripMenuItem menuBooksExploreTarget;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksOpenTarget;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+		private System.Windows.Forms.SplitContainer splitContainer;
+		private System.Windows.Forms.ToolStripButton buttonToggleLogPane;
+		private System.Windows.Forms.ToolStripStatusLabel statusFiller;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+		private System.Windows.Forms.ToolStripMenuItem menuToggleLogPane;
 	}
 }
 

@@ -24,6 +24,7 @@ namespace KindleLibrarySynchronizer
 		private KindleLibrarySynchronizer.Action actionShowChanged;
 		private KindleLibrarySynchronizer.Action actionShowDeleted;
 		private KindleLibrarySynchronizer.Action actionShowIgnored;
+		private KindleLibrarySynchronizer.Action actionToggleLogPane;
 		private KindleLibrarySynchronizer.Action actionOptions;
 		private KindleLibrarySynchronizer.Action actionAbout;
 
@@ -123,6 +124,12 @@ namespace KindleLibrarySynchronizer
 			actionShowIgnored.AttachToolItem(buttonShowIgnored);
 			actionShowIgnored.Execute += actionShowIgnored_Execute;
 			actionShowIgnored.Update += actionShowIgnored_Update;
+
+			actionToggleLogPane = new KindleLibrarySynchronizer.Action("Log Pane", "Toggle the log pane");
+			actionToggleLogPane.AttachToolItem(menuToggleLogPane);
+			actionToggleLogPane.AttachToolItem(buttonToggleLogPane);
+			actionToggleLogPane.Execute += actionToggleLogPane_Execute;
+			actionToggleLogPane.Update += actionToggleLogPane_Update;
 
 			actionOptions = new KindleLibrarySynchronizer.Action("&Options...", "Display the configuration dialog");
 			actionOptions.AttachToolItem(menuOptions);
@@ -299,6 +306,11 @@ namespace KindleLibrarySynchronizer
 			UpdateStatusCounters();
 		}
 
+		private void actionToggleLogPane_Execute(object sender, EventArgs e)
+		{
+			splitContainer.Panel2Collapsed = !splitContainer.Panel2Collapsed;
+		}
+
 		private void actionOptions_Execute(object sender, EventArgs e)
 		{
 			using (OptionsForm optionsForm = new OptionsForm(Config.Main.Clone()))
@@ -406,6 +418,11 @@ namespace KindleLibrarySynchronizer
 		private void actionShowDeleted_Update(object sender, EventArgs e)
 		{
 			actionShowDeleted.Checked = synchroList.ShowDeletedBooks;
+		}
+
+		private void actionToggleLogPane_Update(object sender, EventArgs e)
+		{
+			actionToggleLogPane.Checked = !splitContainer.Panel2Collapsed;
 		}
 
 		private void actionShowIgnored_Update(object sender, EventArgs e)
