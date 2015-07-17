@@ -173,7 +173,8 @@ namespace KindleLibrarySynchronizer
 						outputWaitHandle.WaitOne(60000) &&
 						errorsWaitHandle.WaitOne(60000))
 					{
-						if (converter.ExitCode != 0)
+						if (converter.ExitCode != 0 ||
+							output.ToString().Contains("Failed:"))
 						{
 							throw new Exception(errors.ToString());
 						}

@@ -75,16 +75,16 @@
 			this.statusBar = new System.Windows.Forms.StatusStrip();
 			this.statusSelection = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusCounters = new System.Windows.Forms.ToolStripStatusLabel();
-			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.booksMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuBooksOpenSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuBooksExploreSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksOpenTarget = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuBooksExploreSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksExploreTarget = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksUpdate = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
 			this.mainMenu.SuspendLayout();
 			this.toolbar.SuspendLayout();
 			this.statusBar.SuspendLayout();
@@ -99,9 +99,11 @@
 			this.textLog.Location = new System.Drawing.Point(0, 507);
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
-			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textLog.Size = new System.Drawing.Size(806, 91);
 			this.textLog.TabIndex = 0;
+			this.textLog.WordWrap = false;
+			this.textLog.DoubleClick += new System.EventHandler(this.textLog_DoubleClick);
 			// 
 			// mainMenu
 			// 
@@ -472,6 +474,66 @@
 			this.statusCounters.Size = new System.Drawing.Size(300, 17);
 			this.statusCounters.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// booksMenu
+			// 
+			this.booksMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBooksOpenSource,
+            this.menuBooksOpenTarget,
+            this.toolStripSeparator6,
+            this.menuBooksExploreSource,
+            this.menuBooksExploreTarget,
+            this.toolStripSeparator7,
+            this.menuBooksUpdate,
+            this.menuBooksDelete});
+			this.booksMenu.Name = "contextMenu";
+			this.booksMenu.Size = new System.Drawing.Size(147, 148);
+			// 
+			// menuBooksOpenSource
+			// 
+			this.menuBooksOpenSource.Name = "menuBooksOpenSource";
+			this.menuBooksOpenSource.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksOpenSource.Text = "Open Source";
+			// 
+			// menuBooksOpenTarget
+			// 
+			this.menuBooksOpenTarget.Name = "menuBooksOpenTarget";
+			this.menuBooksOpenTarget.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksOpenTarget.Text = "Open Target";
+			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(143, 6);
+			// 
+			// menuBooksExploreSource
+			// 
+			this.menuBooksExploreSource.Name = "menuBooksExploreSource";
+			this.menuBooksExploreSource.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksExploreSource.Text = "Explore Source";
+			// 
+			// menuBooksExploreTarget
+			// 
+			this.menuBooksExploreTarget.Name = "menuBooksExploreTarget";
+			this.menuBooksExploreTarget.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksExploreTarget.Text = "Explore Target";
+			// 
+			// toolStripSeparator7
+			// 
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(143, 6);
+			// 
+			// menuBooksUpdate
+			// 
+			this.menuBooksUpdate.Name = "menuBooksUpdate";
+			this.menuBooksUpdate.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksUpdate.Text = "Update";
+			// 
+			// menuBooksDelete
+			// 
+			this.menuBooksDelete.Name = "menuBooksDelete";
+			this.menuBooksDelete.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksDelete.Text = "Delete";
+			// 
 			// synchroList
 			// 
 			this.synchroList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -488,66 +550,6 @@
 			this.synchroList.Size = new System.Drawing.Size(806, 449);
 			this.synchroList.TabIndex = 3;
 			this.synchroList.SelectionChanged += new System.EventHandler(this.synchroList_SelectionChanged);
-			// 
-			// booksMenu
-			// 
-			this.booksMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuBooksOpenSource,
-            this.menuBooksOpenTarget,
-            this.toolStripSeparator6,
-            this.menuBooksExploreSource,
-            this.menuBooksExploreTarget,
-            this.toolStripSeparator7,
-            this.menuBooksUpdate,
-            this.menuBooksDelete});
-			this.booksMenu.Name = "contextMenu";
-			this.booksMenu.Size = new System.Drawing.Size(153, 170);
-			// 
-			// menuBooksOpenSource
-			// 
-			this.menuBooksOpenSource.Name = "menuBooksOpenSource";
-			this.menuBooksOpenSource.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksOpenSource.Text = "Open Source";
-			// 
-			// menuBooksExploreSource
-			// 
-			this.menuBooksExploreSource.Name = "menuBooksExploreSource";
-			this.menuBooksExploreSource.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksExploreSource.Text = "Explore Source";
-			// 
-			// toolStripSeparator6
-			// 
-			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
-			// 
-			// menuBooksOpenTarget
-			// 
-			this.menuBooksOpenTarget.Name = "menuBooksOpenTarget";
-			this.menuBooksOpenTarget.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksOpenTarget.Text = "Open Target";
-			// 
-			// menuBooksExploreTarget
-			// 
-			this.menuBooksExploreTarget.Name = "menuBooksExploreTarget";
-			this.menuBooksExploreTarget.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksExploreTarget.Text = "Explore Target";
-			// 
-			// toolStripSeparator7
-			// 
-			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
-			// 
-			// menuBooksUpdate
-			// 
-			this.menuBooksUpdate.Name = "menuBooksUpdate";
-			this.menuBooksUpdate.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksUpdate.Text = "Update";
-			// 
-			// menuBooksDelete
-			// 
-			this.menuBooksDelete.Name = "menuBooksDelete";
-			this.menuBooksDelete.Size = new System.Drawing.Size(152, 22);
-			this.menuBooksDelete.Text = "Delete";
 			// 
 			// MainForm
 			// 

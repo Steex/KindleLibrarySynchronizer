@@ -16,6 +16,7 @@ namespace KindleLibrarySynchronizer
 	{
 		public static readonly char[] DirectorySeparators = { '/', '\\' };
 		public static readonly char[] ListSeparators = { ',', ' ', ';' };
+		public static readonly char[] LineSeparators = { '\r', '\n' };
 
 
 		public static void ShowErrorMessage(IWin32Window owner, Exception exception)
@@ -271,6 +272,17 @@ namespace KindleLibrarySynchronizer
 			}
 
 			return abbreviation;
+		}
+
+		public static string ExtractFirstLine(string text)
+		{
+			if (text == null)
+			{
+				return null;
+			}
+
+			int lineSeparatorPos = text.IndexOfAny(LineSeparators);
+			return lineSeparatorPos == -1 ? text : text.Substring(0, lineSeparatorPos);
 		}
 	}
 }

@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.IO;
 
@@ -15,6 +16,7 @@ namespace KindleLibrarySynchronizer
 	{
 		private LibraryInfo library;
 		private BookComparer bookComparer;
+		private List<string> errorInfoList;
 
 		public MainForm()
 		{
@@ -31,6 +33,8 @@ namespace KindleLibrarySynchronizer
 			{
 				comboLibraries.SelectedIndex = 0;
 			}
+
+			errorInfoList = new List<string>();
 
 			InitializeActions();
 		}
@@ -82,6 +86,25 @@ namespace KindleLibrarySynchronizer
 			library = Config.Main.Libraries.Find(l => l.Name == libraryName);
 		}
 
+		private void textLog_DoubleClick(object sender, EventArgs e)
+		{
+			string clickedLine = textLog.Lines[textLog.GetLineFromCharIndex(textLog.SelectionStart)];
+
+			Match errorLink = Regex.Match(clickedLine, "LOG#([0-9]+)");
+			if (errorLink != null)
+			{
+				try
+				{
+					int errorIndex = int.Parse(errorLink.Groups[1].Value);
+					MessageBox.Show(this, errorInfoList[errorIndex - 1], "Log");
+				}
+				catch
+				{
+					// just ignore this error
+				}
+			}
+		}
+
 
 		private void ConvertBooks(IEnumerable<BookInfo> books)
 		{
@@ -114,12 +137,19 @@ namespace KindleLibrarySynchronizer
 				BookOperations.StepResult result = (BookOperations.StepResult)e.UserState;
 				if (result.Succeeded)
 				{
-					Logger.WriteLine("OK");
+					if (string.IsNullOrWhiteSpace(result.ErrorText))
+					{
+						Logger.WriteLine("OK");
+					}
+					else
+					{
+						Logger.WriteLine("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					}
 				}
 				else
 				{
-					Logger.WriteLine("Failed!");
-					Logger.WriteLine(">> Error message: \"{0}\"", result.ErrorText);
+					Logger.WriteLine("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					Logger.WriteLine(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
 				}
 			}
 		}
@@ -162,12 +192,19 @@ namespace KindleLibrarySynchronizer
 				BookOperations.StepResult result = (BookOperations.StepResult)e.UserState;
 				if (result.Succeeded)
 				{
-					Logger.WriteLine("OK");
+					if (string.IsNullOrWhiteSpace(result.ErrorText))
+					{
+						Logger.WriteLine("OK");
+					}
+					else
+					{
+						Logger.WriteLine("Done with warnings. Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					}
 				}
 				else
 				{
-					Logger.WriteLine("Failed!");
-					Logger.WriteLine(">> Error message: \"{0}\"", result.ErrorText);
+					Logger.WriteLine("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
+					Logger.WriteLine(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
 				}
 			}
 		}
@@ -199,6 +236,13 @@ namespace KindleLibrarySynchronizer
 			processInfo.FileName = "explorer";
 			processInfo.Arguments = string.Format("/select,{0}", path);
 			Process.Start(processInfo);
+		}
+
+
+		private int CreateErrorInfo(string errorText)
+		{
+			errorInfoList.Add(errorText);
+			return errorInfoList.Count();
 		}
 
 	}
