@@ -10,10 +10,11 @@ namespace KindleLibrarySynchronizer
 	{
 		private KindleLibrarySynchronizer.Action actionExit;
 		private KindleLibrarySynchronizer.Action actionCompare;
+		private KindleLibrarySynchronizer.Action actionCompareSelected;
 		private KindleLibrarySynchronizer.Action actionSelectNew;
 		private KindleLibrarySynchronizer.Action actionSelectChanged;
 		private KindleLibrarySynchronizer.Action actionSelectDeleted;
-		private KindleLibrarySynchronizer.Action actionUpdateSelected;
+		private KindleLibrarySynchronizer.Action actionConvertSelected;
 		private KindleLibrarySynchronizer.Action actionDeleteSelected;
 		private KindleLibrarySynchronizer.Action actionOpenSource;
 		private KindleLibrarySynchronizer.Action actionOpenTarget;
@@ -42,6 +43,12 @@ namespace KindleLibrarySynchronizer
 			actionCompare.Execute += actionCompare_Execute;
 			actionCompare.Update += actionCompare_Update;
 
+			actionCompareSelected = new KindleLibrarySynchronizer.Action("&Compare Selected", "Recompare selected books");
+			actionCompareSelected.ShortcutKeys = Keys.Control | Keys.R;
+			actionCompareSelected.AttachToolItem(menuBooksCompare);
+			actionCompareSelected.Execute += actionCompareSelected_Execute;
+			actionCompareSelected.Update += actionCompareSelected_Update;
+
 			actionSelectNew = new KindleLibrarySynchronizer.Action("Select All &New", "Select all books that are present on PC but not on the device");
 			actionSelectNew.AttachToolItem(menuSelectNew);
 			actionSelectNew.AttachToolItem(buttonSelectNew);
@@ -60,13 +67,13 @@ namespace KindleLibrarySynchronizer
 			actionSelectDeleted.Execute += actionSelectDeleted_Execute ;
 			actionSelectDeleted.Update += actionSelectDeleted_Update;
 
-			actionUpdateSelected = new KindleLibrarySynchronizer.Action("&Update Selected Books", "Convert all selected books into PDF and copy them to the device");
-			actionUpdateSelected.ShortcutKeys = Keys.Control | Keys.U;
-			actionUpdateSelected.AttachToolItem(menuUpdateSelected);
-			actionUpdateSelected.AttachToolItem(menuBooksUpdate);
-			actionUpdateSelected.AttachToolItem(buttonUpdateSelected);
-			actionUpdateSelected.Execute += actionUpdateSelected_Execute;
-			actionUpdateSelected.Update += actionUpdateSelected_Update;
+			actionConvertSelected = new KindleLibrarySynchronizer.Action("&Convert Selected Books", "Convert all selected books into PDF and copy them to the device");
+			actionConvertSelected.ShortcutKeys = Keys.Control | Keys.U;
+			actionConvertSelected.AttachToolItem(menuConvertSelected);
+			actionConvertSelected.AttachToolItem(menuBooksConvert);
+			actionConvertSelected.AttachToolItem(buttonConvertSelected);
+			actionConvertSelected.Execute += actionUpdateSelected_Execute;
+			actionConvertSelected.Update += actionUpdateSelected_Update;
 
 			actionDeleteSelected = new KindleLibrarySynchronizer.Action("Delete Selected Books", "Delete all selected PDF books from the device (original books will remain safe)");
 			actionDeleteSelected.ShortcutKeys = Keys.Control | Keys.Delete;
@@ -162,6 +169,15 @@ namespace KindleLibrarySynchronizer
 			UpdateStatusCounters();
 
 			Logger.WriteLine("---");
+		}
+
+		private void actionCompareSelected_Execute(object sender, EventArgs e)
+		{
+			bookComparer.Compare(
+				synchroList.TopLevelSelectedItems.Where(i => i.Folder != null).Select(i => i.Folder),
+				synchroList.TopLevelSelectedItems.Where(i => i.Book != null).Select(i => i.Book));
+			synchroList.UpdateItems(true);
+			UpdateStatusCounters();
 		}
 
 		private void actionSelectNew_Execute(object sender, EventArgs e)
@@ -370,6 +386,11 @@ namespace KindleLibrarySynchronizer
 			actionCompare.Enabled = library != null;
 		}
 
+		private void actionCompareSelected_Update(object sender, EventArgs e)
+		{
+			actionCompareSelected.Enabled = synchroList.SelectedItems.Any();
+		}
+
 		private void actionSelectNew_Update(object sender, EventArgs e)
 		{
 			actionSelectNew.Enabled = bookComparer.Books.AllBooks.Any();
@@ -387,7 +408,7 @@ namespace KindleLibrarySynchronizer
 
 		private void actionUpdateSelected_Update(object sender, EventArgs e)
 		{
-			actionUpdateSelected.Enabled = synchroList.SelectedBooks.Any(book => book.State != BookState.Deleted);
+			actionConvertSelected.Enabled = synchroList.SelectedBooks.Any(book => book.State != BookState.Deleted);
 		}
 
 		private void actionDeleteSelected_Update(object sender, EventArgs e)

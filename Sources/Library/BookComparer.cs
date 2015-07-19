@@ -32,44 +32,9 @@ namespace KindleLibrarySynchronizer
 				return;
 			}
 
-
+			// Compare files in the root folder.
 			Books = new BookFolder(null, "");
-
-			SortedSet<string> targetPaths = new SortedSet<string>();
-
-			// Collect source books.
-			foreach (string sourceFile in FindBookFiles(Library.SourceRoot, sourceFileMask))
-			{
-				try
-				{
-					string sourcePath = Path.Combine(Library.SourceRoot, sourceFile);
-					string targetDir = Path.Combine(Library.TargetRoot, Path.GetDirectoryName(sourceFile));
-
-					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
-
-					Books.AddBook(bookInfo, Path.Combine(Path.GetDirectoryName(sourceFile), bookInfo.PdfTitle));
-					targetPaths.Add(bookInfo.TargetPath.ToLower());
-				}
-				catch (Exception ex)
-				{
-					Logger.WriteError("FB2 error in file {0}: {1}", sourceFile, ex.Message);
-					continue;
-				}
-			}
-
-			// Collect unknown target books.
-			foreach (string targetFile in FindBookFiles(Library.TargetRoot, targetFileMask))
-			{
-				string targetPath = Path.Combine(Library.TargetRoot, targetFile);
-
-				if (!targetPaths.Contains(targetPath.ToLower()))
-				{
-					BookInfo bookInfo = BookInfo.CreateFromTarget(targetPath);
-
-					Books.AddBook(bookInfo, targetFile);
-					targetPaths.Add(bookInfo.TargetPath.ToLower());
-				}
-			}
+			CompareFolder(Books.Path);
 
 			// Count book states in each folder.
 			Books.CountStates();
@@ -81,15 +46,92 @@ namespace KindleLibrarySynchronizer
 			Compare();
 		}
 
-
-		private IEnumerable<string> FindBookFiles(string root, string mask)
+		public void Compare(IEnumerable<BookFolder> folders, IEnumerable<BookInfo> books)
 		{
-			foreach (string targetFile in Directory.GetFiles(root, mask, SearchOption.AllDirectories))
+			foreach (BookFolder folder in folders)
 			{
-				string basePath = Utils.GetRelativePath(targetFile, root);
+				Books.RemoveFolder(folder.Path);
+				CompareFolder(folder.Path);
+			}
+
+			foreach (BookInfo book in books)
+			{
+				string bookPath = Utils.GetRelativePath(book.TargetPath, Library.TargetRoot);
+				Books.RemoveBook(bookPath);
+				CompareBook(book.SourcePath, book.TargetPath);
+			}
+
+			// Count book states in each folder.
+			Books.CountStates();
+		}
+
+		private void CompareFolder(string folderPath)
+		{
+			SortedSet<string> targetPaths = new SortedSet<string>();
+
+			// Collect source books.
+			foreach (string sourceFile in FindBookFiles(Library.SourceRoot, folderPath, sourceFileMask))
+			{
+				try
+				{
+					string sourcePath = Path.Combine(Library.SourceRoot, sourceFile);
+					string targetDir = Path.Combine(Library.TargetRoot, Path.GetDirectoryName(sourceFile));
+
+					BookInfo bookInfo = BookInfo.CreateFromSource(sourcePath, targetDir);
+
+					Books.AddBook(bookInfo, Utils.GetRelativePath(bookInfo.TargetPath, Library.TargetRoot));
+					targetPaths.Add(bookInfo.TargetPath.ToLower());
+				}
+				catch (Exception ex)
+				{
+					Logger.WriteError("FB2 error in file {0}: {1}", sourceFile, ex.Message);
+					continue;
+				}
+			}
+
+			// Collect unknown target books.
+			foreach (string targetFile in FindBookFiles(Library.TargetRoot, folderPath, targetFileMask))
+			{
+				string targetPath = Path.Combine(Library.TargetRoot, targetFile);
+
+				if (!targetPaths.Contains(targetPath.ToLower()))
+				{
+					BookInfo bookInfo = BookInfo.CreateFromTarget(targetPath);
+
+					Books.AddBook(bookInfo, targetFile);
+					targetPaths.Add(bookInfo.TargetPath.ToLower());
+				}
+			}
+		}
+
+		private void CompareBook(string sourcePath, string targetPath)
+		{
+			BookInfo bookInfo = null;
+
+			if (File.Exists(sourcePath))
+			{
+				bookInfo = BookInfo.CreateFromSource(sourcePath, Path.GetDirectoryName(targetPath));
+			}
+			else if (File.Exists(targetPath))
+			{
+				bookInfo = BookInfo.CreateFromTarget(targetPath);
+			}
+
+			if (bookInfo != null)
+			{
+				Books.AddBook(bookInfo, Utils.GetRelativePath(bookInfo.TargetPath, Library.TargetRoot));
+			}
+		}
+
+
+		private IEnumerable<string> FindBookFiles(string root, string folder, string mask)
+		{
+			foreach (string bookFile in Directory.GetFiles(Path.Combine(root, folder), mask, SearchOption.AllDirectories))
+			{
+				string basePath = Utils.GetRelativePath(bookFile, root);
 				if (!SkipIgnoredBooks || !IsPathIgnored(basePath))
 				{
-					yield return Utils.GetRelativePath(targetFile, root);
+					yield return basePath;
 				}
 			}
 		}

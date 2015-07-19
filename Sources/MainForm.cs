@@ -268,6 +268,7 @@ namespace KindleLibrarySynchronizer
 			logLevel = LogLevel.Info;
 			buttonToggleLogPane.BackColor = logButtonColors[(int)logLevel];
 		}
+
 	}
 
 }

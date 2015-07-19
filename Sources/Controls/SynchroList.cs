@@ -14,12 +14,14 @@ namespace KindleLibrarySynchronizer
 	{
 		public class ItemInfo
 		{
+			public ListViewItem Parent { get; private set; }
 			public string Path { get; private set; }
 			public BookFolder Folder { get; private set; }
 			public BookInfo Book { get; private set; }
 
-			public ItemInfo(BookFolder folder, BookInfo book)
+			public ItemInfo(ListViewItem parent, BookFolder folder, BookInfo book)
 			{
+				Parent = parent;
 				Folder = folder;
 				Book = book;
 
@@ -155,6 +157,31 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		[Browsable(false)]
+		public IEnumerable<ItemInfo> TopLevelSelectedItems
+		{
+			get
+			{
+				foreach (ListViewItem item in listview.SelectedItems)
+				{
+					ItemInfo itemInfo = (ItemInfo)item.Tag;
+
+					bool isTopLevel = true;
+					ListViewItem parentItem = itemInfo.Parent;
+					while (parentItem != null)
+					{
+						isTopLevel = isTopLevel && !parentItem.Selected;
+						parentItem = (parentItem.Tag as ItemInfo).Parent;
+					}
+					
+					if (isTopLevel)
+					{
+						yield return itemInfo;
+					}
+				}
+			}
+		}
+
 		[Category("Book States")]
 		public bool ShowActualBooks
 		{
@@ -274,14 +301,17 @@ namespace KindleLibrarySynchronizer
 			// Fill new items.
 			var folderStack = new Stack<BookFolder>();
 			var enumeratorStack = new Stack<IEnumerator<BookFolder>>();
+			var itemStack = new Stack<ListViewItem>();
 
 			folderStack.Push(BookComparer.Books);
 			enumeratorStack.Push(BookComparer.Books.Folders.GetEnumerator());
+			itemStack.Push(null);
 
 			while (folderStack.Count > 0)
 			{
 				BookFolder folder = folderStack.Peek();
 				IEnumerator<BookFolder> enumerator = enumeratorStack.Peek();
+				ListViewItem folderItem = itemStack.Peek();
 
 				if (enumerator.MoveNext())
 				{
@@ -300,16 +330,18 @@ namespace KindleLibrarySynchronizer
 					}
 
 					// Create the subfolder item.
-					ListViewItem item = listview.Items.Add(CreateFolderItem(enumerator.Current, folderStack.Count - 1));
+					ListViewItem item = listview.Items.Add(CreateFolderItem(folderItem, enumerator.Current, folderStack.Count - 1));
 
 					// Iterate the subfolder.
 					folderStack.Push(enumerator.Current);
 					enumeratorStack.Push(enumerator.Current.Folders.GetEnumerator());
+					itemStack.Push(item);
 				}
 				else
 				{
 					folderStack.Pop();
 					enumeratorStack.Pop();
+					itemStack.Pop();
 
 					foreach (BookInfo book in folder.Books)
 					{
@@ -320,7 +352,7 @@ namespace KindleLibrarySynchronizer
 						}
 
 						// Create the book item.
-						ListViewItem item = listview.Items.Add(CreateBookItem(book, folderStack.Count));
+						ListViewItem item = listview.Items.Add(CreateBookItem(folderItem, book, folderStack.Count));
 					}
 				}
 			}
@@ -341,7 +373,7 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		private ListViewItem CreateFolderItem(BookFolder folder, int nestingLevel)
+		private ListViewItem CreateFolderItem(ListViewItem parent, BookFolder folder, int nestingLevel)
 		{
 			string textPrefix = new string(' ', nestingLevel * 4);
 			string textSource = textPrefix + folder.Name;
@@ -350,13 +382,13 @@ namespace KindleLibrarySynchronizer
 			// Create a new item.
 			ListViewItem item = new ListViewItem(textSource);
 			item.SubItems.Add(textTarget);
-			item.Tag = new ItemInfo(folder, null);
+			item.Tag = new ItemInfo(parent, folder, null);
 
 			// Return the created item.
 			return item;
 		}
 
-		private ListViewItem CreateBookItem(BookInfo book, int nestingLevel)
+		private ListViewItem CreateBookItem(ListViewItem parent, BookInfo book, int nestingLevel)
 		{
 			string textPrefix = new string(' ', nestingLevel * 4);
 			string textSource = textPrefix + Path.GetFileName(book.SourcePath);
@@ -365,7 +397,7 @@ namespace KindleLibrarySynchronizer
 			// Create a new item.
 			ListViewItem item = new ListViewItem(textSource);
 			item.BackColor = stateBackColors[(int)book.State];
-			item.Tag = new ItemInfo(null, book);
+			item.Tag = new ItemInfo(parent, null, book);
 			item.UseItemStyleForSubItems = false;
 
 			var subitemTarget = item.SubItems.Add(textTarget);

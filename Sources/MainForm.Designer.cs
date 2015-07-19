@@ -41,7 +41,7 @@
 			this.menuSelectChanged = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSelectDeleted = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuUpdateSelected = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuConvertSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuView = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuShowAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +74,7 @@
 			this.buttonSelectChanged = new System.Windows.Forms.ToolStripButton();
 			this.buttonSelectDeleted = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.buttonUpdateSelected = new System.Windows.Forms.ToolStripButton();
+			this.buttonConvertSelected = new System.Windows.Forms.ToolStripButton();
 			this.buttonDeleteSelected = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.buttonOptions = new System.Windows.Forms.ToolStripButton();
@@ -84,13 +84,14 @@
 			this.statusFiller = new System.Windows.Forms.ToolStripStatusLabel();
 			this.buttonToggleLogPane = new System.Windows.Forms.ToolStripButton();
 			this.booksMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuBooksCompare = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksOpenSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksOpenTarget = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBooksExploreSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksExploreTarget = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuBooksUpdate = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuBooksConvert = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuBooksDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.synchroList = new KindleLibrarySynchronizer.SynchroList();
@@ -154,7 +155,7 @@
             this.menuSelectChanged,
             this.menuSelectDeleted,
             this.toolStripMenuItem2,
-            this.menuUpdateSelected,
+            this.menuConvertSelected,
             this.menuDeleteSelected});
 			this.menuEdit.Name = "menuEdit";
 			this.menuEdit.Size = new System.Drawing.Size(37, 20);
@@ -164,52 +165,52 @@
 			// 
 			this.menuCompare.Image = global::KindleLibrarySynchronizer.Properties.Resources.Compare;
 			this.menuCompare.Name = "menuCompare";
-			this.menuCompare.Size = new System.Drawing.Size(184, 22);
+			this.menuCompare.Size = new System.Drawing.Size(188, 22);
 			this.menuCompare.Text = "Compare";
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(185, 6);
 			// 
 			// menuSelectNew
 			// 
 			this.menuSelectNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_New;
 			this.menuSelectNew.Name = "menuSelectNew";
-			this.menuSelectNew.Size = new System.Drawing.Size(184, 22);
+			this.menuSelectNew.Size = new System.Drawing.Size(188, 22);
 			this.menuSelectNew.Text = "Select All New";
 			// 
 			// menuSelectChanged
 			// 
 			this.menuSelectChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Select_Changed;
 			this.menuSelectChanged.Name = "menuSelectChanged";
-			this.menuSelectChanged.Size = new System.Drawing.Size(184, 22);
+			this.menuSelectChanged.Size = new System.Drawing.Size(188, 22);
 			this.menuSelectChanged.Text = "Select All Changed";
 			// 
 			// menuSelectDeleted
 			// 
 			this.menuSelectDeleted.Image = ((System.Drawing.Image)(resources.GetObject("menuSelectDeleted.Image")));
 			this.menuSelectDeleted.Name = "menuSelectDeleted";
-			this.menuSelectDeleted.Size = new System.Drawing.Size(184, 22);
+			this.menuSelectDeleted.Size = new System.Drawing.Size(188, 22);
 			this.menuSelectDeleted.Text = "Select All Deleted";
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 6);
 			// 
-			// menuUpdateSelected
+			// menuConvertSelected
 			// 
-			this.menuUpdateSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
-			this.menuUpdateSelected.Name = "menuUpdateSelected";
-			this.menuUpdateSelected.Size = new System.Drawing.Size(184, 22);
-			this.menuUpdateSelected.Text = "Update Selected Books";
+			this.menuConvertSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
+			this.menuConvertSelected.Name = "menuConvertSelected";
+			this.menuConvertSelected.Size = new System.Drawing.Size(188, 22);
+			this.menuConvertSelected.Text = "Convert Selected Books";
 			// 
 			// menuDeleteSelected
 			// 
 			this.menuDeleteSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Delete;
 			this.menuDeleteSelected.Name = "menuDeleteSelected";
-			this.menuDeleteSelected.Size = new System.Drawing.Size(184, 22);
+			this.menuDeleteSelected.Size = new System.Drawing.Size(188, 22);
 			this.menuDeleteSelected.Text = "Delete Selected Books";
 			// 
 			// menuView
@@ -232,58 +233,58 @@
 			// 
 			this.menuShowAll.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_All;
 			this.menuShowAll.Name = "menuShowAll";
-			this.menuShowAll.Size = new System.Drawing.Size(152, 22);
+			this.menuShowAll.Size = new System.Drawing.Size(146, 22);
 			this.menuShowAll.Text = "Show All";
 			// 
 			// menuShowActual
 			// 
 			this.menuShowActual.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Actual;
 			this.menuShowActual.Name = "menuShowActual";
-			this.menuShowActual.Size = new System.Drawing.Size(152, 22);
+			this.menuShowActual.Size = new System.Drawing.Size(146, 22);
 			this.menuShowActual.Text = "Show Actual";
 			// 
 			// menuShowNew
 			// 
 			this.menuShowNew.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_New;
 			this.menuShowNew.Name = "menuShowNew";
-			this.menuShowNew.Size = new System.Drawing.Size(152, 22);
+			this.menuShowNew.Size = new System.Drawing.Size(146, 22);
 			this.menuShowNew.Text = "Show New";
 			// 
 			// menuShowChanged
 			// 
 			this.menuShowChanged.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Changed;
 			this.menuShowChanged.Name = "menuShowChanged";
-			this.menuShowChanged.Size = new System.Drawing.Size(152, 22);
+			this.menuShowChanged.Size = new System.Drawing.Size(146, 22);
 			this.menuShowChanged.Text = "Show Changed";
 			// 
 			// menuShowDeleted
 			// 
 			this.menuShowDeleted.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Deleted;
 			this.menuShowDeleted.Name = "menuShowDeleted";
-			this.menuShowDeleted.Size = new System.Drawing.Size(152, 22);
+			this.menuShowDeleted.Size = new System.Drawing.Size(146, 22);
 			this.menuShowDeleted.Text = "Show Deleted";
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(143, 6);
 			// 
 			// menuShowIgnored
 			// 
 			this.menuShowIgnored.Image = global::KindleLibrarySynchronizer.Properties.Resources.Show_Ignored;
 			this.menuShowIgnored.Name = "menuShowIgnored";
-			this.menuShowIgnored.Size = new System.Drawing.Size(152, 22);
+			this.menuShowIgnored.Size = new System.Drawing.Size(146, 22);
 			this.menuShowIgnored.Text = "Show Ignored";
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
 			// 
 			// menuToggleLogPane
 			// 
 			this.menuToggleLogPane.Name = "menuToggleLogPane";
-			this.menuToggleLogPane.Size = new System.Drawing.Size(152, 22);
+			this.menuToggleLogPane.Size = new System.Drawing.Size(146, 22);
 			this.menuToggleLogPane.Text = "Log Pane";
 			// 
 			// menuTools
@@ -334,7 +335,7 @@
             this.buttonSelectChanged,
             this.buttonSelectDeleted,
             this.toolStripSeparator3,
-            this.buttonUpdateSelected,
+            this.buttonConvertSelected,
             this.buttonDeleteSelected,
             this.toolStripSeparator4,
             this.buttonOptions});
@@ -466,14 +467,14 @@
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
-			// buttonUpdateSelected
+			// buttonConvertSelected
 			// 
-			this.buttonUpdateSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.buttonUpdateSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
-			this.buttonUpdateSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonUpdateSelected.Name = "buttonUpdateSelected";
-			this.buttonUpdateSelected.Size = new System.Drawing.Size(23, 22);
-			this.buttonUpdateSelected.Text = "toolStripButton10";
+			this.buttonConvertSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.buttonConvertSelected.Image = global::KindleLibrarySynchronizer.Properties.Resources.Convert;
+			this.buttonConvertSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonConvertSelected.Name = "buttonConvertSelected";
+			this.buttonConvertSelected.Size = new System.Drawing.Size(23, 22);
+			this.buttonConvertSelected.Text = "toolStripButton10";
 			// 
 			// buttonDeleteSelected
 			// 
@@ -555,16 +556,28 @@
 			// booksMenu
 			// 
 			this.booksMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBooksCompare,
+            this.toolStripMenuItem5,
             this.menuBooksOpenSource,
             this.menuBooksOpenTarget,
-            this.toolStripSeparator6,
             this.menuBooksExploreSource,
             this.menuBooksExploreTarget,
             this.toolStripSeparator7,
-            this.menuBooksUpdate,
+            this.menuBooksConvert,
             this.menuBooksDelete});
 			this.booksMenu.Name = "contextMenu";
-			this.booksMenu.Size = new System.Drawing.Size(147, 148);
+			this.booksMenu.Size = new System.Drawing.Size(147, 170);
+			// 
+			// menuBooksCompare
+			// 
+			this.menuBooksCompare.Name = "menuBooksCompare";
+			this.menuBooksCompare.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksCompare.Text = "Compare";
+			// 
+			// toolStripMenuItem5
+			// 
+			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(143, 6);
 			// 
 			// menuBooksOpenSource
 			// 
@@ -577,11 +590,6 @@
 			this.menuBooksOpenTarget.Name = "menuBooksOpenTarget";
 			this.menuBooksOpenTarget.Size = new System.Drawing.Size(146, 22);
 			this.menuBooksOpenTarget.Text = "Open Target";
-			// 
-			// toolStripSeparator6
-			// 
-			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(143, 6);
 			// 
 			// menuBooksExploreSource
 			// 
@@ -600,11 +608,11 @@
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
 			this.toolStripSeparator7.Size = new System.Drawing.Size(143, 6);
 			// 
-			// menuBooksUpdate
+			// menuBooksConvert
 			// 
-			this.menuBooksUpdate.Name = "menuBooksUpdate";
-			this.menuBooksUpdate.Size = new System.Drawing.Size(146, 22);
-			this.menuBooksUpdate.Text = "Update";
+			this.menuBooksConvert.Name = "menuBooksConvert";
+			this.menuBooksConvert.Size = new System.Drawing.Size(146, 22);
+			this.menuBooksConvert.Text = "Convert";
 			// 
 			// menuBooksDelete
 			// 
@@ -690,7 +698,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuSelectChanged;
 		private System.Windows.Forms.ToolStripMenuItem menuSelectDeleted;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem menuUpdateSelected;
+		private System.Windows.Forms.ToolStripMenuItem menuConvertSelected;
 		private System.Windows.Forms.ToolStripMenuItem menuDeleteSelected;
 		private System.Windows.Forms.ToolStripMenuItem menuView;
 		private System.Windows.Forms.ToolStripMenuItem menuShowActual;
@@ -719,7 +727,7 @@
 		private System.Windows.Forms.ToolStripButton buttonSelectChanged;
 		private System.Windows.Forms.ToolStripButton buttonSelectDeleted;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripButton buttonUpdateSelected;
+		private System.Windows.Forms.ToolStripButton buttonConvertSelected;
 		private System.Windows.Forms.ToolStripButton buttonDeleteSelected;
 		private System.Windows.Forms.ToolStripButton buttonOptions;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
@@ -727,8 +735,7 @@
 		private System.Windows.Forms.ContextMenuStrip booksMenu;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksExploreSource;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksOpenSource;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-		private System.Windows.Forms.ToolStripMenuItem menuBooksUpdate;
+		private System.Windows.Forms.ToolStripMenuItem menuBooksConvert;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksDelete;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksExploreTarget;
 		private System.Windows.Forms.ToolStripMenuItem menuBooksOpenTarget;
@@ -742,6 +749,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
 		private System.Windows.Forms.ToolStripButton buttonShowAll;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+		private System.Windows.Forms.ToolStripMenuItem menuBooksCompare;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 	}
 }
 

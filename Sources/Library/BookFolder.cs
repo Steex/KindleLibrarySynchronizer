@@ -78,6 +78,56 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		public void RemoveBook(string path)
+		{
+			int separatorPos = path.IndexOfAny(Utils.DirectorySeparators);
+			if (separatorPos == 0)
+			{
+				// ignore separators at path start
+				RemoveBook(path.Substring(1));
+			}
+			else if (separatorPos == -1)
+			{
+				// the path is a file name
+				books.Remove(path);
+			}
+			else
+			{
+				// the path contains folders
+				string folderName = path.Substring(0, separatorPos);
+				string innerPath = path.Substring(separatorPos + 1);
+				if (folders.ContainsKey(folderName))
+				{
+					folders[folderName].RemoveBook(innerPath);
+				}
+			}
+		}
+
+		public void RemoveFolder(string path)
+		{
+			int separatorPos = path.IndexOfAny(Utils.DirectorySeparators);
+			if (separatorPos == 0)
+			{
+				// ignore separators at path start
+				RemoveFolder(path.Substring(1));
+			}
+			else if (separatorPos == -1)
+			{
+				// the path is a folder name
+				folders.Remove(path);
+			}
+			else
+			{
+				// the path contains folders
+				string folderName = path.Substring(0, separatorPos);
+				string innerPath = path.Substring(separatorPos + 1);
+				if (folders.ContainsKey(folderName))
+				{
+					folders[folderName].RemoveFolder(innerPath);
+				}
+			}
+		}
+
 		public void CountStates()
 		{
 			foreach (BookState state in Enum.GetValues(typeof(BookState)))
