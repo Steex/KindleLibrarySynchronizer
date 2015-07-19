@@ -129,7 +129,9 @@ namespace KindleLibrarySynchronizer
 			}
 
 			// Update the list.
-			bookComparer.Compare();
+			bookComparer.Compare(
+				synchroList.TopLevelSelectedItems.Where(i => i.Folder != null).Select(i => i.Folder),
+				synchroList.TopLevelSelectedItems.Where(i => i.Book != null).Select(i => i.Book));
 			synchroList.UpdateItems(true);
 		}
 
@@ -184,7 +186,9 @@ namespace KindleLibrarySynchronizer
 			}
 
 			// Update the list.
-			bookComparer.Compare();
+			bookComparer.Compare(
+				synchroList.TopLevelSelectedItems.Where(i => i.Folder != null).Select(i => i.Folder),
+				synchroList.TopLevelSelectedItems.Where(i => i.Book != null).Select(i => i.Book));
 			synchroList.UpdateItems(true);
 		}
 
