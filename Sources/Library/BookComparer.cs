@@ -48,17 +48,23 @@ namespace KindleLibrarySynchronizer
 
 		public void Compare(IEnumerable<BookFolder> folders, IEnumerable<BookInfo> books)
 		{
-			foreach (BookFolder folder in folders)
+			if (folders != null)
 			{
-				Books.RemoveFolder(folder.Path);
-				CompareFolder(folder.Path);
+				foreach (BookFolder folder in folders)
+				{
+					Books.RemoveFolder(folder.Path);
+					CompareFolder(folder.Path);
+				}
 			}
 
-			foreach (BookInfo book in books)
+			if (books != null)
 			{
-				string bookPath = Utils.GetRelativePath(book.TargetPath, Library.TargetRoot);
-				Books.RemoveBook(bookPath);
-				CompareBook(book.SourcePath, book.TargetPath);
+				foreach (BookInfo book in books)
+				{
+					string bookPath = Utils.GetRelativePath(book.TargetPath, Library.TargetRoot);
+					Books.RemoveBook(bookPath);
+					CompareBook(book.SourcePath, book.TargetPath);
+				}
 			}
 
 			// Count book states in each folder.
