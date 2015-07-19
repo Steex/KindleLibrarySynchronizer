@@ -14,8 +14,6 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class MainForm : Form
 	{
-
-
 		private LibraryInfo library;
 		private BookComparer bookComparer;
 		private List<string> errorInfoList;
