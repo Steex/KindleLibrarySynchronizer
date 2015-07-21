@@ -53,8 +53,6 @@
 			this.buttonMoveLibraryDown = new System.Windows.Forms.Button();
 			this.buttonMoveLibraryUp = new System.Windows.Forms.Button();
 			this.listLibraries = new System.Windows.Forms.ListBox();
-			this.pageConverter = new System.Windows.Forms.TabPage();
-			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -64,7 +62,6 @@
 			this.groupConverter.SuspendLayout();
 			this.pageLibraries.SuspendLayout();
 			this.groupEditLibrary.SuspendLayout();
-			this.pageConverter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -74,7 +71,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl.Controls.Add(this.pageGeneral);
 			this.tabControl.Controls.Add(this.pageLibraries);
-			this.tabControl.Controls.Add(this.pageConverter);
 			this.tabControl.Location = new System.Drawing.Point(12, 12);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
@@ -352,24 +348,6 @@
 			this.listLibraries.TabIndex = 0;
 			this.listLibraries.SelectedIndexChanged += new System.EventHandler(this.listLibraries_SelectedIndexChanged);
 			// 
-			// pageConverter
-			// 
-			this.pageConverter.Controls.Add(this.propertyGrid1);
-			this.pageConverter.Location = new System.Drawing.Point(4, 22);
-			this.pageConverter.Name = "pageConverter";
-			this.pageConverter.Padding = new System.Windows.Forms.Padding(3);
-			this.pageConverter.Size = new System.Drawing.Size(618, 370);
-			this.pageConverter.TabIndex = 2;
-			this.pageConverter.Text = "Converter";
-			this.pageConverter.UseVisualStyleBackColor = true;
-			// 
-			// propertyGrid1
-			// 
-			this.propertyGrid1.Location = new System.Drawing.Point(204, 6);
-			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.Size = new System.Drawing.Size(210, 358);
-			this.propertyGrid1.TabIndex = 1;
-			// 
 			// buttonOk
 			// 
 			this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -428,7 +406,6 @@
 			this.pageLibraries.ResumeLayout(false);
 			this.groupEditLibrary.ResumeLayout(false);
 			this.groupEditLibrary.PerformLayout();
-			this.pageConverter.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -446,8 +423,6 @@
 		private System.Windows.Forms.Button buttonMoveLibraryDown;
 		private System.Windows.Forms.Button buttonMoveLibraryUp;
 		private System.Windows.Forms.ListBox listLibraries;
-		private System.Windows.Forms.TabPage pageConverter;
-		private System.Windows.Forms.PropertyGrid propertyGrid1;
 		private System.Windows.Forms.GroupBox groupConverter;
 		private System.Windows.Forms.TextBox textConverterDirectory;
 		private System.Windows.Forms.Label label6;

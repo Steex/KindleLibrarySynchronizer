@@ -38,10 +38,9 @@ namespace KindleLibrarySynchronizer
 				listLibraries.SelectedIndex = 0;
 			}
 
-			propertyGrid1.SelectedObject = LocalConfig;
+			tabControl.SelectedTab = pageGeneral;
 
-			tabControl.SelectedTab = pageLibraries;
-
+			// Allow exiting without saving of an incorrect data.
 			buttonCancel.CausesValidation = false;
 
 			// Limit resizing by the current size.
