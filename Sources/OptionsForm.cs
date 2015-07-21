@@ -40,7 +40,9 @@ namespace KindleLibrarySynchronizer
 
 			propertyGrid1.SelectedObject = LocalConfig;
 
-			tabControl.SelectedTab = pageGeneral;
+			tabControl.SelectedTab = pageLibraries;
+
+			buttonCancel.CausesValidation = false;
 
 			// Limit resizing by the current size.
 			MinimumSize = Size;
@@ -79,8 +81,6 @@ namespace KindleLibrarySynchronizer
 			buttonMoveLibraryUp.Enabled = listLibraries.SelectedIndex > 0;
 			buttonMoveLibraryDown.Enabled = listLibraries.SelectedIndex != -1 && listLibraries.SelectedIndex < listLibraries.Items.Count - 1;
 			buttonDeleteLibrary.Enabled = listLibraries.SelectedIndex != -1;
-			buttonSaveLibraryData.Enabled = listLibraries.SelectedIndex != -1;
-			buttonResetLibraryData.Enabled = listLibraries.SelectedIndex != -1;
 		}
 
 
@@ -157,96 +157,11 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		private void buttonResetLibraryData_Click(object sender, EventArgs e)
-		{
-			if (currentLibrary != null)
-			{
-				textLibraryName.Text = currentLibrary.Name;
-				textLibrarySourceRoot.Text = currentLibrary.SourceRoot;
-				textLibraryTargetRoot.Text = currentLibrary.TargetRoot;
-				textLibraryIgnoredFiles.Text = string.Join("\r\n", currentLibrary.IgnoredFiles);
-			}
-		}
-
-		private void buttonSaveLibraryData_Click(object sender, EventArgs e)
-		{
-			if (currentLibrary != null)
-			{
-				// Check the name is valid.
-				String enteredName = textLibraryName.Text.Trim();
-				if (string.IsNullOrEmpty(enteredName))
-				{
-					Utils.ShowErrorMessage(this, "Enter the library name!");
-					textLibraryName.Focus();
-					textLibraryName.SelectAll();
-					return;
-				}
-
-				// Check the name is unique.
-				LibraryInfo libraryWithName = LocalConfig.Libraries.FirstOrDefault(l => l.Name == enteredName);
-				if (libraryWithName != null && libraryWithName != currentLibrary)
-				{
-					Utils.ShowErrorMessage(this, "Library with this name already exists.");
-					textLibraryName.Focus();
-					textLibraryName.SelectAll();
-					return;
-				}
-
-				// Check the source root is in correct format (but allow empty paths).
-				string enteredSourceRoot = textLibrarySourceRoot.Text.Trim();
-				if (enteredSourceRoot.IndexOfAny(Path.GetInvalidPathChars()) != -1)
-				{
-					Utils.ShowErrorMessage(this, "The source path is invalid.");
-					textLibrarySourceRoot.Focus();
-					textLibrarySourceRoot.SelectAll();
-					return;
-				}
-
-				// Check the target root is in correct format (but allow empty paths).
-				string enteredTargetRoot = textLibraryTargetRoot.Text.Trim();
-				if (enteredTargetRoot.IndexOfAny(Path.GetInvalidPathChars()) != -1)
-				{
-					Utils.ShowErrorMessage(this, "The target path is invalid.");
-					textLibraryTargetRoot.Focus();
-					textLibraryTargetRoot.SelectAll();
-					return;
-				}
-
-				// Check the path to stylesheet is in correct format (but allow empty paths).
-				string enteredMainStylesheet = textLibraryMainStylesheet.Text.Trim();
-				if (enteredMainStylesheet.IndexOfAny(Path.GetInvalidPathChars()) != -1)
-				{
-					Utils.ShowErrorMessage(this, "The stylesheet path is invalid.");
-					textLibraryMainStylesheet.Focus();
-					textLibraryMainStylesheet.SelectAll();
-					return;
-				}
-
-
-				// Store the library data.
-				currentLibrary.Name = enteredName;
-				currentLibrary.SourceRoot = enteredSourceRoot;
-				currentLibrary.TargetRoot = enteredTargetRoot;
-				currentLibrary.MainStylesheet = enteredMainStylesheet;
-
-				currentLibrary.IgnoredFiles.Clear();
-
-				foreach (string line in textLibraryIgnoredFiles.Lines)
-				{
-					if (!string.IsNullOrWhiteSpace(line))
-					{
-						currentLibrary.IgnoredFiles.Add(line.Trim());
-					}
-				}
-
-				// Update the list box.
-				listLibraries.Items[listLibraries.SelectedIndex] = currentLibrary.Name;
-			}
-		}
-
-
 		private void buttonOk_Click(object sender, EventArgs e)
 		{
+			ProcessValidationError(textConverterDirectory, "");
+			ProcessValidationError(textConverterStylesheet, "");
+
 			// Check the converter directory is exists.
 			string enteredConverterDirectory = textConverterDirectory.Text.Trim();
 			if (!string.IsNullOrEmpty(enteredConverterDirectory))
@@ -304,9 +219,35 @@ namespace KindleLibrarySynchronizer
 		}
 
 
+		private void ValidateControl(Control control, CancelEventHandler onValidating, EventHandler onValidated)
+		{
+			CancelEventArgs validatingArgs = new CancelEventArgs();
+			
+			if (onValidating != null)
+			{
+				onValidating(control, validatingArgs);
+			}
+
+			if (onValidated != null && !validatingArgs.Cancel)
+			{
+				onValidated(control, EventArgs.Empty);
+			}
+		}
+
 		private void ProcessValidationError(Control control, string message)
 		{
-			Utils.ShowErrorMessage(this, message);
+			bool isValid = string.IsNullOrEmpty(message);
+
+			labelError.Visible = !isValid;
+			labelError.Text = isValid ? "" : message;
+
+			if (control != null)
+			{
+				control.BackColor = isValid ? SystemColors.Window : Color.FromArgb(255, 191, 191);
+			}
+
+
+			/*Utils.ShowErrorMessage(this, message);
 
 			if (control != null)
 			{
@@ -316,7 +257,154 @@ namespace KindleLibrarySynchronizer
 				{
 					(control as TextBox).SelectAll();
 				}
+			}*/
+		}
+
+
+		private void textLibraryName_Validating(object sender, CancelEventArgs e)
+		{
+			if (currentLibrary != null)
+			{
+				// Check the name is valid.
+				String enteredName = textLibraryName.Text.Trim();
+				if (string.IsNullOrEmpty(enteredName))
+				{
+					ProcessValidationError(textLibraryName, "Enter the library name!");
+					e.Cancel = true;
+					return;
+				}
+
+				// Check the name is unique.
+				LibraryInfo libraryWithName = LocalConfig.Libraries.FirstOrDefault(l => l.Name == enteredName);
+				if (libraryWithName != null && libraryWithName != currentLibrary)
+				{
+					ProcessValidationError(textLibraryName, "Library with this name already exists.");
+					e.Cancel = true;
+					return;
+				}
+
+				// Hide an error message.
+				ProcessValidationError(textLibraryName, "");
 			}
 		}
+
+		private void textLibraryName_Validated(object sender, EventArgs e)
+		{
+			if (currentLibrary != null)
+			{
+				currentLibrary.Name = textLibraryName.Text.Trim();
+				listLibraries.Items[listLibraries.SelectedIndex] = currentLibrary.Name;
+			}
+		}
+
+		private void textLibraryName_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				ValidateControl(textLibraryName, textLibraryName_Validating, textLibraryName_Validated);
+			}
+		}
+
+
+		private void textLibrarySourceRoot_Validating(object sender, CancelEventArgs e)
+		{
+			// Check the source root is in correct format (but allow empty paths).
+			string enteredSourceRoot = textLibrarySourceRoot.Text.Trim();
+			if (enteredSourceRoot.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+			{
+				ProcessValidationError(textLibrarySourceRoot, "The source path is invalid.");
+				e.Cancel = true;
+				return;
+			}
+
+			// Hide an error message.
+			ProcessValidationError(textLibrarySourceRoot, "");
+		}
+
+		private void textLibrarySourceRoot_Validated(object sender, EventArgs e)
+		{
+			currentLibrary.SourceRoot = textLibrarySourceRoot.Text.Trim();
+		}
+
+		private void textLibrarySourceRoot_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				ValidateControl(textLibrarySourceRoot, textLibrarySourceRoot_Validating, textLibrarySourceRoot_Validated);
+			}
+		}
+
+
+		private void textLibraryTargetRoot_Validating(object sender, CancelEventArgs e)
+		{
+			// Check the target root is in correct format (but allow empty paths).
+			string enteredTargetRoot = textLibraryTargetRoot.Text.Trim();
+			if (enteredTargetRoot.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+			{
+				ProcessValidationError(textLibraryTargetRoot, "The target path is invalid.");
+				e.Cancel = true;
+				return;
+			}
+
+			// Hide an error message.
+			ProcessValidationError(textLibraryTargetRoot, "");
+		}
+
+		private void textLibraryTargetRoot_Validated(object sender, EventArgs e)
+		{
+			currentLibrary.TargetRoot = textLibraryTargetRoot.Text.Trim();
+		}
+
+		private void textLibraryTargetRoot_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				ValidateControl(textLibraryTargetRoot, textLibraryTargetRoot_Validating, textLibraryTargetRoot_Validated);
+			}
+		}
+
+
+		private void textLibraryIgnoredFiles_Validated(object sender, EventArgs e)
+		{
+			currentLibrary.IgnoredFiles.Clear();
+
+			foreach (string line in textLibraryIgnoredFiles.Lines)
+			{
+				if (!string.IsNullOrWhiteSpace(line))
+				{
+					currentLibrary.IgnoredFiles.Add(line.Trim());
+				}
+			}
+		}
+
+
+		private void textLibraryMainStylesheet_Validating(object sender, CancelEventArgs e)
+		{
+			// Check the path to stylesheet is in correct format (but allow empty paths).
+			string enteredMainStylesheet = textLibraryMainStylesheet.Text.Trim();
+			if (enteredMainStylesheet.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+			{
+				ProcessValidationError(textLibraryMainStylesheet, "The stylesheet path is invalid.");
+				e.Cancel = true;
+				return;
+			}
+
+			// Hide an error message.
+			ProcessValidationError(textLibraryMainStylesheet, "");
+		}
+
+		private void textLibraryMainStylesheet_Validated(object sender, EventArgs e)
+		{
+			currentLibrary.MainStylesheet = textLibraryMainStylesheet.Text.Trim();
+		}
+
+		private void textLibraryMainStylesheet_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				ValidateControl(textLibraryMainStylesheet, textLibraryMainStylesheet_Validating, textLibraryMainStylesheet_Validated);
+			}
+		}
+
 	}
 }

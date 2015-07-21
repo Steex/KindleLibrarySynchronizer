@@ -40,8 +40,6 @@
 			this.groupEditLibrary = new System.Windows.Forms.GroupBox();
 			this.textLibraryIgnoredFiles = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.buttonResetLibraryData = new System.Windows.Forms.Button();
-			this.buttonSaveLibraryData = new System.Windows.Forms.Button();
 			this.textLibraryName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -60,6 +58,7 @@
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.labelError = new System.Windows.Forms.Label();
 			this.tabControl.SuspendLayout();
 			this.pageGeneral.SuspendLayout();
 			this.groupConverter.SuspendLayout();
@@ -167,8 +166,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupEditLibrary.Controls.Add(this.textLibraryIgnoredFiles);
 			this.groupEditLibrary.Controls.Add(this.label5);
-			this.groupEditLibrary.Controls.Add(this.buttonResetLibraryData);
-			this.groupEditLibrary.Controls.Add(this.buttonSaveLibraryData);
 			this.groupEditLibrary.Controls.Add(this.textLibraryName);
 			this.groupEditLibrary.Controls.Add(this.label1);
 			this.groupEditLibrary.Controls.Add(this.label4);
@@ -193,8 +190,9 @@
 			this.textLibraryIgnoredFiles.Multiline = true;
 			this.textLibraryIgnoredFiles.Name = "textLibraryIgnoredFiles";
 			this.textLibraryIgnoredFiles.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLibraryIgnoredFiles.Size = new System.Drawing.Size(412, 103);
+			this.textLibraryIgnoredFiles.Size = new System.Drawing.Size(412, 132);
 			this.textLibraryIgnoredFiles.TabIndex = 3;
+			this.textLibraryIgnoredFiles.Validated += new System.EventHandler(this.textLibraryIgnoredFiles_Validated);
 			// 
 			// label5
 			// 
@@ -205,30 +203,6 @@
 			this.label5.TabIndex = 7;
 			this.label5.Text = "Ignored Files (one path or path mask per line)";
 			// 
-			// buttonResetLibraryData
-			// 
-			this.buttonResetLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonResetLibraryData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonResetLibraryData.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Reset;
-			this.buttonResetLibraryData.Location = new System.Drawing.Point(366, 329);
-			this.buttonResetLibraryData.Name = "buttonResetLibraryData";
-			this.buttonResetLibraryData.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetLibraryData.TabIndex = 1;
-			this.buttonResetLibraryData.UseVisualStyleBackColor = true;
-			this.buttonResetLibraryData.Click += new System.EventHandler(this.buttonResetLibraryData_Click);
-			// 
-			// buttonSaveLibraryData
-			// 
-			this.buttonSaveLibraryData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSaveLibraryData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonSaveLibraryData.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Save;
-			this.buttonSaveLibraryData.Location = new System.Drawing.Point(395, 329);
-			this.buttonSaveLibraryData.Name = "buttonSaveLibraryData";
-			this.buttonSaveLibraryData.Size = new System.Drawing.Size(23, 23);
-			this.buttonSaveLibraryData.TabIndex = 1;
-			this.buttonSaveLibraryData.UseVisualStyleBackColor = true;
-			this.buttonSaveLibraryData.Click += new System.EventHandler(this.buttonSaveLibraryData_Click);
-			// 
 			// textLibraryName
 			// 
 			this.textLibraryName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -236,13 +210,16 @@
 			this.textLibraryName.Location = new System.Drawing.Point(6, 44);
 			this.textLibraryName.Name = "textLibraryName";
 			this.textLibraryName.Size = new System.Drawing.Size(412, 20);
-			this.textLibraryName.TabIndex = 3;
+			this.textLibraryName.TabIndex = 0;
+			this.textLibraryName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textLibraryName_KeyDown);
+			this.textLibraryName.Validating += new System.ComponentModel.CancelEventHandler(this.textLibraryName_Validating);
+			this.textLibraryName.Validated += new System.EventHandler(this.textLibraryName_Validated);
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 287);
+			this.label1.Location = new System.Drawing.Point(6, 316);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(317, 13);
 			this.label1.TabIndex = 6;
@@ -264,7 +241,10 @@
 			this.textLibrarySourceRoot.Location = new System.Drawing.Point(6, 88);
 			this.textLibrarySourceRoot.Name = "textLibrarySourceRoot";
 			this.textLibrarySourceRoot.Size = new System.Drawing.Size(412, 20);
-			this.textLibrarySourceRoot.TabIndex = 3;
+			this.textLibrarySourceRoot.TabIndex = 1;
+			this.textLibrarySourceRoot.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textLibrarySourceRoot_KeyDown);
+			this.textLibrarySourceRoot.Validating += new System.ComponentModel.CancelEventHandler(this.textLibrarySourceRoot_Validating);
+			this.textLibrarySourceRoot.Validated += new System.EventHandler(this.textLibrarySourceRoot_Validated);
 			// 
 			// label3
 			// 
@@ -279,10 +259,13 @@
 			// 
 			this.textLibraryMainStylesheet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLibraryMainStylesheet.Location = new System.Drawing.Point(6, 303);
+			this.textLibraryMainStylesheet.Location = new System.Drawing.Point(6, 332);
 			this.textLibraryMainStylesheet.Name = "textLibraryMainStylesheet";
 			this.textLibraryMainStylesheet.Size = new System.Drawing.Size(412, 20);
-			this.textLibraryMainStylesheet.TabIndex = 3;
+			this.textLibraryMainStylesheet.TabIndex = 4;
+			this.textLibraryMainStylesheet.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textLibraryMainStylesheet_KeyDown);
+			this.textLibraryMainStylesheet.Validating += new System.ComponentModel.CancelEventHandler(this.textLibraryMainStylesheet_Validating);
+			this.textLibraryMainStylesheet.Validated += new System.EventHandler(this.textLibraryMainStylesheet_Validated);
 			// 
 			// textLibraryTargetRoot
 			// 
@@ -291,7 +274,10 @@
 			this.textLibraryTargetRoot.Location = new System.Drawing.Point(6, 132);
 			this.textLibraryTargetRoot.Name = "textLibraryTargetRoot";
 			this.textLibraryTargetRoot.Size = new System.Drawing.Size(412, 20);
-			this.textLibraryTargetRoot.TabIndex = 3;
+			this.textLibraryTargetRoot.TabIndex = 2;
+			this.textLibraryTargetRoot.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textLibraryTargetRoot_KeyDown);
+			this.textLibraryTargetRoot.Validating += new System.ComponentModel.CancelEventHandler(this.textLibraryTargetRoot_Validating);
+			this.textLibraryTargetRoot.Validated += new System.EventHandler(this.textLibraryTargetRoot_Validated);
 			// 
 			// label2
 			// 
@@ -311,6 +297,7 @@
 			this.buttonAddLibrary.Name = "buttonAddLibrary";
 			this.buttonAddLibrary.Size = new System.Drawing.Size(23, 23);
 			this.buttonAddLibrary.TabIndex = 1;
+			this.buttonAddLibrary.TabStop = false;
 			this.buttonAddLibrary.UseVisualStyleBackColor = true;
 			this.buttonAddLibrary.Click += new System.EventHandler(this.buttonAddLibrary_Click);
 			// 
@@ -323,6 +310,7 @@
 			this.buttonDeleteLibrary.Name = "buttonDeleteLibrary";
 			this.buttonDeleteLibrary.Size = new System.Drawing.Size(23, 23);
 			this.buttonDeleteLibrary.TabIndex = 1;
+			this.buttonDeleteLibrary.TabStop = false;
 			this.buttonDeleteLibrary.UseVisualStyleBackColor = true;
 			this.buttonDeleteLibrary.Click += new System.EventHandler(this.buttonDeleteLibrary_Click);
 			// 
@@ -334,7 +322,8 @@
 			this.buttonMoveLibraryDown.Location = new System.Drawing.Point(35, 341);
 			this.buttonMoveLibraryDown.Name = "buttonMoveLibraryDown";
 			this.buttonMoveLibraryDown.Size = new System.Drawing.Size(23, 23);
-			this.buttonMoveLibraryDown.TabIndex = 1;
+			this.buttonMoveLibraryDown.TabIndex = 2;
+			this.buttonMoveLibraryDown.TabStop = false;
 			this.buttonMoveLibraryDown.UseVisualStyleBackColor = true;
 			this.buttonMoveLibraryDown.Click += new System.EventHandler(this.buttonMoveLibraryDown_Click);
 			// 
@@ -346,7 +335,8 @@
 			this.buttonMoveLibraryUp.Location = new System.Drawing.Point(6, 341);
 			this.buttonMoveLibraryUp.Name = "buttonMoveLibraryUp";
 			this.buttonMoveLibraryUp.Size = new System.Drawing.Size(23, 23);
-			this.buttonMoveLibraryUp.TabIndex = 1;
+			this.buttonMoveLibraryUp.TabIndex = 3;
+			this.buttonMoveLibraryUp.TabStop = false;
 			this.buttonMoveLibraryUp.UseVisualStyleBackColor = true;
 			this.buttonMoveLibraryUp.Click += new System.EventHandler(this.buttonMoveLibraryUp_Click);
 			// 
@@ -402,6 +392,18 @@
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
+			// labelError
+			// 
+			this.labelError.AutoSize = true;
+			this.labelError.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.labelError.ForeColor = System.Drawing.Color.Red;
+			this.labelError.Location = new System.Drawing.Point(13, 419);
+			this.labelError.Name = "labelError";
+			this.labelError.Size = new System.Drawing.Size(59, 13);
+			this.labelError.TabIndex = 4;
+			this.labelError.Text = "Error text";
+			this.labelError.Visible = false;
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -411,6 +413,7 @@
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOk);
 			this.Controls.Add(this.tabControl);
+			this.Controls.Add(this.labelError);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
@@ -427,6 +430,7 @@
 			this.groupEditLibrary.PerformLayout();
 			this.pageConverter.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -442,18 +446,7 @@
 		private System.Windows.Forms.Button buttonMoveLibraryDown;
 		private System.Windows.Forms.Button buttonMoveLibraryUp;
 		private System.Windows.Forms.ListBox listLibraries;
-		private System.Windows.Forms.TextBox textLibraryIgnoredFiles;
-		private System.Windows.Forms.TextBox textLibraryTargetRoot;
-		private System.Windows.Forms.TextBox textLibrarySourceRoot;
-		private System.Windows.Forms.TextBox textLibraryName;
-		private System.Windows.Forms.GroupBox groupEditLibrary;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TabPage pageConverter;
-		private System.Windows.Forms.Button buttonResetLibraryData;
-		private System.Windows.Forms.Button buttonSaveLibraryData;
 		private System.Windows.Forms.PropertyGrid propertyGrid1;
 		private System.Windows.Forms.GroupBox groupConverter;
 		private System.Windows.Forms.TextBox textConverterDirectory;
@@ -461,7 +454,17 @@
 		private System.Windows.Forms.TextBox textConverterStylesheet;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.GroupBox groupEditLibrary;
+		private System.Windows.Forms.TextBox textLibraryIgnoredFiles;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox textLibraryName;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox textLibrarySourceRoot;
+		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox textLibraryMainStylesheet;
+		private System.Windows.Forms.TextBox textLibraryTargetRoot;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label labelError;
 	}
 }
