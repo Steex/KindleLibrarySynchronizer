@@ -63,6 +63,7 @@ namespace KindleLibrarySynchronizer
 				textLibraryTargetRoot.Text = currentLibrary.TargetRoot;
 				textLibraryIgnoredFiles.Text = string.Join("\r\n", currentLibrary.IgnoredFiles);
 				textLibraryMainStylesheet.Text = currentLibrary.MainStylesheet;
+				gridCustomStylesheets.DataSource = new BindingSource(currentLibrary.CustomStylesheets, null);
 			}
 			else
 			{
@@ -73,6 +74,7 @@ namespace KindleLibrarySynchronizer
 				textLibraryTargetRoot.Text = "";
 				textLibraryIgnoredFiles.Text = "";
 				textLibraryMainStylesheet.Text = "";
+				gridCustomStylesheets.DataSource = null;
 			}
 
 

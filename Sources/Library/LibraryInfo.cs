@@ -10,8 +10,8 @@ namespace KindleLibrarySynchronizer
 	{
 		public class CustomStylesheet
 		{
-			public string Mask;
-			public string Stylesheet;
+			public string Mask { get; set; }
+			public string Stylesheet { get; set; }
 
 			public CustomStylesheet Clone()
 			{
