@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using Microsoft.Win32;
 
 namespace KindleLibrarySynchronizer
@@ -108,6 +110,85 @@ namespace KindleLibrarySynchronizer
 					Utils.WriteRegistryValue(key, baseName + index.ToString(), InvariantConverter.ToString(item));
 					++index;
 				}
+			}
+		}
+
+
+		public static T DeserializeValueFromRegistry<T>(RegistryKey key, string name, T defaultValue)
+		{
+			try
+			{
+				string strValue = (string)key.GetValue(name, InvariantConverter.ToString(defaultValue));
+				return DeserializeValue<T>(strValue);
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+
+		public static IEnumerable<T> DeserializeListFromRegistry<T>(RegistryKey key, string baseName)
+		{
+			for (int index = 1; ; ++index)
+			{
+				object strValue = key.GetValue(baseName + index.ToString());
+				if (strValue is string)
+				{
+					yield return DeserializeValue<T>((string)strValue);
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		public static void SerializeValueToRegistry<T>(RegistryKey key, string name, T value)
+		{
+			key.SetValue(name, SerializeValue(value));
+		}
+
+		public static void SerializeListToRegistry<T>(RegistryKey key, string baseName, IEnumerable<T> list)
+		{
+			if (list != null)
+			{
+				int index = 1;
+				foreach (T item in list)
+				{
+					key.SetValue(baseName + index.ToString(), SerializeValue(item));
+					++index;
+				}
+			}
+
+		}
+
+
+		public static string SerializeValue(object value)
+		{
+			if (value == null)
+			{
+				return "";
+			}
+
+			using (MemoryStream stream = new MemoryStream())
+			{
+				DataContractJsonSerializer serialzer = new DataContractJsonSerializer(value.GetType());
+				serialzer.WriteObject(stream, value);
+				return Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length);
+			}
+		}
+
+		public static T DeserializeValue<T>(string data)
+		{
+			if (string.IsNullOrEmpty(data))
+			{
+				return default(T);
+			}
+
+			using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
+			{
+				DataContractJsonSerializer serialzer = new DataContractJsonSerializer(typeof(T));
+				return (T)serialzer.ReadObject(stream);
 			}
 		}
 
