@@ -112,6 +112,7 @@ namespace KindleLibrarySynchronizer
 							library.TargetRoot = Utils.ReadRegistryValue(libraryKey, "Target Root", "");
 							library.IgnoredFiles = Utils.ReadRegistryList(libraryKey, "Ignored Files ").ToList();
 							library.MainStylesheet = Utils.ReadRegistryValue(libraryKey, "Main Stylesheet", "");
+							library.CustomStylesheets = Utils.DeserializeListFromRegistry<LibraryInfo.CustomStylesheet>(libraryKey, "Custom Stylesheet ").ToList();
 
 							Libraries.Add(library);
 
@@ -156,6 +157,7 @@ namespace KindleLibrarySynchronizer
 								Utils.WriteRegistryValue(libraryKey, "Target Root", Libraries[i].TargetRoot);
 								Utils.WriteRegistryList(libraryKey, "Ignored Files ", Libraries[i].IgnoredFiles);
 								Utils.WriteRegistryValue(libraryKey, "Main Stylesheet", Libraries[i].MainStylesheet);
+								Utils.SerializeListToRegistry(libraryKey, "Custom Stylesheet ", Libraries[i].CustomStylesheets);
 
 								libraryKey.Close();
 							}
