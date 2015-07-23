@@ -76,7 +76,6 @@ namespace KindleLibrarySynchronizer
 			}
 			else
 			{
-				labelErrors.ForeColor = Color.Red;
 				buttonCancel.Text = "Close";
 			}
 		}

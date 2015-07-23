@@ -44,10 +44,10 @@
 			// 
 			// labelCurrentBook
 			// 
-			this.labelCurrentBook.AutoSize = true;
+			this.labelCurrentBook.AutoEllipsis = true;
 			this.labelCurrentBook.Location = new System.Drawing.Point(12, 51);
 			this.labelCurrentBook.Name = "labelCurrentBook";
-			this.labelCurrentBook.Size = new System.Drawing.Size(68, 13);
+			this.labelCurrentBook.Size = new System.Drawing.Size(400, 13);
 			this.labelCurrentBook.TabIndex = 1;
 			this.labelCurrentBook.Text = "Current book";
 			// 
@@ -63,16 +63,17 @@
 			// 
 			// labelTitle
 			// 
-			this.labelTitle.AutoSize = true;
+			this.labelTitle.AutoEllipsis = true;
 			this.labelTitle.Location = new System.Drawing.Point(12, 19);
 			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new System.Drawing.Size(114, 13);
+			this.labelTitle.Size = new System.Drawing.Size(400, 13);
 			this.labelTitle.TabIndex = 1;
 			this.labelTitle.Text = "<Operation> ## books";
 			// 
 			// labelErrors
 			// 
 			this.labelErrors.AutoSize = true;
+			this.labelErrors.ForeColor = System.Drawing.Color.Red;
 			this.labelErrors.Location = new System.Drawing.Point(12, 101);
 			this.labelErrors.Name = "labelErrors";
 			this.labelErrors.Size = new System.Drawing.Size(256, 13);
