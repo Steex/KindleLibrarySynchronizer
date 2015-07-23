@@ -50,15 +50,16 @@
 			this.textLibraryMainStylesheet = new System.Windows.Forms.TextBox();
 			this.textLibraryTargetRoot = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.buttonAddLibrary = new System.Windows.Forms.Button();
-			this.buttonDeleteLibrary = new System.Windows.Forms.Button();
-			this.buttonMoveLibraryDown = new System.Windows.Forms.Button();
-			this.buttonMoveLibraryUp = new System.Windows.Forms.Button();
 			this.listLibraries = new System.Windows.Forms.ListBox();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.labelError = new System.Windows.Forms.Label();
+			this.buttonDuplicateLibrary = new System.Windows.Forms.Button();
+			this.buttonAddLibrary = new System.Windows.Forms.Button();
+			this.buttonDeleteLibrary = new System.Windows.Forms.Button();
+			this.buttonMoveLibraryDown = new System.Windows.Forms.Button();
+			this.buttonMoveLibraryUp = new System.Windows.Forms.Button();
 			this.tabControl.SuspendLayout();
 			this.pageGeneral.SuspendLayout();
 			this.groupConverter.SuspendLayout();
@@ -145,6 +146,7 @@
 			// pageLibraries
 			// 
 			this.pageLibraries.Controls.Add(this.groupEditLibrary);
+			this.pageLibraries.Controls.Add(this.buttonDuplicateLibrary);
 			this.pageLibraries.Controls.Add(this.buttonAddLibrary);
 			this.pageLibraries.Controls.Add(this.buttonDeleteLibrary);
 			this.pageLibraries.Controls.Add(this.buttonMoveLibraryDown);
@@ -312,58 +314,6 @@
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Library Name";
 			// 
-			// buttonAddLibrary
-			// 
-			this.buttonAddLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAddLibrary.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonAddLibrary.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Add;
-			this.buttonAddLibrary.Location = new System.Drawing.Point(130, 378);
-			this.buttonAddLibrary.Name = "buttonAddLibrary";
-			this.buttonAddLibrary.Size = new System.Drawing.Size(23, 23);
-			this.buttonAddLibrary.TabIndex = 1;
-			this.buttonAddLibrary.TabStop = false;
-			this.buttonAddLibrary.UseVisualStyleBackColor = true;
-			this.buttonAddLibrary.Click += new System.EventHandler(this.buttonAddLibrary_Click);
-			// 
-			// buttonDeleteLibrary
-			// 
-			this.buttonDeleteLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonDeleteLibrary.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonDeleteLibrary.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Delete;
-			this.buttonDeleteLibrary.Location = new System.Drawing.Point(159, 378);
-			this.buttonDeleteLibrary.Name = "buttonDeleteLibrary";
-			this.buttonDeleteLibrary.Size = new System.Drawing.Size(23, 23);
-			this.buttonDeleteLibrary.TabIndex = 1;
-			this.buttonDeleteLibrary.TabStop = false;
-			this.buttonDeleteLibrary.UseVisualStyleBackColor = true;
-			this.buttonDeleteLibrary.Click += new System.EventHandler(this.buttonDeleteLibrary_Click);
-			// 
-			// buttonMoveLibraryDown
-			// 
-			this.buttonMoveLibraryDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonMoveLibraryDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonMoveLibraryDown.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Move_Down;
-			this.buttonMoveLibraryDown.Location = new System.Drawing.Point(35, 378);
-			this.buttonMoveLibraryDown.Name = "buttonMoveLibraryDown";
-			this.buttonMoveLibraryDown.Size = new System.Drawing.Size(23, 23);
-			this.buttonMoveLibraryDown.TabIndex = 2;
-			this.buttonMoveLibraryDown.TabStop = false;
-			this.buttonMoveLibraryDown.UseVisualStyleBackColor = true;
-			this.buttonMoveLibraryDown.Click += new System.EventHandler(this.buttonMoveLibraryDown_Click);
-			// 
-			// buttonMoveLibraryUp
-			// 
-			this.buttonMoveLibraryUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonMoveLibraryUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonMoveLibraryUp.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Move_Up;
-			this.buttonMoveLibraryUp.Location = new System.Drawing.Point(6, 378);
-			this.buttonMoveLibraryUp.Name = "buttonMoveLibraryUp";
-			this.buttonMoveLibraryUp.Size = new System.Drawing.Size(23, 23);
-			this.buttonMoveLibraryUp.TabIndex = 3;
-			this.buttonMoveLibraryUp.TabStop = false;
-			this.buttonMoveLibraryUp.UseVisualStyleBackColor = true;
-			this.buttonMoveLibraryUp.Click += new System.EventHandler(this.buttonMoveLibraryUp_Click);
-			// 
 			// listLibraries
 			// 
 			this.listLibraries.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -409,6 +359,76 @@
 			this.labelError.TabIndex = 4;
 			this.labelError.Text = "Error text";
 			this.labelError.Visible = false;
+			// 
+			// buttonDuplicateLibrary
+			// 
+			this.buttonDuplicateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonDuplicateLibrary.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonDuplicateLibrary.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Duplicate;
+			this.buttonDuplicateLibrary.Location = new System.Drawing.Point(130, 378);
+			this.buttonDuplicateLibrary.Name = "buttonDuplicateLibrary";
+			this.buttonDuplicateLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonDuplicateLibrary.TabIndex = 1;
+			this.buttonDuplicateLibrary.TabStop = false;
+			this.toolTip.SetToolTip(this.buttonDuplicateLibrary, "Duplicate the current library");
+			this.buttonDuplicateLibrary.UseVisualStyleBackColor = true;
+			this.buttonDuplicateLibrary.Click += new System.EventHandler(this.buttonDuplicateLibrary_Click);
+			// 
+			// buttonAddLibrary
+			// 
+			this.buttonAddLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonAddLibrary.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonAddLibrary.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Add;
+			this.buttonAddLibrary.Location = new System.Drawing.Point(101, 378);
+			this.buttonAddLibrary.Name = "buttonAddLibrary";
+			this.buttonAddLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonAddLibrary.TabIndex = 1;
+			this.buttonAddLibrary.TabStop = false;
+			this.toolTip.SetToolTip(this.buttonAddLibrary, "Create a new library");
+			this.buttonAddLibrary.UseVisualStyleBackColor = true;
+			this.buttonAddLibrary.Click += new System.EventHandler(this.buttonAddLibrary_Click);
+			// 
+			// buttonDeleteLibrary
+			// 
+			this.buttonDeleteLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonDeleteLibrary.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonDeleteLibrary.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Delete;
+			this.buttonDeleteLibrary.Location = new System.Drawing.Point(159, 378);
+			this.buttonDeleteLibrary.Name = "buttonDeleteLibrary";
+			this.buttonDeleteLibrary.Size = new System.Drawing.Size(23, 23);
+			this.buttonDeleteLibrary.TabIndex = 1;
+			this.buttonDeleteLibrary.TabStop = false;
+			this.toolTip.SetToolTip(this.buttonDeleteLibrary, "Delete the current library");
+			this.buttonDeleteLibrary.UseVisualStyleBackColor = true;
+			this.buttonDeleteLibrary.Click += new System.EventHandler(this.buttonDeleteLibrary_Click);
+			// 
+			// buttonMoveLibraryDown
+			// 
+			this.buttonMoveLibraryDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonMoveLibraryDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonMoveLibraryDown.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Move_Down;
+			this.buttonMoveLibraryDown.Location = new System.Drawing.Point(35, 378);
+			this.buttonMoveLibraryDown.Name = "buttonMoveLibraryDown";
+			this.buttonMoveLibraryDown.Size = new System.Drawing.Size(23, 23);
+			this.buttonMoveLibraryDown.TabIndex = 2;
+			this.buttonMoveLibraryDown.TabStop = false;
+			this.toolTip.SetToolTip(this.buttonMoveLibraryDown, "Move the current library down");
+			this.buttonMoveLibraryDown.UseVisualStyleBackColor = true;
+			this.buttonMoveLibraryDown.Click += new System.EventHandler(this.buttonMoveLibraryDown_Click);
+			// 
+			// buttonMoveLibraryUp
+			// 
+			this.buttonMoveLibraryUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonMoveLibraryUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonMoveLibraryUp.Image = global::KindleLibrarySynchronizer.Properties.Resources.Library_Move_Up;
+			this.buttonMoveLibraryUp.Location = new System.Drawing.Point(6, 378);
+			this.buttonMoveLibraryUp.Name = "buttonMoveLibraryUp";
+			this.buttonMoveLibraryUp.Size = new System.Drawing.Size(23, 23);
+			this.buttonMoveLibraryUp.TabIndex = 3;
+			this.buttonMoveLibraryUp.TabStop = false;
+			this.toolTip.SetToolTip(this.buttonMoveLibraryUp, "Move the current library up");
+			this.buttonMoveLibraryUp.UseVisualStyleBackColor = true;
+			this.buttonMoveLibraryUp.Click += new System.EventHandler(this.buttonMoveLibraryUp_Click);
 			// 
 			// OptionsForm
 			// 
@@ -472,5 +492,6 @@
 		private System.Windows.Forms.Label labelError;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.DataGridView gridCustomStylesheets;
+		private System.Windows.Forms.Button buttonDuplicateLibrary;
 	}
 }

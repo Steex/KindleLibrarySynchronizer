@@ -81,6 +81,7 @@ namespace KindleLibrarySynchronizer
 			// Update buttons.
 			buttonMoveLibraryUp.Enabled = listLibraries.SelectedIndex > 0;
 			buttonMoveLibraryDown.Enabled = listLibraries.SelectedIndex != -1 && listLibraries.SelectedIndex < listLibraries.Items.Count - 1;
+			buttonDuplicateLibrary.Enabled = listLibraries.SelectedIndex != -1;
 			buttonDeleteLibrary.Enabled = listLibraries.SelectedIndex != -1;
 		}
 
@@ -124,25 +125,29 @@ namespace KindleLibrarySynchronizer
 
 		private void buttonAddLibrary_Click(object sender, EventArgs e)
 		{
-			// Generate unique name.
-			string libraryName;
-			for (int counter = 1; ; ++counter)
-			{
-				libraryName = "Library " + counter.ToString();
-				if (!LocalConfig.Libraries.Any(l => l.Name == libraryName))
-				{
-					break;
-				}
-			}
-
 			// Create a new library.
 			LibraryInfo library = new LibraryInfo();
-			library.Name = libraryName;
+			library.Name = GenerateLibraryName("Library {0}", 1);
 
 			// Add the created library to the end of the list and select it.
 			LocalConfig.Libraries.Add(library);
 			listLibraries.Items.Add(library.Name);
 			listLibraries.SelectedIndex = listLibraries.Items.Count - 1;
+		}
+
+		private void buttonDuplicateLibrary_Click(object sender, EventArgs e)
+		{
+			if (listLibraries.SelectedIndex != -1)
+			{
+				// Clone the library.
+				LibraryInfo library = currentLibrary.Clone();
+				library.Name = GenerateLibraryName(currentLibrary.Name + " ({0})", 2);
+
+				// Insert the created library after the current and select it.
+				LocalConfig.Libraries.Insert(listLibraries.SelectedIndex + 1, library);
+				listLibraries.Items.Insert(listLibraries.SelectedIndex + 1, library.Name);
+				listLibraries.SelectedIndex = listLibraries.SelectedIndex + 1;
+			}
 		}
 
 		private void buttonDeleteLibrary_Click(object sender, EventArgs e)
@@ -217,6 +222,20 @@ namespace KindleLibrarySynchronizer
 			// Close the form.
 			DialogResult = DialogResult.OK;
 			Close();
+		}
+
+
+		private string GenerateLibraryName(string format, int minCounter)
+		{
+			for (int counter = minCounter; ; ++counter)
+			{
+				string name = string.Format(format, counter);
+				if (!LocalConfig.Libraries.Any(l => l.Name == name))
+				{
+					return name;
+				}
+			}
+
 		}
 
 
@@ -406,6 +425,7 @@ namespace KindleLibrarySynchronizer
 				ValidateControl(textLibraryMainStylesheet, textLibraryMainStylesheet_Validating, textLibraryMainStylesheet_Validated);
 			}
 		}
+
 
 	}
 }

@@ -162,12 +162,6 @@
     <None Include="Resources\Convert.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Library Add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Library Delete.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Library Move Down.png" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +190,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Show New.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Duplicate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Library Add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
