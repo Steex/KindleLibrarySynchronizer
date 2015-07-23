@@ -53,9 +53,10 @@ namespace KindleLibrarySynchronizer
 
 		public string GetStylesheet(string bookPath)
 		{
-			int stylesheetIndex = CustomStylesheets.FindIndex(s => bookPath.StartsWith(s.Mask, StringComparison.CurrentCultureIgnoreCase));
+			CustomStylesheet customStylesheet = CustomStylesheets.FirstOrDefault(
+				s => bookPath.StartsWith(s.Mask, StringComparison.CurrentCultureIgnoreCase));
 
-			return (stylesheetIndex != -1) ? CustomStylesheets[stylesheetIndex].Stylesheet : MainStylesheet;
+			return customStylesheet != null ? customStylesheet.Stylesheet : MainStylesheet;
 		}
 
 	}

@@ -120,7 +120,7 @@ namespace KindleLibrarySynchronizer
 
 			// Create a worker and show the conversion progress.
 			using (BackgroundWorker worker = BookOperations.CreateConverter())
-			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", books)))
+			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Conversion", library, books)))
 			{
 				worker.ProgressChanged += ConvertWorker_ProgressChanged;
 				worker.RunWorkerCompleted += ConvertWorker_RunWorkerCompleted;
@@ -175,7 +175,7 @@ namespace KindleLibrarySynchronizer
 
 			// Create a worker and show the conversion progress.
 			using (BackgroundWorker worker = BookOperations.CreateDeleter())
-			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Delete", books)))
+			using (OperationProgressForm progressForm = new OperationProgressForm(worker, new BookOperations.OperationData("Delete", library, books)))
 			{
 				worker.ProgressChanged += DeleteWorker_ProgressChanged;
 				worker.RunWorkerCompleted += DeleteWorker_RunWorkerCompleted;

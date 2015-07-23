@@ -14,11 +14,13 @@ namespace KindleLibrarySynchronizer
 		public class OperationData
 		{
 			public string OperationName { get; private set; }
+			public LibraryInfo Library { get; private set; }
 			public IEnumerable<BookInfo> Books { get; private set; }
 
-			public OperationData(string operationName, IEnumerable<BookInfo> books)
+			public OperationData(string operationName, LibraryInfo library, IEnumerable<BookInfo> books)
 			{
 				OperationName = operationName;
+				Library = library.Clone();
 				Books = books.Select(b => b.Clone()).ToList();
 			}
 		}
@@ -81,7 +83,8 @@ namespace KindleLibrarySynchronizer
 					tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
 					// Convert the book to the temporary file.
-					ConvertBook(book.SourcePath, tempFilePath);
+					string stylesheet = GetBookStylesheet(data.Library, Utils.GetRelativePath(book.SourcePath, data.Library.SourceRoot));
+					ConvertBook(book.SourcePath, tempFilePath, stylesheet);
 
 					// Move the temporary file to the target path.
 					Utils.MoveFile(tempFilePath, book.TargetPath);
@@ -118,14 +121,14 @@ namespace KindleLibrarySynchronizer
 			worker.ReportProgress(100, null);
 		}
 
-		private static void ConvertBook(string sourcePath, string targetPath)
+		private static void ConvertBook(string sourcePath, string targetPath, string stylesheet)
 		{
 			using (Process converter = new Process())
 			{
 				converter.StartInfo.FileName = "java";
 				converter.StartInfo.Arguments = string.Format("-Xmx512m -jar \"{0}\" -l false -s \"{1}\" \"{2}\" \"{3}\"",
 					Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterExecutable),
-					Path.Combine(Config.Main.ConverterDirectory, Config.Main.ConverterStylesheet),
+					stylesheet,
 					sourcePath,
 					targetPath);
 				converter.StartInfo.UseShellExecute = false;
@@ -185,6 +188,17 @@ namespace KindleLibrarySynchronizer
 					}
 				}
 			}
+		}
+
+		private static string GetBookStylesheet(LibraryInfo library, string sourcePath)
+		{
+			string stylesheet = library.GetStylesheet(sourcePath);
+			if (string.IsNullOrWhiteSpace(stylesheet))
+			{
+				stylesheet = Config.Main.ConverterStylesheet;
+			}
+
+			return Path.Combine(Config.Main.ConverterDirectory, stylesheet);
 		}
 
 
