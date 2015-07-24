@@ -365,5 +365,27 @@ namespace KindleLibrarySynchronizer
 			int lineSeparatorPos = text.IndexOfAny(LineSeparators);
 			return lineSeparatorPos == -1 ? text : text.Substring(0, lineSeparatorPos);
 		}
+
+		public static string ExtractLastNotEmptyLine(string text)
+		{
+			if (text == null)
+			{
+				return null;
+			}
+
+			int lineEnd = text.Length;
+			int lineBegin = text.LastIndexOfAny(LineSeparators, lineEnd - 1);
+
+			while (true)
+			{
+				if (lineBegin < 1 || lineBegin < lineEnd - 1)
+				{
+					return text.Substring(lineBegin + 1, lineEnd - (lineBegin + 1));
+				}
+
+				lineEnd = lineBegin;
+				lineBegin = text.LastIndexOfAny(LineSeparators, lineEnd - 1);
+			}
+		}
 	}
 }

@@ -161,7 +161,7 @@ namespace KindleLibrarySynchronizer
 				else
 				{
 					Logger.WriteError("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
-					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
+					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractLastNotEmptyLine(result.ErrorText));
 				}
 			}
 		}
@@ -216,7 +216,7 @@ namespace KindleLibrarySynchronizer
 				else
 				{
 					Logger.WriteError("Failed! Double-click this line to see the full info (LOG#{0})", CreateErrorInfo(result.ErrorText));
-					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractFirstLine(result.ErrorText));
+					Logger.WriteError(">> Error message: \"{0}\"", Utils.ExtractLastNotEmptyLine(result.ErrorText));
 				}
 			}
 		}
