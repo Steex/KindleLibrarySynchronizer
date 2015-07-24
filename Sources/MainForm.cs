@@ -104,7 +104,11 @@ namespace KindleLibrarySynchronizer
 				try
 				{
 					int errorIndex = int.Parse(errorLink.Groups[1].Value);
-					MessageBox.Show(this, errorInfoList[errorIndex - 1], "Log");
+					string message = errorInfoList[errorIndex - 1];
+					using (LogViewForm logView = new LogViewForm(message))
+					{
+						logView.ShowDialog(this);
+					}
 				}
 				catch
 				{
