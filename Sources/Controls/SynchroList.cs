@@ -12,6 +12,13 @@ namespace KindleLibrarySynchronizer
 {
 	public partial class SynchroList : UserControl
 	{
+		public enum Column
+		{
+			None,
+			Source,
+			Target,
+		}
+
 		public class ItemInfo
 		{
 			public ListViewItem Parent { get; private set; }
@@ -88,6 +95,7 @@ namespace KindleLibrarySynchronizer
 
 		private float columnWidthCoeff = 0.5f;
 		private bool updatingColumnWidths = false;
+		private Column clickedColumn = Column.None;
 
 
 		[Browsable(false)]
@@ -139,6 +147,15 @@ namespace KindleLibrarySynchronizer
 				{
 					return null;
 				}
+			}
+		}
+
+		[Browsable(false)]
+		public Column FocusedColumn
+		{
+			get
+			{
+				return clickedColumn;
 			}
 		}
 
@@ -428,6 +445,23 @@ namespace KindleLibrarySynchronizer
 			if (SelectionChanged != null)
 			{
 				SelectionChanged(this, EventArgs.Empty);
+			}
+		}
+
+		private void listview_MouseDown(object sender, MouseEventArgs e)
+		{
+			clickedColumn = Column.None;
+
+			var hitResult = listview.HitTest(e.X, e.Y);
+			if (hitResult.SubItem == null)
+			{
+				return;
+			}
+
+			switch (hitResult.Item.SubItems.IndexOf(hitResult.SubItem))
+			{
+				case 0: clickedColumn = Column.Source; break;
+				case 1: clickedColumn = Column.Target; break;
 			}
 		}
 

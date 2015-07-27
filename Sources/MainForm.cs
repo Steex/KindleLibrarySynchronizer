@@ -94,6 +94,11 @@ namespace KindleLibrarySynchronizer
 			library = Config.Main.Libraries.Find(l => l.Name == libraryName);
 		}
 
+		private void booksMenu_Opening(object sender, CancelEventArgs e)
+		{
+			Action.UpdateActions(EventArgs.Empty);
+		}
+
 		private void textLog_DoubleClick(object sender, EventArgs e)
 		{
 			string clickedLine = textLog.Lines[textLog.GetLineFromCharIndex(textLog.SelectionStart)];
