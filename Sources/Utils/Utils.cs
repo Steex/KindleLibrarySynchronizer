@@ -288,7 +288,9 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-
+		/// <summary>
+		/// Starts a new process from the provided path.
+		/// </summary>
 		public static void OpenPath(string path)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -296,14 +298,29 @@ namespace KindleLibrarySynchronizer
 			Process.Start(processInfo);
 		}
 
+		/// <summary>
+		/// Opens a file manager and selects the provided object in it.
+		/// If the provided path is not exists, opens the most nested existing directory of the path.
+		/// </summary>
 		public static void ExplorePath(string path)
 		{
-			ProcessStartInfo processInfo = new ProcessStartInfo();
-			processInfo.FileName = "explorer";
-			processInfo.Arguments = string.Format("/select,{0}", path);
-			Process.Start(processInfo);
+			if (File.Exists(path) || Directory.Exists(path))
+			{
+				ProcessStartInfo processInfo = new ProcessStartInfo();
+				processInfo.FileName = "explorer";
+				processInfo.Arguments = string.Format("/select,{0}", path);
+				Process.Start(processInfo);
+			}
+			else
+			{
+				OpenPath(FindExistaingPathPart(path));
+			}
 		}
 
+		/// <summary>
+		/// Starts a new process from the provided path.
+		/// If the provided path is not exists, opens the most nested existing directory of the path.
+		/// </summary>
 		public static void OpenOrExplorePath(string path)
 		{
 			if (File.Exists(path) || Directory.Exists(path))
@@ -314,6 +331,29 @@ namespace KindleLibrarySynchronizer
 			{
 				ExplorePath(path);
 			}
+		}
+
+		/// <summary>
+		/// Returns the most nested existing part (a file or a directory) of the path.
+		/// </summary>
+		public static string FindExistaingPathPart(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				return null;
+			}
+
+			if (File.Exists(path))
+			{
+				return path;
+			}
+
+			while (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
+			{
+				path = Path.GetDirectoryName(path);
+			}
+
+			return !string.IsNullOrEmpty(path) ? path : null;
 		}
 
 
