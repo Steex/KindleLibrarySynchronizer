@@ -226,20 +226,20 @@ namespace KindleLibrarySynchronizer
 			{
 				if (synchroList.FocusedItem.Folder != null)
 				{
-					OpenPath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
+					Utils.OpenOrExplorePath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
 				}
 				else if (synchroList.FocusedItem.Book != null)
 				{
 					if (synchroList.FocusedItem.Book.State != BookState.Deleted)
 					{
-						OpenPath(synchroList.FocusedItem.Book.SourcePath);
+						Utils.OpenOrExplorePath(synchroList.FocusedItem.Book.SourcePath);
 					}
 					else
 					{
 						string targetDirectory = Path.GetDirectoryName(synchroList.FocusedItem.Book.TargetPath);
 						string relativeDirectory = Utils.GetRelativePath(targetDirectory, library.TargetRoot);
 						string sourceDirectory = Path.Combine(library.SourceRoot, relativeDirectory);
-						OpenPath(sourceDirectory);
+						Utils.OpenOrExplorePath(sourceDirectory);
 					}
 				}
 			}
@@ -251,11 +251,11 @@ namespace KindleLibrarySynchronizer
 			{
 				if (synchroList.FocusedItem.Folder != null)
 				{
-					OpenPath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
+					Utils.OpenOrExplorePath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
 				}
 				else if (synchroList.FocusedItem.Book != null)
 				{
-					OpenPath(synchroList.FocusedItem.Book.TargetPath);
+					Utils.OpenOrExplorePath(synchroList.FocusedItem.Book.TargetPath);
 				}
 			}
 		}
@@ -266,20 +266,20 @@ namespace KindleLibrarySynchronizer
 			{
 				if (synchroList.FocusedItem.Folder != null)
 				{
-					ExplorePath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
+					Utils.ExplorePath(Path.Combine(library.SourceRoot, synchroList.FocusedItem.Folder.Path));
 				}
 				else if (synchroList.FocusedItem.Book != null)
 				{
 					if (synchroList.FocusedItem.Book.State != BookState.Deleted)
 					{
-						ExplorePath(synchroList.FocusedItem.Book.SourcePath);
+						Utils.ExplorePath(synchroList.FocusedItem.Book.SourcePath);
 					}
 					else
 					{
 						string targetDirectory = Path.GetDirectoryName(synchroList.FocusedItem.Book.TargetPath);
 						string relativeDirectory = Utils.GetRelativePath(targetDirectory, library.TargetRoot);
 						string sourceDirectory = Path.Combine(library.SourceRoot, relativeDirectory);
-						OpenPath(sourceDirectory);
+						Utils.OpenOrExplorePath(sourceDirectory);
 					}
 				}
 			}
@@ -291,11 +291,11 @@ namespace KindleLibrarySynchronizer
 			{
 				if (synchroList.FocusedItem.Folder != null)
 				{
-					ExplorePath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
+					Utils.ExplorePath(Path.Combine(library.TargetRoot, synchroList.FocusedItem.Folder.Path));
 				}
 				else if (synchroList.FocusedItem.Book != null)
 				{
-					ExplorePath(synchroList.FocusedItem.Book.TargetPath);
+					Utils.ExplorePath(synchroList.FocusedItem.Book.TargetPath);
 				}
 			}
 		}

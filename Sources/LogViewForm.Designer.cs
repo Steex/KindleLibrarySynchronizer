@@ -56,6 +56,7 @@
 			this.textMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.textMessage.Size = new System.Drawing.Size(626, 433);
 			this.textMessage.TabIndex = 2;
+			this.textMessage.DoubleClick += new System.EventHandler(this.textMessage_DoubleClick);
 			// 
 			// checkWordWrap
 			// 

@@ -228,29 +228,6 @@ namespace KindleLibrarySynchronizer
 		}
 
 
-		private void OpenPath(string path)
-		{
-			if (File.Exists(path) || Directory.Exists(path))
-			{
-				ProcessStartInfo processInfo = new ProcessStartInfo();
-				processInfo.FileName = path;
-				Process.Start(processInfo);
-			}
-			else
-			{
-				ExplorePath(path);
-			}
-		}
-
-		private void ExplorePath(string path)
-		{
-			ProcessStartInfo processInfo = new ProcessStartInfo();
-			processInfo.FileName = "explorer";
-			processInfo.Arguments = string.Format("/select,{0}", path);
-			Process.Start(processInfo);
-		}
-
-
 		private int CreateErrorInfo(string errorText)
 		{
 			errorInfoList.Add(errorText);

@@ -10,6 +10,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Diagnostics;
 using Microsoft.Win32;
 
 namespace KindleLibrarySynchronizer
@@ -225,7 +226,7 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
-		
+	
 		public static string GetRelativePath(string path, string root)
 		{
 			if (root == null || root.Length == 0)
@@ -284,6 +285,34 @@ namespace KindleLibrarySynchronizer
 			else
 			{
 				File.Move(sourcePath, targetPath);
+			}
+		}
+
+
+		public static void OpenPath(string path)
+		{
+			ProcessStartInfo processInfo = new ProcessStartInfo();
+			processInfo.FileName = path;
+			Process.Start(processInfo);
+		}
+
+		public static void ExplorePath(string path)
+		{
+			ProcessStartInfo processInfo = new ProcessStartInfo();
+			processInfo.FileName = "explorer";
+			processInfo.Arguments = string.Format("/select,{0}", path);
+			Process.Start(processInfo);
+		}
+
+		public static void OpenOrExplorePath(string path)
+		{
+			if (File.Exists(path) || Directory.Exists(path))
+			{
+				OpenPath(path);
+			}
+			else
+			{
+				ExplorePath(path);
 			}
 		}
 
@@ -386,6 +415,67 @@ namespace KindleLibrarySynchronizer
 				lineEnd = lineBegin;
 				lineBegin = text.LastIndexOfAny(LineSeparators, lineEnd - 1);
 			}
+		}
+
+		public static string ExtractFileNameAtPosition(string text, int searchPosition)
+		{
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				return "";
+			}
+
+			if (searchPosition < 0 || searchPosition >= text.Length)
+			{
+				return "";
+			}
+
+
+			// Check for a double-quoted path.
+			int leftQuotePos = text.LastIndexOf('\"', searchPosition == 0 ? searchPosition : searchPosition - 1);
+			int rightQuotePos = text.IndexOf('\"', searchPosition == text.Length - 1 ? searchPosition : searchPosition + 1);
+
+			if (leftQuotePos != -1 && rightQuotePos != -1)
+			{
+				string quotedText = text.Substring(leftQuotePos + 1, rightQuotePos - leftQuotePos - 1);
+				if (File.Exists(quotedText))
+				{
+					return quotedText;
+				}
+			}
+
+			// Check for a single-quoted path.
+			leftQuotePos = text.LastIndexOf('\'', searchPosition == 0 ? searchPosition : searchPosition - 1);
+			rightQuotePos = text.IndexOf('\'', searchPosition == text.Length - 1 ? searchPosition : searchPosition + 1);
+
+			if (leftQuotePos != -1 && rightQuotePos != -1)
+			{
+				string quotedText = text.Substring(leftQuotePos + 1, rightQuotePos - leftQuotePos - 1);
+				if (File.Exists(quotedText))
+				{
+					return quotedText;
+				}
+			}
+
+			// Check for a delimited path.
+			char[] fileNameDelimiters = { ' ', ',', ';', '(', ')' };
+
+			int leftDelimiterPos = text.LastIndexOfAny(fileNameDelimiters, searchPosition == 0 ? searchPosition : searchPosition - 1);
+			int rightDelimiterPos = text.IndexOfAny(fileNameDelimiters, searchPosition == text.Length - 1 ? searchPosition : searchPosition + 1);
+
+			int pathBegin = leftDelimiterPos != -1 ? leftDelimiterPos + 1 : 0;
+			int pathEnd = rightDelimiterPos != -1 ? rightDelimiterPos - 1 : text.Length - 1;
+
+			if (pathBegin < pathEnd)
+			{
+				string delimitedText = text.Substring(pathBegin, pathEnd - pathBegin + 1);
+				if (File.Exists(delimitedText))
+				{
+					return delimitedText;
+				}
+			}
+
+			// Nothing is found.
+			return "";
 		}
 	}
 }

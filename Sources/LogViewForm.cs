@@ -24,5 +24,19 @@ namespace KindleLibrarySynchronizer
 			textMessage.WordWrap = checkWordWrap.Checked;
 		}
 
+		private void textMessage_DoubleClick(object sender, EventArgs e)
+		{
+			// Search for a clicked file.
+			Point mousePosition = textMessage.PointToClient(Cursor.Position);
+			int clickedChar = textMessage.GetCharIndexFromPosition(mousePosition);
+			string clickedPath = Utils.ExtractFileNameAtPosition(textMessage.Text, clickedChar);
+
+			// Open the clicked file.
+			if (!string.IsNullOrEmpty(clickedPath))
+			{
+				Utils.OpenOrExplorePath(clickedPath);
+			}
+		}
+
 	}
 }
