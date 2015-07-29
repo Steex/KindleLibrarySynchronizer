@@ -74,6 +74,7 @@
     <Compile Include="OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tags\Lexer.cs" />
     <Compile Include="Utils\Actions.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="MainForm.Actions.cs">
