@@ -82,18 +82,12 @@ namespace KindleLibrarySynchronizer
 			SeriesNumber = 0;
 
 			XmlElement seriesNode = xml.SelectSingleNode("/fb:FictionBook/fb:description/fb:title-info/fb:sequence", ns) as XmlElement;
-			if (seriesNode != null)
+			if (seriesNode != null &&
+				!string.IsNullOrEmpty(seriesNode.GetAttribute("name")) &&
+				!string.IsNullOrEmpty(seriesNode.GetAttribute("number")))
 			{
-				if (!string.IsNullOrEmpty(seriesNode.GetAttribute("name")) &&
-					!string.IsNullOrEmpty(seriesNode.GetAttribute("number")))
-				{
-					SeriesName = seriesNode.GetAttribute("name");
-					SeriesNumber = int.Parse(seriesNode.GetAttribute("number"));
-				}
-				else
-				{
-					Logger.WriteWarning("FB2 warning in file {0}: Sequence info doesn't contain a name or a number", path);
-				}
+				SeriesName = seriesNode.GetAttribute("name");
+				SeriesNumber = int.Parse(seriesNode.GetAttribute("number"));
 			}
 		}
 
