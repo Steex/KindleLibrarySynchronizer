@@ -86,6 +86,9 @@ namespace KindleLibrarySynchronizer
 					string stylesheet = GetBookStylesheet(data.Library, Utils.GetRelativePath(book.SourcePath, data.Library.SourceRoot));
 					ConvertBook(book.SourcePath, tempFilePath, stylesheet);
 
+					// Make sure the target directory is exists.
+					Directory.CreateDirectory(Path.GetDirectoryName(book.TargetPath));
+
 					// Move the temporary file to the target path.
 					Utils.MoveFile(tempFilePath, book.TargetPath);
 				}
