@@ -32,10 +32,7 @@ namespace KindleLibrarySynchronizer
 			synchroList.BookComparer = bookComparer;
 
 			PopulateLibraryCombo();
-			if (comboLibraries.Items.Count > 0)
-			{
-				comboLibraries.SelectedIndex = 0;
-			}
+			SelectLibraryWithName(Config.Main.CurrentLibrary);
 
 			errorInfoList = new List<string>();
 			logButtonColors = new Color[Enum.GetValues(typeof(LogLevel)).Length];
@@ -59,6 +56,22 @@ namespace KindleLibrarySynchronizer
 			}
 
 			comboLibraries.EndUpdate();
+		}
+
+		private void SelectLibraryWithName(string libraryName)
+		{
+			if (comboLibraries.Items.Count > 0)
+			{
+				if (!string.IsNullOrEmpty(libraryName))
+				{
+					int currectIndex = comboLibraries.FindStringExact(libraryName);
+					comboLibraries.SelectedIndex = currectIndex != -1 ? currectIndex : 0;
+				}
+				else
+				{
+					comboLibraries.SelectedIndex = 0;
+				}
+			}
 		}
 
 		private void UpdateStatusCounters()
@@ -92,6 +105,7 @@ namespace KindleLibrarySynchronizer
 			string libraryName = (string)comboLibraries.SelectedItem;
 
 			library = Config.Main.Libraries.Find(l => l.Name == libraryName);
+			Config.Main.CurrentLibrary = library != null ? library.Name : null;
 		}
 
 		private void booksMenu_Opening(object sender, CancelEventArgs e)

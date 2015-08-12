@@ -33,6 +33,7 @@ namespace KindleLibrarySynchronizer
 
 		// Libraries.
 		public List<LibraryInfo> Libraries { get; private set; }
+		public string CurrentLibrary { get; set; }
 
 		// Converter.
 		public String ConverterDirectory { get; set; }
@@ -78,6 +79,7 @@ namespace KindleLibrarySynchronizer
 			Config copy = new Config();
 
 			copy.Libraries = new List<LibraryInfo>(Libraries.Select(l => l.Clone()));
+			copy.CurrentLibrary = CurrentLibrary;
 			copy.ConverterDirectory = ConverterDirectory;
 			copy.ConverterUserStylesheet = ConverterUserStylesheet;
 
@@ -100,6 +102,8 @@ namespace KindleLibrarySynchronizer
 				RegistryKey librariesKey = settingsRoot.OpenSubKey("Libraries");
 				if (librariesKey != null)
 				{
+					CurrentLibrary = Utils.ReadRegistryValue(librariesKey, "Current Library", "");
+
 					foreach (string libraryKeyName in librariesKey.GetSubKeyNames())
 					{
 						RegistryKey libraryKey = librariesKey.OpenSubKey(libraryKeyName);
@@ -147,6 +151,8 @@ namespace KindleLibrarySynchronizer
 					RegistryKey librariesKey = settingsRoot.CreateSubKey("Libraries");
 					if (librariesKey != null)
 					{
+						Utils.WriteRegistryValue(librariesKey, "Current Library", CurrentLibrary);
+
 						for (int i = 0; i < Libraries.Count; ++i)
 						{
 							RegistryKey libraryKey = librariesKey.CreateSubKey((i + 1).ToString());

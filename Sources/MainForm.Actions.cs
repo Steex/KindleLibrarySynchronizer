@@ -336,21 +336,7 @@ namespace KindleLibrarySynchronizer
 					PopulateLibraryCombo();
 
 					// Try to select the same library.
-					if (library != null)
-					{
-						for (int i = 0; i < comboLibraries.Items.Count; ++i)
-						{
-							if ((string)comboLibraries.Items[i] == library.Name)
-							{
-								comboLibraries.SelectedIndex = i;
-								break;
-							}
-						}
-					}
-					else if (comboLibraries.Items.Count > 0)
-					{
-						comboLibraries.SelectedIndex = 0;
-					}
+					SelectLibraryWithName(library.Name);
 				}
 			}
 		}
