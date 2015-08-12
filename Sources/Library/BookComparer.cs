@@ -132,7 +132,16 @@ namespace KindleLibrarySynchronizer
 
 		private IEnumerable<string> FindBookFiles(string root, string folder, string mask)
 		{
-			foreach (string bookFile in Directory.GetFiles(Path.Combine(root, folder), mask, SearchOption.AllDirectories))
+			string directory = Path.Combine(root, folder);
+
+			// Make sure the directory exists.
+			if (!Directory.Exists(directory))
+			{
+				yield break;
+			}
+
+			// Iterate through all files in the directory.
+			foreach (string bookFile in Directory.GetFiles(directory, mask, SearchOption.AllDirectories))
 			{
 				string basePath = Utils.GetRelativePath(bookFile, root);
 				if (!SkipIgnoredBooks || !IsPathIgnored(basePath))
