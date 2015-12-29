@@ -431,10 +431,11 @@
         {
             name:               "codeParagraph",
             selector:           "//p[code and count(*) = 1 and empty(text())]",
-            baseStyle:          "body",
+            baseStyle:          "default",
             fontFamily:         "monospaced",
-            fontSize:           "55%",
+            fontSize:           "80%",
             alignment:          "left",
+            leftIndent:         "1.875em",
             disableHyphenation: "true",
             preserveWhitespaces: "true"
         },
