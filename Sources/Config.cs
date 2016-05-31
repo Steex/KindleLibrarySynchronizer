@@ -55,6 +55,13 @@ namespace KindleLibrarySynchronizer
 			}
 		}
 
+		// Book display.
+		public bool ShowActualBooks { get; set; }
+		public bool ShowNewBooks { get; set; }
+		public bool ShowChangedBooks { get; set; }
+		public bool ShowDeletedBooks { get; set; }
+		public bool ShowIgnoredBooks { get; set; }
+
 		// The config used by application.
 		public static Config Main { get; private set; }
 
@@ -70,6 +77,12 @@ namespace KindleLibrarySynchronizer
 
 			ConverterDirectory = "";
 			ConverterUserStylesheet = "";
+
+			ShowActualBooks = true;
+			ShowNewBooks = true;
+			ShowChangedBooks = true;
+			ShowDeletedBooks = true;
+			ShowIgnoredBooks = false;
 		}
 
 		public Config Clone()
@@ -80,6 +93,12 @@ namespace KindleLibrarySynchronizer
 			copy.CurrentLibrary = CurrentLibrary;
 			copy.ConverterDirectory = ConverterDirectory;
 			copy.ConverterUserStylesheet = ConverterUserStylesheet;
+
+			copy.ShowActualBooks = ShowActualBooks;
+			copy.ShowNewBooks = ShowNewBooks;
+			copy.ShowChangedBooks = ShowChangedBooks;
+			copy.ShowDeletedBooks = ShowDeletedBooks;
+			copy.ShowIgnoredBooks = ShowIgnoredBooks;
 
 			return copy;
 		}
@@ -131,6 +150,17 @@ namespace KindleLibrarySynchronizer
 					ConverterUserStylesheet = Utils.ReadRegistryValue(converterKey, "User Stylesheet", ConverterUserStylesheet);
 				}
 
+				// UI.
+				RegistryKey booksKey = settingsRoot.OpenSubKey("Books");
+				if (booksKey != null)
+				{
+					ShowActualBooks = Utils.ReadRegistryValue(booksKey, "Show Actual Books", ShowActualBooks);
+					ShowNewBooks = Utils.ReadRegistryValue(booksKey, "Show New Books", ShowNewBooks);
+					ShowChangedBooks = Utils.ReadRegistryValue(booksKey, "Show Changed Books", ShowChangedBooks);
+					ShowDeletedBooks = Utils.ReadRegistryValue(booksKey, "Show Deleted Books", ShowDeletedBooks);
+					ShowIgnoredBooks = Utils.ReadRegistryValue(booksKey, "Show Ignored Books", ShowIgnoredBooks);
+				}
+
 				// All done.
 				settingsRoot.Close();
 			}
@@ -174,6 +204,17 @@ namespace KindleLibrarySynchronizer
 					{
 						Utils.WriteRegistryValue(converterKey, "Directory", ConverterDirectory);
 						Utils.WriteRegistryValue(converterKey, "User Stylesheet", ConverterUserStylesheet);
+					}
+
+					// UI.
+					RegistryKey booksKey = settingsRoot.CreateSubKey("Books");
+					if (booksKey != null)
+					{
+						Utils.WriteRegistryValue(booksKey, "Show Actual Books", ShowActualBooks);
+						Utils.WriteRegistryValue(booksKey, "Show New Books", ShowNewBooks);
+						Utils.WriteRegistryValue(booksKey, "Show Changed Books", ShowChangedBooks);
+						Utils.WriteRegistryValue(booksKey, "Show Deleted Books", ShowDeletedBooks);
+						Utils.WriteRegistryValue(booksKey, "Show Ignored Books", ShowIgnoredBooks);
 					}
 
 					// All done.

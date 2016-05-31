@@ -290,27 +290,32 @@ namespace KindleLibrarySynchronizer
 
 		private void actionShowActual_Execute(object sender, EventArgs e)
 		{
-			synchroList.ShowActualBooks = !synchroList.ShowActualBooks;
+			Config.Main.ShowActualBooks = !Config.Main.ShowActualBooks;
+			synchroList.ShowActualBooks = Config.Main.ShowActualBooks;
 		}
 
 		private void actionShowNew_Execute(object sender, EventArgs e)
 		{
-			synchroList.ShowNewBooks = !synchroList.ShowNewBooks;
+			Config.Main.ShowNewBooks = !Config.Main.ShowNewBooks;
+			synchroList.ShowNewBooks = Config.Main.ShowNewBooks;
 		}
 
 		private void actionShowChanged_Execute(object sender, EventArgs e)
 		{
-			synchroList.ShowChangedBooks = !synchroList.ShowChangedBooks;
+			Config.Main.ShowChangedBooks = !Config.Main.ShowChangedBooks;
+			synchroList.ShowChangedBooks = Config.Main.ShowChangedBooks;
 		}
 
 		private void actionShowDeleted_Execute(object sender, EventArgs e)
 		{
-			synchroList.ShowDeletedBooks = !synchroList.ShowDeletedBooks;
+			Config.Main.ShowDeletedBooks = !Config.Main.ShowDeletedBooks;
+			synchroList.ShowDeletedBooks = Config.Main.ShowDeletedBooks;
 		}
 
 		private void actionShowIgnored_Execute(object sender, EventArgs e)
 		{
-			bookComparer.SkipIgnoredBooks = !bookComparer.SkipIgnoredBooks;
+			Config.Main.ShowIgnoredBooks = !Config.Main.ShowIgnoredBooks;
+			bookComparer.SkipIgnoredBooks = !Config.Main.ShowIgnoredBooks;
 			bookComparer.Compare();
 			synchroList.UpdateItems(true);
 			UpdateStatusCounters();

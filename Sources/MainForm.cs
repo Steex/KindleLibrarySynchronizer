@@ -29,7 +29,13 @@ namespace KindleLibrarySynchronizer
 			Logger.OnClear += () => textLog.Clear();
 
 			bookComparer = new BookComparer();
+			bookComparer.SkipIgnoredBooks = !Config.Main.ShowIgnoredBooks;
+
 			synchroList.BookComparer = bookComparer;
+			synchroList.ShowActualBooks = Config.Main.ShowActualBooks;
+			synchroList.ShowNewBooks = Config.Main.ShowNewBooks;
+			synchroList.ShowChangedBooks = Config.Main.ShowChangedBooks;
+			synchroList.ShowDeletedBooks = Config.Main.ShowDeletedBooks;
 
 			PopulateLibraryCombo();
 			SelectLibraryWithName(Config.Main.CurrentLibrary);
