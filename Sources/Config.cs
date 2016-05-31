@@ -36,13 +36,11 @@ namespace KindleLibrarySynchronizer
 		public string CurrentLibrary { get; set; }
 
 		// Converter.
-		public String ConverterDirectory { get; set; }
-
-		public String ConverterExecutable { get { return converterExecutable; } }
-
-		public String ConverterDefaultStylesheet { get { return defaultStylesheet; } }
-		public String ConverterUserStylesheet { get; set; }
-		public String ConverterStylesheet
+		public string ConverterDirectory { get; set; }
+		public string ConverterExecutable { get { return converterExecutable; } }
+		public string ConverterDefaultStylesheet { get { return defaultStylesheet; } }
+		public string ConverterUserStylesheet { get; set; }
+		public string ConverterStylesheet
 		{
 			get
 			{
