@@ -19,6 +19,7 @@ namespace KindleLibrarySynchronizer
 		{
 			InitializeComponent();
 
+			this.Text = data.OperationName;
 			labelTitle.Text = string.Format("{0}: {1} books queued", data.OperationName, data.Books.Count());
 
 			this.worker = worker;
